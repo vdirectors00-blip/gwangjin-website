@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import emailjs from '@emailjs/browser'
+
 useHead({ title: 'Contact | 광진실업' })
 
 const { data: company } = await useCompanyInfo()
+const config = useRuntimeConfig()
 
 const form = reactive({
   name: '',
@@ -13,14 +16,41 @@ const form = reactive({
 
 const submitting = ref(false)
 const submitted = ref(false)
+const error = ref<string | null>(null)
 
-const submit = () => {
+const submit = async () => {
+  error.value = null
   submitting.value = true
-  // TODO: EmailJS 또는 Formspree 연동 (Phase 2D)
-  setTimeout(() => {
+
+  // EmailJS 키가 없으면 mailto 폴백
+  const { emailjsServiceId, emailjsTemplateId, emailjsPublicKey } = config.public
+  if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey) {
     submitting.value = false
+    error.value = '문의 폼이 아직 설정되지 않았습니다. 직접 이메일로 연락 부탁드립니다: ' + (company.value?.email || 'info@gwangjin.co.kr')
+    return
+  }
+
+  try {
+    await emailjs.send(
+      emailjsServiceId,
+      emailjsTemplateId,
+      {
+        from_name: form.name,
+        from_company: form.company || '(미입력)',
+        from_email: form.email,
+        from_phone: form.phone || '(미입력)',
+        message: form.message,
+        to_email: company.value?.email || 'info@gwangjin.co.kr',
+      },
+      { publicKey: emailjsPublicKey }
+    )
     submitted.value = true
-  }, 500)
+  } catch (e: any) {
+    error.value = '전송 중 오류가 발생했습니다. 잠시 후 다시 시도하거나 이메일로 연락 부탁드립니다.'
+    console.error('[EmailJS]', e)
+  } finally {
+    submitting.value = false
+  }
 }
 </script>
 
@@ -105,6 +135,7 @@ const submit = () => {
             <button type="submit" :disabled="submitting" class="btn-dark w-full md:w-auto">
               {{ submitting ? '전송 중...' : '문의 보내기 →' }}
             </button>
+            <p v-if="error" class="text-red-500 text-sm">{{ error }}</p>
             <p class="text-ink-muted text-xs">
               * 표시는 필수 입력 항목입니다.
             </p>

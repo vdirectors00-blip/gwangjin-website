@@ -64,10 +64,10 @@ const stats = computed(() => [
     ============================================================== -->
     <section class="bg-paper py-32 md:py-48">
       <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
-        <div class="md:col-span-2 hidden md:block">
+        <div v-reveal class="md:col-span-2 hidden md:block">
           <div class="text-7xl md:text-9xl font-light text-ink/10 leading-none">01</div>
         </div>
-        <div class="md:col-span-7">
+        <div v-reveal:[100] class="md:col-span-7">
           <p class="eyebrow text-ink-muted">Who We Are</p>
           <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
             부직포와 제면 분야 30년,<br>
@@ -77,7 +77,7 @@ const stats = computed(() => [
             {{ company?.business_area || '광진실업은 부직포 및 제면 분야에서 여러 해 동안 축적해온 기술과 노하우를 바탕으로, 여러 브랜드의 이불솜 및 침대 부자재를 생산하고 있습니다.' }}
           </p>
         </div>
-        <div class="md:col-span-3 flex md:justify-end">
+        <div v-reveal:[200] class="md:col-span-3 flex md:justify-end">
           <NuxtLink to="/about" class="btn-outline-dark">About COSY FEEL →</NuxtLink>
         </div>
       </div>
@@ -91,7 +91,8 @@ const stats = computed(() => [
         <p class="eyebrow text-ink-inverse-muted">02 · By the Numbers</p>
         <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-px bg-paper/10">
           <div
-            v-for="s in stats" :key="s.label"
+            v-for="(s, i) in stats" :key="s.label"
+            v-reveal="i * 100"
             class="bg-dark p-10 md:p-12"
           >
             <div class="flex items-baseline gap-1">
@@ -185,6 +186,7 @@ const stats = computed(() => [
               { num: '02', en: 'Quality',  ko: '우수한 품질',   desc: 'ISO 인증 + 한국인증원 검증된 품질·환경 시스템.' },
               { num: '03', en: 'Future',   ko: '미래지향',     desc: '5라인 + 4건의 특허로 다음 세대의 충전재를 만듭니다.' },
             ]" :key="i"
+            v-reveal="i * 150"
             class="bg-paper p-10 md:p-12 hover:shadow-lg transition-shadow duration-500"
           >
             <div class="text-ink-faint text-sm tracking-[0.3em]">{{ v.num }}</div>
