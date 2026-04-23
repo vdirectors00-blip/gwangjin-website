@@ -6,6 +6,7 @@
 import type {
   CompanyInfo,
   Hero,
+  HeroSlide,
   SiteSettings,
   Product,
   HistoryItem,
@@ -27,6 +28,19 @@ export const useHero = () => {
       .single()
     if (error) throw error
     return data as Hero
+  })
+}
+
+export const useHeroSlides = () => {
+  const supabase = useSupabaseClient()
+  return useAsyncData('hero_slides', async () => {
+    const { data, error } = await supabase
+      .from('hero_slides')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true })
+    if (error) throw error
+    return (data ?? []) as HeroSlide[]
   })
 }
 
@@ -96,13 +110,13 @@ export const useHistoryItems = () => {
   })
 }
 
-export const useCertifications = () => {
+export const useCertifications = (category?: 'certification' | 'patent') => {
   const supabase = useSupabaseClient()
-  return useAsyncData('certifications', async () => {
-    const { data, error } = await supabase
-      .from('certifications')
-      .select('*')
-      .order('sort_order', { ascending: true })
+  const key = `certifications:${category || 'all'}`
+  return useAsyncData(key, async () => {
+    let q = supabase.from('certifications').select('*').order('sort_order', { ascending: true })
+    if (category) q = q.eq('category', category)
+    const { data, error } = await q
     if (error) throw error
     return (data ?? []) as Certification[]
   })

@@ -1,5 +1,5 @@
 // ===========================================================================
-// 광진실업 DB 타입 정의 (supabase/migrations/0001_init.sql 기준)
+// 광진실업 DB 타입 정의 (supabase/migrations/0001~0003 기준)
 // 스키마 변경 시 이 파일도 함께 업데이트
 // ===========================================================================
 
@@ -44,6 +44,12 @@ export interface Database {
           vision_html: string | null
           business_area: string | null
           kakao_map_embed: string | null
+          tagline: string | null
+          tagline_en: string | null
+          founded_year: number | null
+          production_lines: number | null
+          patent_count: number | null
+          product_count: number | null
           updated_at: string
         }
         Insert: Partial<Database['public']['Tables']['company_info']['Row']> & { id?: number }
@@ -62,6 +68,23 @@ export interface Database {
         }
         Insert: Partial<Database['public']['Tables']['hero']['Row']> & { id?: number }
         Update: Partial<Database['public']['Tables']['hero']['Row']>
+      }
+
+      hero_slides: {
+        Row: {
+          id: string
+          sort_order: number
+          media_type: 'image' | 'video'
+          media_url: string
+          caption: string | null
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: Partial<Omit<Database['public']['Tables']['hero_slides']['Row'], 'id' | 'created_at' | 'updated_at'>> & {
+          media_url: string
+        }
+        Update: Partial<Database['public']['Tables']['hero_slides']['Row']>
       }
 
       products: {
@@ -124,6 +147,7 @@ export interface Database {
           issued_at: string | null
           description: string | null
           image_url: string | null
+          category: 'certification' | 'patent'
           created_at: string
           updated_at: string
         }
@@ -193,12 +217,13 @@ export interface Database {
 }
 
 // ===========================================================================
-// 단축 타입 (편의용)
+// 단축 타입
 // ===========================================================================
 
 export type SiteSettings    = Database['public']['Tables']['site_settings']['Row']
 export type CompanyInfo     = Database['public']['Tables']['company_info']['Row']
 export type Hero            = Database['public']['Tables']['hero']['Row']
+export type HeroSlide       = Database['public']['Tables']['hero_slides']['Row']
 export type Product         = Database['public']['Tables']['products']['Row']
 export type HistoryItem     = Database['public']['Tables']['history_items']['Row']
 export type Certification   = Database['public']['Tables']['certifications']['Row']
