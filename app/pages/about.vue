@@ -21,7 +21,7 @@ const assetUrl = useAssetUrl()
         <!-- 좌: 큰 한글 카피 -->
         <div class="md:col-span-5">
           <p class="mono-label text-accent-bronze mb-6">A Letter · 인사말</p>
-          <h1 class="italic font-light text-[clamp(32px,4.5vw,56px)] leading-[1.25] tracking-[-0.025em] text-ink-dim">
+          <h1 class="font-light text-[clamp(32px,4.5vw,56px)] leading-[1.25] tracking-[-0.025em] text-ink-dim">
             편안한 휴식을 짓는<br>
             <span class="text-accent-bronze">삼십 년</span>의 한 길.
           </h1>
@@ -39,7 +39,7 @@ const assetUrl = useAssetUrl()
           <div class="mt-16 flex items-baseline justify-end gap-4">
             <span class="mono-label text-ink-muted">회장</span>
             <span
-              class="font-serif italic text-[32px] md:text-[40px] text-ink tracking-[0.1em]"
+              class="font-serif text-[32px] md:text-[40px] text-ink tracking-[0.1em]"
               style="font-weight: 400;"
             >
               최 광 은
@@ -70,7 +70,7 @@ const assetUrl = useAssetUrl()
             <div class="mt-8 mono-label text-accent-bronze">
               BRAND IDENTITY
             </div>
-            <p class="mt-3 italic text-lg text-ink font-medium">COSY FEEL</p>
+            <p class="mt-3 text-lg text-ink font-medium">COSY FEEL</p>
             <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-light">
               편안한 휴식을 짓는 프리미엄 충전재 브랜드.<br>
               2015년 출시 이후, 품질로 증명합니다.
@@ -90,7 +90,7 @@ const assetUrl = useAssetUrl()
             <div class="mt-8 mono-label text-accent-bronze">
               CORPORATE IDENTITY
             </div>
-            <p class="mt-3 italic text-lg text-ink font-medium">주식회사 광진실업</p>
+            <p class="mt-3 text-lg text-ink font-medium">주식회사 광진실업</p>
             <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-light">
               1994년 설립. 부직포·제면 한 길만 걸어온<br>
               충전재 전문 제조사.

@@ -66,7 +66,7 @@ const resetForm = () => {
           <div class="flex items-end justify-between mb-8 md:mb-10">
             <div>
               <p class="eyebrow text-accent-bronze ink-fade" style="animation-delay: 0ms;">Contact</p>
-              <h2 class="mt-3 italic font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-ink-dim ink-fade" style="animation-delay: 120ms;">
+              <h2 class="mt-3 font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-ink-dim ink-fade" style="animation-delay: 120ms;">
                 편하게, <span class="text-accent-bronze">말씀</span>주세요.
               </h2>
               <p class="mt-3 text-ink-dim font-light text-sm md:text-base ink-fade" style="animation-delay: 280ms;">
@@ -83,26 +83,26 @@ const resetForm = () => {
             <!-- 좌: 빠른 연락처 (TEL/EMAIL/HOURS) -->
             <aside class="md:col-span-4 md:sticky md:top-8">
               <p class="mono-label text-accent-bronze">Quick Contact</p>
-              <h3 class="mt-4 italic font-light text-xl md:text-2xl tracking-[-0.02em] text-ink">
+              <h3 class="mt-4 font-light text-xl md:text-2xl tracking-[-0.02em] text-ink">
                 {{ company?.company_name || '주식회사 광진실업' }}
               </h3>
 
               <div class="mt-8 space-y-5">
                 <div v-if="company?.tel" class="border-l-2 border-accent-bronze/40 pl-4">
                   <p class="mono-label text-ink-muted">TEL</p>
-                  <a :href="`tel:${company.tel}`" class="mt-1 italic font-medium text-lg text-ink hover:text-accent-bronze transition-colors block">
+                  <a :href="`tel:${company.tel}`" class="mt-1 font-medium text-lg text-ink hover:text-accent-bronze transition-colors block">
                     {{ company.tel }}
                   </a>
                 </div>
                 <div v-if="company?.email" class="border-l-2 border-paper-line pl-4">
                   <p class="mono-label text-ink-muted">EMAIL</p>
-                  <a :href="`mailto:${company.email}`" class="mt-1 italic font-medium text-lg text-ink hover:text-accent-bronze transition-colors block break-all">
+                  <a :href="`mailto:${company.email}`" class="mt-1 font-medium text-lg text-ink hover:text-accent-bronze transition-colors block break-all">
                     {{ company.email }}
                   </a>
                 </div>
                 <div v-if="company?.business_hours" class="border-l-2 border-paper-line pl-4">
                   <p class="mono-label text-ink-muted">HOURS</p>
-                  <p class="mt-1 italic font-medium text-lg text-ink">{{ company.business_hours }}</p>
+                  <p class="mt-1 font-medium text-lg text-ink">{{ company.business_hours }}</p>
                 </div>
               </div>
 
@@ -118,22 +118,22 @@ const resetForm = () => {
                   <label class="block group">
                     <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">NAME *</span>
                     <input v-model="form.name" required type="text" placeholder="홍길동"
-                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition font-light text-lg">
                   </label>
                   <label class="block group">
                     <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">COMPANY</span>
                     <input v-model="form.company" type="text" placeholder="회사명 (선택)"
-                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition font-light text-lg">
                   </label>
                   <label class="block group">
                     <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">EMAIL *</span>
                     <input v-model="form.email" required type="email" placeholder="you@example.com"
-                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition font-light text-lg">
                   </label>
                   <label class="block group">
                     <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">PHONE</span>
                     <input v-model="form.phone" type="tel" placeholder="010-0000-0000"
-                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition font-light text-lg">
                   </label>
                 </div>
 
@@ -149,7 +149,7 @@ const resetForm = () => {
 
                   <button type="submit" :disabled="submitting"
                     class="group inline-flex items-center gap-5 self-start md:self-auto disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span class="italic text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
+                    <span class="text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
                       {{ submitting ? '전송 중' : '문의 보내기' }}
                     </span>
                     <span class="relative w-14 h-14 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
@@ -175,12 +175,12 @@ const resetForm = () => {
                   <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none" />
 
                   <p class="mono-label text-accent-bronze">Thank You</p>
-                  <h3 class="mt-4 italic font-light text-3xl md:text-4xl tracking-[-0.02em]">
+                  <h3 class="mt-4 font-light text-3xl md:text-4xl tracking-[-0.02em]">
                     문의가 <span class="text-accent-bronze">접수</span>되었습니다.
                   </h3>
                   <p class="mt-4 text-ink-dim font-light leading-relaxed">
                     영업일 기준 1~2일 내 담당자가 직접 회신드립니다.<br>
-                    급한 건은 <a :href="`tel:${company?.tel || ''}`" class="italic text-ink hover:text-accent-bronze transition-colors underline underline-offset-4">{{ company?.tel || '대표 전화' }}</a>로 연락 부탁드립니다.
+                    급한 건은 <a :href="`tel:${company?.tel || ''}`" class="text-ink hover:text-accent-bronze transition-colors underline underline-offset-4">{{ company?.tel || '대표 전화' }}</a>로 연락 부탁드립니다.
                   </p>
                   <button @click="resetForm"
                     class="mt-8 mono-label text-ink-muted hover:text-accent-bronze transition-colors">
@@ -202,16 +202,16 @@ const resetForm = () => {
               <!-- 좌: Visit Us 헤더 + ADDRESS + 안내 + 카카오맵 링크 -->
               <div class="md:col-span-5 flex flex-col justify-center">
                 <p class="eyebrow text-ink-muted">Visit Us</p>
-                <h2 class="mt-4 italic font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-ink">
+                <h2 class="mt-4 font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-ink">
                   직접 방문도 <span class="text-accent-bronze">환영합니다</span>.
                 </h2>
 
                 <div class="mt-12">
                   <p class="mono-label text-accent-bronze">ADDRESS</p>
-                  <p v-if="company?.address" class="mt-4 italic font-light text-2xl md:text-3xl text-ink leading-[1.45] tracking-[-0.015em]">
+                  <p v-if="company?.address" class="mt-4 font-light text-2xl md:text-3xl text-ink leading-[1.45] tracking-[-0.015em]">
                     {{ company.address }}
                   </p>
-                  <p v-else class="mt-4 italic font-light text-2xl md:text-3xl text-ink/60 leading-[1.45]">
+                  <p v-else class="mt-4 font-light text-2xl md:text-3xl text-ink/60 leading-[1.45]">
                     주소 등록 대기 중
                   </p>
                 </div>
@@ -226,7 +226,7 @@ const resetForm = () => {
                   target="_blank" rel="noopener"
                   class="group mt-6 inline-flex items-center gap-4 self-start"
                 >
-                  <span class="italic text-base md:text-lg text-ink group-hover:text-accent-bronze transition-colors duration-500">
+                  <span class="text-base md:text-lg text-ink group-hover:text-accent-bronze transition-colors duration-500">
                     카카오맵에서 보기
                   </span>
                   <span class="relative w-11 h-11 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-1 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
@@ -255,7 +255,7 @@ const resetForm = () => {
                   />
                   <div v-else class="absolute inset-0 flex flex-col items-center justify-center text-ink-faint">
                     <p class="mono-label">MAP</p>
-                    <p class="mt-2 italic font-light text-sm">카카오맵 임베드 — 관리자에서 입력</p>
+                    <p class="mt-2 font-light text-sm">카카오맵 임베드 — 관리자에서 입력</p>
                   </div>
                 </div>
               </div>

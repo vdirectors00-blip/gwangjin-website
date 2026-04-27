@@ -32,7 +32,7 @@ const groups = computed(() => {
         <div class="max-w-[1200px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
           <div class="md:col-span-5">
             <p class="mono-label text-accent-bronze mb-6">Our Journey · 연혁</p>
-            <h1 class="italic font-light text-[clamp(36px,4.5vw,64px)] leading-[1.2] tracking-[-0.025em] text-ink-dim">
+            <h1 class="font-light text-[clamp(36px,4.5vw,64px)] leading-[1.2] tracking-[-0.025em] text-ink-dim">
               <span class="whitespace-nowrap">1994년부터,</span><br>
               <span class="text-accent-bronze">삼십 년</span>의 여정.
             </h1>
@@ -54,7 +54,7 @@ const groups = computed(() => {
                 :class="['px-4 py-6', i > 0 ? 'border-l border-paper-line' : '']"
               >
                 <div class="mono-label text-ink-muted">{{ s.k }}</div>
-                <div class="text-[32px] italic font-medium tracking-[-0.02em] text-ink mt-1 leading-none">{{ s.v }}</div>
+                <div class="text-[32px] font-medium tracking-[-0.02em] text-ink mt-1 leading-none">{{ s.v }}</div>
               </div>
             </div>
             <p class="mt-8 mono-label text-ink-faint">
@@ -81,12 +81,12 @@ const groups = computed(() => {
             >
               <div class="mono-label text-accent-bronze">{{ g.range }}</div>
               <h2
-                class="mt-4 italic font-light leading-none tracking-[-0.03em] text-ink whitespace-nowrap"
+                class="mt-4 font-light leading-none tracking-[-0.03em] text-ink whitespace-nowrap"
                 style="font-size: clamp(44px, 5.5vw, 80px);"
               >
                 {{ g.label }}
               </h2>
-              <p class="mt-4 text-ink-muted text-lg italic">{{ g.ko }}</p>
+              <p class="mt-4 text-ink-muted text-lg">{{ g.ko }}</p>
               <div class="mt-10 flex items-center gap-3">
                 <span class="mono-label text-ink-faint">Chapter {{ String(gi + 1).padStart(2, '0') }}</span>
                 <span class="w-8 h-px bg-ink/20" />
@@ -113,7 +113,7 @@ const groups = computed(() => {
                   </div>
                   <!-- 내용 (우측) -->
                   <div>
-                    <h3 class="italic text-lg md:text-xl font-medium tracking-[-0.01em] leading-tight text-ink group-hover:text-accent-bronze transition-colors">
+                    <h3 class="text-lg md:text-xl font-medium tracking-[-0.01em] leading-tight text-ink group-hover:text-accent-bronze transition-colors">
                       {{ h.title }}
                     </h3>
                     <p v-if="h.description" class="text-ink-muted text-sm mt-1.5 font-light leading-relaxed">

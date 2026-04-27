@@ -150,7 +150,7 @@ const jpgStyle = computed(() => {
               <p class="mono-label text-accent-bronze mb-6 ink-fade" style="animation-delay: 0ms;">
                 Certifications · 품질·환경 인증
               </p>
-              <h1 class="italic font-light text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
+              <h1 class="font-light text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
                 <span class="block ink-fade" style="animation-delay: 120ms;">검증된 시스템으로</span>
                 <span class="block ink-fade" style="animation-delay: 380ms;">
                   <span class="text-accent-bronze">증명한</span> 신뢰.
@@ -168,7 +168,7 @@ const jpgStyle = computed(() => {
 
           <div class="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-end ink-fade" style="animation-delay: 820ms;">
             <div class="md:col-span-4">
-              <div class="italic font-light text-[clamp(110px,12vw,180px)] text-accent-bronze/80 tracking-[-0.04em] leading-none">03</div>
+              <div class="font-light text-[clamp(110px,12vw,180px)] text-accent-bronze/80 tracking-[-0.04em] leading-none">03</div>
               <p class="mono-label text-ink-muted mt-3">Active Certifications</p>
             </div>
             <div class="md:col-span-8 md:border-l md:border-paper-line md:pl-10">
@@ -180,7 +180,7 @@ const jpgStyle = computed(() => {
                 ]" :key="item.name"
                   class="flex items-baseline justify-between border-b border-paper-line/60 pb-3"
                 >
-                  <span class="italic font-medium text-lg md:text-xl tracking-[-0.015em] text-ink">{{ item.name }}</span>
+                  <span class="font-medium text-lg md:text-xl tracking-[-0.015em] text-ink">{{ item.name }}</span>
                   <span class="mono-label text-ink-muted">{{ item.sub }}</span>
                 </li>
               </ul>
@@ -195,7 +195,7 @@ const jpgStyle = computed(() => {
           <div class="flex items-end justify-between mb-6 md:mb-8">
             <div>
               <p class="eyebrow text-ink-muted">Official Records</p>
-              <h2 class="mt-3 italic font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">공식 인증 기록</h2>
+              <h2 class="mt-3 font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">공식 인증 기록</h2>
             </div>
             <Transition
               enter-active-class="transition duration-500" enter-from-class="opacity-0" enter-to-class="opacity-100"
@@ -333,7 +333,7 @@ const jpgStyle = computed(() => {
                 <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none" />
 
                 <p class="mono-label text-accent-bronze">{{ c.cert_type }}</p>
-                <h3 class="italic font-medium text-xl mt-2">{{ c.name }}</h3>
+                <h3 class="font-medium text-xl mt-2">{{ c.name }}</h3>
                 <div class="mt-4 pt-3 border-t border-paper-line flex justify-between items-baseline">
                   <span v-if="c.cert_number" class="font-mono text-ink-muted text-xs">№ {{ c.cert_number }}</span>
                   <span v-else class="mono-label text-ink-muted">CERTIFIED</span>
@@ -351,7 +351,7 @@ const jpgStyle = computed(() => {
           <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <div class="md:col-span-7">
               <p class="eyebrow text-ink-muted">Next</p>
-              <h2 class="mt-6 italic font-light text-display-sm text-ink">
+              <h2 class="mt-6 font-light text-display-sm text-ink">
                 자체 기술의 또 다른 증명,<br>
                 <span class="text-accent-bronze">등록 특허 4건</span>.
               </h2>
@@ -361,7 +361,7 @@ const jpgStyle = computed(() => {
                 to="/patents"
                 class="group inline-flex items-center gap-5 md:gap-6"
               >
-                <span class="italic text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
+                <span class="text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
                   특허 보기
                 </span>
                 <span class="relative w-14 h-14 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
@@ -416,7 +416,7 @@ const jpgStyle = computed(() => {
             <!-- 헤더 -->
             <div class="px-6 pt-7 pb-4 border-b border-paper-line">
               <p class="mono-label text-accent-bronze">{{ selectedCert.cert_type }}</p>
-              <h2 class="mt-2 italic font-medium text-2xl tracking-[-0.015em]">{{ selectedCert.name }}</h2>
+              <h2 class="mt-2 font-medium text-2xl tracking-[-0.015em]">{{ selectedCert.name }}</h2>
             </div>
 
             <!-- 인증서 이미지(들) -->

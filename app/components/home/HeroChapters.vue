@@ -177,25 +177,20 @@ const fiberLines = (idx: number) => {
         </div>
       </div>
 
-      <!-- 메인 카피 — italic 줄이고 weight 진중하게 (font-light → font-normal) -->
+      <!-- 메인 카피 — 글자 크기 반으로 (clamp 22~78), italic 제거, weight font-medium -->
       <div :key="`txt-${cur}`" class="animate-fade-up">
-        <h1 class="m-0 font-sans font-normal text-[clamp(44px,10vw,156px)] leading-[0.95] tracking-[-0.035em]">
+        <h1 class="m-0 font-sans font-medium text-[clamp(22px,5vw,78px)] leading-[0.95] tracking-[-0.035em]">
           {{ slide.mainA }}<br>
-          <!-- 강조 단어만 italic + bronze + 진중한 weight 유지 -->
-          <span class="inline-block text-accent-bronze-soft font-medium italic animate-hero-accent origin-bottom-left">
+          <!-- 강조 단어 — bronze 톤 -->
+          <span class="inline-block text-accent-bronze-soft font-semibold animate-hero-accent origin-bottom-left">
             {{ slide.mainB }}
           </span>
         </h1>
 
-        <div class="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-[1fr_auto] items-end gap-6 md:gap-20">
+        <div class="mt-8 md:mt-10">
           <p class="text-[15px] md:text-[17px] leading-[1.75] max-w-md text-paper/85 font-normal whitespace-pre-line m-0">
             {{ slide.sub }}
           </p>
-          <div class="flex items-center gap-6">
-            <div class="text-[11px] tracking-[0.35em] text-paper/45 font-medium">
-              SCROLL&nbsp;&nbsp;↓
-            </div>
-          </div>
         </div>
       </div>
     </div>

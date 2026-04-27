@@ -74,7 +74,7 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
       <div class="relative z-10 container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center py-16">
         <div class="md:col-span-6">
           <p class="mono-label text-accent-bronze mb-6">Our Principles · 경영 이념</p>
-          <h1 class="italic font-light text-[clamp(40px,5.5vw,80px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
+          <h1 class="font-light text-[clamp(40px,5.5vw,80px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
             솜 한 가닥에,<br>
             <span class="text-accent-bronze">삼십 년</span>의 기술.
           </h1>
@@ -100,7 +100,7 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
         <div class="flex items-end justify-between mb-12 md:mb-16">
           <div>
             <p class="eyebrow text-ink-muted">Three Values</p>
-            <h2 class="mt-4 italic font-medium text-display-md">
+            <h2 class="mt-4 font-medium text-display-md">
               Heritage · Quality · Future
             </h2>
           </div>
@@ -164,10 +164,10 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
                 ]"
               >
                 <div class="w-12 h-px bg-ink/20 mb-6" />
-                <h4 class="italic font-normal text-xl text-ink">{{ v.title }}</h4>
+                <h4 class="font-normal text-xl text-ink">{{ v.title }}</h4>
                 <!-- desc: 단일 문단 (\n으로 수동 줄바꿈 가능). activeIdxDelayed로 확장 후 표시되어 reflow 없음 -->
                 <p class="text-ink-dim leading-relaxed mt-4 font-light whitespace-pre-line">{{ v.desc }}</p>
-                <p class="mt-6 text-accent-bronze italic text-2xl font-medium tracking-[-0.02em]">{{ v.stat }}</p>
+                <p class="mt-6 text-accent-bronze text-2xl font-medium tracking-[-0.02em]">{{ v.stat }}</p>
               </div>
             </div>
           </div>

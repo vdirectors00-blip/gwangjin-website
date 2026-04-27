@@ -17,14 +17,14 @@ const sections = [
   { key: 'contact',    label: 'CONTACT',   dark: true  },
 ]
 
-// stats (DB가 있으면 DB 기반, 없으면 폴백)
+// stats — 메인레퍼 스타일 (큰 숫자 + 작은 단위 + 하단 라벨)
 const stats = computed(() => {
   const c = company.value
   return [
-    { k: '설립',     v: c?.founded_year ? String(c.founded_year) : '1994' },
-    { k: '생산 라인', v: String(c?.production_lines ?? 5) },
-    { k: '제품군',   v: '15' },
-    { k: '등록 특허', v: String(c?.patent_count ?? 4) },
+    { num: c?.founded_year ? String(c.founded_year) : '1994', unit: '년',   label: '설립' },
+    { num: String(c?.production_lines ?? 5),                  unit: '라인', label: '생산 시설' },
+    { num: '15',                                              unit: '종',   label: '제품군' },
+    { num: String(c?.patent_count ?? 4),                      unit: '건',   label: '등록 특허' },
   ]
 })
 
@@ -83,42 +83,44 @@ const splitCertName = (str: string): [string, string?] => {
       </section>
 
       <!-- ================================================
-        2. INTRO — A Quiet Note
+        2. INTRO — 메인레퍼 스타일 (좌 카피 + 우 큰숫자 통계)
       ================================================ -->
-      <section class="snap-section bg-paper px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center">
-        <div class="max-w-[1200px] mx-auto w-full">
-          <p class="eyebrow text-ink-muted">A Quiet Note · 소개</p>
+      <section class="snap-section bg-white px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center">
+        <div class="max-w-[1280px] mx-auto w-full">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
+            <!-- 좌: 카피 (원래 4줄, 폰트 반으로, 검정) -->
+            <div class="md:col-span-5">
+              <p class="eyebrow text-ink-muted">A Quiet Note · 소개</p>
+              <p class="mt-8 font-light text-[clamp(11px,1.25vw,18px)] leading-[1.55] tracking-[-0.01em] text-ink">
+                <span v-reveal class="block">우리는 드러나지 않는 자리의 재료를 만듭니다.</span>
+                <span v-reveal="180" class="block">이불 속의 솜, 매트리스의 결, 겨울옷의 안쪽.</span>
+                <span v-reveal="360" class="block">보이지 않아도 가장 가까이에서</span>
+                <span v-reveal="540" class="block">하루의 온도와 감촉을 결정하는 일.</span>
+              </p>
+            </div>
 
-          <!-- 카피: 크기 줄임 (clamp 24~40px) + leading 약간 여유 -->
-          <p class="mt-12 italic font-light text-[clamp(22px,2.5vw,36px)] leading-[1.42] tracking-[-0.02em] text-ink max-w-[820px]">
-            <span v-reveal class="block">우리는 드러나지 않는<br class="md:hidden"> 자리의 재료를 만듭니다.</span>
-            <span v-reveal="180" class="block">이불 속의 솜, 매트리스의 결,<br class="md:hidden"> 겨울옷의 안쪽.</span>
-            <span v-reveal="360" class="block">
-              <span class="text-accent-bronze">보이지 않아도 가장 가까이</span>에서
-            </span>
-            <span v-reveal="540" class="block">하루의 온도와 감촉을 결정하는 일.</span>
-          </p>
-
-          <!-- 스탯 4개 — 카피와 간격 확보 (mt-20 md:mt-28) -->
-          <div v-reveal="720" class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-0 border-t border-b border-paper-line">
-            <div
-              v-for="(s, i) in stats" :key="s.k"
-              :class="[
-                'px-5 py-7 flex flex-col gap-2',
-                i > 0 ? 'md:border-l md:border-paper-line' : '',
-                i === 1 || i === 3 ? 'border-l border-paper-line md:border-l' : '',
-              ]"
-            >
-              <div class="mono-label text-ink-muted">{{ s.k }}</div>
-              <div class="text-[32px] italic font-medium tracking-[-0.02em] text-ink leading-none">{{ s.v }}</div>
+            <!-- 우: 통계 숫자 (메인레퍼 스타일) -->
+            <div v-reveal="360" class="md:col-span-7 grid grid-cols-2 md:grid-cols-4 gap-x-6 md:gap-x-2 gap-y-10">
+              <div
+                v-for="(s, i) in stats" :key="s.label"
+                :class="['relative', i > 0 ? 'md:border-l md:border-paper-line md:pl-6' : '']"
+              >
+                <div class="flex items-baseline">
+                  <span class="text-[clamp(40px,4.5vw,64px)] font-medium tracking-[-0.02em] text-accent-bronze leading-none">
+                    {{ s.num }}
+                  </span>
+                  <span class="ml-1 text-base text-ink-muted font-light">{{ s.unit }}</span>
+                </div>
+                <p class="mt-4 text-xs text-ink-muted tracking-wider">{{ s.label }}</p>
+              </div>
             </div>
           </div>
 
-          <!-- About CTA pill -->
-          <div class="mt-10 flex justify-end">
+          <!-- About CTA -->
+          <div class="mt-16 md:mt-20 flex justify-end">
             <NuxtLink
               to="/about"
-              class="group inline-flex items-center gap-2 rounded-full pl-5 pr-2.5 py-2 bg-paper border border-ink text-ink text-[11px] font-medium tracking-[0.06em] uppercase hover:bg-ink hover:text-paper hover:-translate-y-0.5 hover:shadow-lg transition-all duration-500 ease-out-expo"
+              class="group inline-flex items-center gap-2 rounded-full pl-5 pr-2.5 py-2 bg-white border border-ink text-ink text-[11px] font-medium tracking-[0.06em] uppercase hover:bg-ink hover:text-paper hover:-translate-y-0.5 hover:shadow-lg transition-all duration-500 ease-out-expo"
             >
               <span>About COSY&nbsp;FEEL</span>
               <span class="inline-flex items-center justify-center w-5 h-5 rounded-full border border-paper-line group-hover:bg-paper group-hover:border-paper group-hover:translate-x-0.5 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
@@ -141,7 +143,7 @@ const splitCertName = (str: string): [string, string?] => {
             <div v-reveal>
               <p class="eyebrow text-ink-muted">Materials</p>
             </div>
-            <h2 v-reveal="150" class="m-0 italic font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em] leading-none text-ink">
+            <h2 v-reveal="150" class="m-0 font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em] leading-none text-ink">
               대표하는 세 가지.
             </h2>
             <div v-reveal="300" class="text-[13px] text-ink-dim leading-relaxed md:text-right">
@@ -169,7 +171,7 @@ const splitCertName = (str: string): [string, string?] => {
                   class="absolute inset-0 flex items-center justify-center"
                   :style="`background: linear-gradient(135deg, rgba(250,248,244,0.35) 0%, rgba(230,224,210,0.25) 100%);`"
                 >
-                  <div class="italic font-light text-[clamp(60px,7vw,110px)] text-ink opacity-80 tracking-[-0.04em] leading-none">
+                  <div class="font-light text-[clamp(60px,7vw,110px)] text-ink opacity-80 tracking-[-0.04em] leading-none">
                     {{ p.code }}
                   </div>
                 </div>
@@ -186,7 +188,7 @@ const splitCertName = (str: string): [string, string?] => {
 
               <div class="mt-4 flex justify-between items-baseline">
                 <div>
-                  <div class="italic font-medium text-[22px] md:text-[26px] tracking-[-0.02em] text-ink group-hover:text-accent-bronze transition-colors duration-300 leading-none">
+                  <div class="font-medium text-[22px] md:text-[26px] tracking-[-0.02em] text-ink group-hover:text-accent-bronze transition-colors duration-300 leading-none">
                     {{ p.name }}
                   </div>
                   <div class="mt-2 text-[12px] text-ink-dim leading-[1.55] max-w-xs">
@@ -214,9 +216,9 @@ const splitCertName = (str: string): [string, string?] => {
       </section>
 
       <!-- ================================================
-        4. TECHNOLOGY / TRUST — Certifications + Patents (paper 흰 톤으로 강조)
+        4. TECHNOLOGY / TRUST — 흰 배경
       ================================================ -->
-      <section class="snap-section bg-paper text-ink px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
+      <section class="snap-section bg-white text-ink px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
         <!-- 원형 스탬프 우상 -->
         <div
           aria-hidden
@@ -232,7 +234,7 @@ const splitCertName = (str: string): [string, string?] => {
           <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] items-end gap-16 mb-16 md:mb-24">
             <div>
               <p v-reveal class="eyebrow text-ink-muted">Technology · Trust</p>
-              <h2 class="mt-11 italic font-medium text-display-md text-ink leading-[1.02]">
+              <h2 class="mt-11 font-medium text-display-md text-ink leading-[1.02]">
                 <span v-reveal="220" class="block">증명서는</span>
                 <span v-reveal="420" class="block">우리가 드리는 조용한 약속.</span>
               </h2>
@@ -258,7 +260,7 @@ const splitCertName = (str: string): [string, string?] => {
                   class="group flex justify-between items-baseline gap-3 py-6 px-4 border-b border-ink/10 cursor-default hover:bg-ink/[0.03] transition-colors duration-400"
                 >
                   <!-- 좌: cert_type — 셀 안에서만 모바일 줄바꿈 (이노비즈 / (Inno-Biz)) -->
-                  <span class="italic font-medium text-[20px] md:text-[22px] tracking-[-0.015em] text-ink group-hover:text-accent-bronze transition-colors duration-400 leading-tight">
+                  <span class="font-medium text-[20px] md:text-[22px] tracking-[-0.015em] text-ink group-hover:text-accent-bronze transition-colors duration-400 leading-tight">
                     <template v-for="(part, idx) in splitCertType(c.cert_type)" :key="idx">
                       <br v-if="idx > 0" class="md:hidden">
                       <span>{{ part }}</span>
@@ -286,7 +288,7 @@ const splitCertName = (str: string): [string, string?] => {
                   v-reveal="200"
                   class="group py-6 px-4 border-b border-ink/10 cursor-default hover:bg-ink/[0.03] transition-colors duration-400"
                 >
-                  <div class="italic font-medium text-lg tracking-[-0.01em] text-ink group-hover:text-accent-bronze transition-colors duration-400 leading-snug">
+                  <div class="font-medium text-lg tracking-[-0.01em] text-ink group-hover:text-accent-bronze transition-colors duration-400 leading-snug">
                     {{ p.name }}
                   </div>
                   <div class="mt-2 mono-label text-ink-muted group-hover:text-ink-dim transition-colors duration-400">
@@ -308,7 +310,7 @@ const splitCertName = (str: string): [string, string?] => {
             <!-- 좌측 카피 -->
             <div>
               <p v-reveal class="eyebrow text-ink-muted">Inquiries</p>
-              <h2 v-reveal="180" class="mt-10 italic font-light text-display-lg text-ink">
+              <h2 v-reveal="180" class="mt-10 font-light text-display-lg text-ink">
                 편하게,<br>
                 <span class="text-accent-bronze">말씀</span>주세요.
               </h2>
@@ -320,7 +322,7 @@ const splitCertName = (str: string): [string, string?] => {
                 to="/contact"
                 class="group mt-16 inline-flex items-center gap-6 py-3.5 text-ink relative"
               >
-                <span class="italic font-normal text-[28px] tracking-[-0.02em] group-hover:text-accent-bronze group-hover:translate-x-0.5 transition-all duration-500 ease-out-expo">
+                <span class="font-normal text-[28px] tracking-[-0.02em] group-hover:text-accent-bronze group-hover:translate-x-0.5 transition-all duration-500 ease-out-expo">
                   문의 보내기
                 </span>
                 <span class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-ink/40 group-hover:border-accent-bronze group-hover:text-accent-bronze group-hover:translate-x-3 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
@@ -363,7 +365,7 @@ const splitCertName = (str: string): [string, string?] => {
                   {{ String(i + 1).padStart(2, '0') }} &nbsp;/&nbsp; {{ c.k }}
                 </div>
                 <!-- 폰트 사이즈 고정 (흔들림 방지) -->
-                <div class="relative mt-2.5 italic font-normal text-xl tracking-[-0.015em] text-ink leading-tight">
+                <div class="relative mt-2.5 font-normal text-xl tracking-[-0.015em] text-ink leading-tight">
                   {{ c.v }}
                 </div>
                 <div class="relative mt-1.5 text-[11px] tracking-[0.2em] text-ink-muted group-hover:text-ink-dim transition-colors duration-500">

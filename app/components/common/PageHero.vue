@@ -37,7 +37,7 @@ defineProps<{
       </div>
 
       <p v-if="eyebrow" class="eyebrow text-paper/60">{{ eyebrow }}</p>
-      <h1 class="mt-6 italic font-light text-display-lg text-paper">
+      <h1 class="mt-6 font-light text-display-lg text-paper">
         {{ title }}
       </h1>
       <p v-if="subtitle" class="mt-4 text-paper/75 text-base md:text-lg max-w-xl font-light">

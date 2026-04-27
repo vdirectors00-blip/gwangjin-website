@@ -73,7 +73,7 @@ const getCategory = (slug: string) =>
           <p class="mono-label text-accent-bronze mb-6 ink-fade" style="animation-delay: 0ms;">
             Products · 충전재 라인업
           </p>
-          <h1 class="italic font-light text-[clamp(56px,8vw,140px)] leading-[0.95] tracking-[-0.035em] text-ink-dim">
+          <h1 class="font-light text-[clamp(56px,8vw,140px)] leading-[0.95] tracking-[-0.035em] text-ink-dim">
             <span class="block ink-fade" style="animation-delay: 180ms;">Fifteen</span>
             <span class="block ink-fade" style="animation-delay: 480ms;">
               <span class="text-accent-bronze">Filling</span> Materials.
@@ -95,7 +95,7 @@ const getCategory = (slug: string) =>
           <div class="flex items-end justify-between mb-4 md:mb-6">
             <div>
               <p class="eyebrow text-ink-muted">Characteristic Matrix</p>
-              <h2 class="mt-2 italic font-medium text-[clamp(24px,3vw,40px)] tracking-[-0.03em]">특성 매트릭스</h2>
+              <h2 class="mt-2 font-medium text-[clamp(24px,3vw,40px)] tracking-[-0.03em]">특성 매트릭스</h2>
             </div>
             <div class="mono-label text-ink-faint hidden md:block">
               HOVER TO EXPLORE
@@ -180,7 +180,7 @@ const getCategory = (slug: string) =>
                       @mouseleave="hoveredIdx = null"
                     >
                       <td class="py-1.5 pr-4 md:hidden">
-                        <span class="italic font-medium text-sm">{{ p.name }}</span>
+                        <span class="font-medium text-sm">{{ p.name }}</span>
                       </td>
                       <td class="py-1.5 pr-4 hidden md:table-cell">
                         <!-- 폰트 사이즈 고정 (text-[13px]) — 색·weight만 변화 -->
@@ -222,7 +222,7 @@ const getCategory = (slug: string) =>
           <div class="flex items-end justify-between mb-6 md:mb-8">
             <div>
               <p class="eyebrow text-ink-muted">Product Cards</p>
-              <h2 class="mt-3 italic font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">제품 카드</h2>
+              <h2 class="mt-3 font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">제품 카드</h2>
             </div>
             <div class="mono-label text-ink-faint hidden md:block">
               CLICK TO VIEW DETAIL
@@ -245,7 +245,7 @@ const getCategory = (slug: string) =>
                 />
 
                 <!-- 거대한 번호 배경 (우하단) -->
-                <div class="absolute right-2 -bottom-2 italic font-light text-[clamp(80px,12vw,130px)] text-accent-bronze/[0.07] group-hover:text-accent-bronze/[0.15] transition-colors duration-500 leading-none tracking-[-0.04em] pointer-events-none select-none">
+                <div class="absolute right-2 -bottom-2 font-light text-[clamp(80px,12vw,130px)] text-accent-bronze/[0.07] group-hover:text-accent-bronze/[0.15] transition-colors duration-500 leading-none tracking-[-0.04em] pointer-events-none select-none">
                   {{ String(i + 1).padStart(2, '0') }}
                 </div>
 
@@ -259,7 +259,7 @@ const getCategory = (slug: string) =>
 
                 <!-- 제품명 -->
                 <div class="relative">
-                  <h3 class="italic font-medium text-base md:text-lg tracking-[-0.015em] text-ink group-hover:text-accent-bronze transition-colors line-clamp-2 leading-tight">
+                  <h3 class="font-medium text-base md:text-lg tracking-[-0.015em] text-ink group-hover:text-accent-bronze transition-colors line-clamp-2 leading-tight">
                     {{ p.name }}
                   </h3>
                   <p v-if="p.korean_name" class="text-[11px] text-ink-muted mt-1 line-clamp-1">
@@ -296,7 +296,7 @@ const getCategory = (slug: string) =>
           <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <div class="md:col-span-7">
               <p class="eyebrow text-ink-muted">Next</p>
-              <h2 class="mt-6 italic font-light text-display-sm text-ink">
+              <h2 class="mt-6 font-light text-display-sm text-ink">
                 제품에 대한 문의가 있다면,<br>
                 <span class="text-accent-bronze">편하게 연락주세요</span>.
               </h2>
@@ -306,7 +306,7 @@ const getCategory = (slug: string) =>
                 to="/contact"
                 class="group inline-flex items-center gap-5 md:gap-6"
               >
-                <span class="italic text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
+                <span class="text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
                   문의하기
                 </span>
                 <span class="relative w-14 h-14 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
@@ -369,7 +369,7 @@ const getCategory = (slug: string) =>
                 class="max-w-full max-h-[70vh] w-auto h-auto object-contain"
               />
               <div v-else class="text-center">
-                <div class="italic font-light text-[clamp(56px,8vw,96px)] text-accent-bronze/40 tracking-[-0.04em] leading-none">
+                <div class="font-light text-[clamp(56px,8vw,96px)] text-accent-bronze/40 tracking-[-0.04em] leading-none">
                   {{ openedProduct.name }}
                 </div>
                 <p class="mono-label text-ink-faint mt-4">Image Coming Soon</p>
@@ -382,7 +382,7 @@ const getCategory = (slug: string) =>
                 {{ String(openedIdx + 1).padStart(2, '0') }} / {{ String(items.length).padStart(2, '0') }}
               </div>
 
-              <h2 class="mt-5 italic font-medium text-3xl md:text-[40px] leading-tight tracking-[-0.02em]">
+              <h2 class="mt-5 font-medium text-3xl md:text-[40px] leading-tight tracking-[-0.02em]">
                 {{ openedProduct.name }}
               </h2>
               <p v-if="openedProduct.korean_name" class="text-accent-bronze text-base md:text-lg mt-2">

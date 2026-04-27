@@ -61,7 +61,7 @@ const stepImage = (n: number) => {
       <div class="relative z-10 container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center py-16">
         <div class="md:col-span-6">
           <p class="mono-label text-accent-bronze mb-6">Our Plant · 생산 시설</p>
-          <h1 class="italic font-light text-[clamp(40px,5.5vw,80px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
+          <h1 class="font-light text-[clamp(40px,5.5vw,80px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
             다섯 개의 라인,<br>
             <span class="text-accent-bronze">여섯 단계</span>의 공정.
           </h1>
@@ -84,7 +84,7 @@ const stepImage = (n: number) => {
               :class="['px-4 py-6', i > 0 ? 'border-l border-paper-line/60' : '']"
             >
               <div class="mono-label text-ink-muted">{{ s.k }}</div>
-              <div class="text-[32px] italic font-medium tracking-[-0.02em] text-ink mt-1 leading-none">{{ s.v }}</div>
+              <div class="text-[32px] font-medium tracking-[-0.02em] text-ink mt-1 leading-none">{{ s.v }}</div>
             </div>
           </div>
         </div>
@@ -97,7 +97,7 @@ const stepImage = (n: number) => {
         <div class="flex items-end justify-between mb-16 md:mb-20">
           <div>
             <p class="eyebrow text-ink-muted">Process Flow</p>
-            <h2 class="mt-6 italic font-medium text-display-md">생산 공정</h2>
+            <h2 class="mt-6 font-medium text-display-md">생산 공정</h2>
           </div>
           <div class="hidden md:block mono-label text-ink-faint">
             6 STEPS &nbsp;·&nbsp; FROM RAW TO ROLL
@@ -126,7 +126,7 @@ const stepImage = (n: number) => {
                 />
                 <!-- 큰 숫자 오버레이 -->
                 <div
-                  class="absolute top-4 left-4 italic font-light text-[clamp(56px,8vw,120px)] text-paper/90 leading-none tracking-[-0.03em]"
+                  class="absolute top-4 left-4 font-light text-[clamp(56px,8vw,120px)] text-paper/90 leading-none tracking-[-0.03em]"
                   style="text-shadow: 0 2px 20px rgba(26,24,20,0.25);"
                 >
                   {{ String(s.step_number).padStart(2, '0') }}
@@ -148,7 +148,7 @@ const stepImage = (n: number) => {
               <div class="mono-label text-accent-bronze">
                 Step {{ String(s.step_number).padStart(2, '0') }} &nbsp;·&nbsp; {{ s.step_number }} of {{ (steps || []).length }}
               </div>
-              <h3 class="mt-5 italic font-medium text-[clamp(32px,4vw,56px)] tracking-[-0.02em] leading-none">
+              <h3 class="mt-5 font-medium text-[clamp(32px,4vw,56px)] tracking-[-0.02em] leading-none">
                 {{ s.title }}
               </h3>
               <div
@@ -172,7 +172,7 @@ const stepImage = (n: number) => {
         <div class="flex items-end justify-between mb-10">
           <div>
             <p class="eyebrow text-ink-muted">Facility Gallery</p>
-            <h2 class="mt-6 italic font-medium text-display-md">생산 시설</h2>
+            <h2 class="mt-6 font-medium text-display-md">생산 시설</h2>
           </div>
           <div v-if="gallery && gallery.length > 1" class="mono-label text-ink-faint hidden md:block">
             {{ String(galleryIdx + 1).padStart(2, '0') }} / {{ String(galleryCount).padStart(2, '0') }}

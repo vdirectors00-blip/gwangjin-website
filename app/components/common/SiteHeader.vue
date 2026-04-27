@@ -130,7 +130,7 @@ const drawer = [
             <div v-if="item.children" class="py-6 border-b border-paper-line/60">
               <NuxtLink
                 :to="item.to"
-                class="block hover:text-accent-bronze transition italic font-medium"
+                class="block hover:text-accent-bronze transition font-medium"
               >
                 <div class="text-3xl md:text-5xl tracking-tightest leading-tight text-ink">
                   {{ item.label }}
@@ -150,7 +150,7 @@ const drawer = [
             <NuxtLink
               v-else
               :to="item.to"
-              class="group block py-6 border-b border-paper-line/60 hover:text-accent-bronze transition italic font-medium"
+              class="group block py-6 border-b border-paper-line/60 hover:text-accent-bronze transition font-medium"
             >
               <div class="text-3xl md:text-5xl tracking-tightest leading-tight text-ink">
                 {{ item.label }}
@@ -162,7 +162,7 @@ const drawer = [
 
         <div class="mt-12 pt-8 border-t border-paper-line/60 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-ink-muted">
           <div>
-            <div class="text-ink font-medium mb-2 italic">COSY FEEL</div>
+            <div class="text-ink font-medium mb-2">COSY FEEL</div>
             <p>주식회사 광진실업<br>인천광역시 서구 가정로 58번길 3</p>
           </div>
           <div class="md:text-right">

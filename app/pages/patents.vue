@@ -76,7 +76,7 @@ onMounted(() => {
               <p class="mono-label text-accent-bronze mb-6 ink-fade" style="animation-delay: 0ms;">
                 Patents · 특허
               </p>
-              <h1 class="italic font-light text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
+              <h1 class="font-light text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
                 <span class="block ink-fade" style="animation-delay: 120ms;">자체 기술의</span>
                 <span class="block ink-fade" style="animation-delay: 380ms;">
                   <span class="text-accent-bronze">증거</span>.
@@ -97,7 +97,7 @@ onMounted(() => {
             class="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-end"
           >
             <div class="md:col-span-4 ink-fade" style="animation-delay: 820ms;">
-              <div class="italic font-light text-[clamp(110px,12vw,180px)] text-accent-bronze/80 tracking-[-0.04em] leading-none">
+              <div class="font-light text-[clamp(110px,12vw,180px)] text-accent-bronze/80 tracking-[-0.04em] leading-none">
                 {{ String(sortedPatents.length).padStart(2, '0') }}
               </div>
               <p class="mono-label text-ink-muted mt-3">Registered Patents</p>
@@ -110,7 +110,7 @@ onMounted(() => {
                   class="flex items-baseline justify-between border-b border-paper-line/60 pb-3 ink-fade"
                   :style="`animation-delay: ${1000 + i * 180}ms`"
                 >
-                  <span class="italic font-medium text-base md:text-lg tracking-[-0.015em] text-ink truncate pr-4">
+                  <span class="font-medium text-base md:text-lg tracking-[-0.015em] text-ink truncate pr-4">
                     {{ p.name }}
                   </span>
                   <span class="mono-label text-ink-muted whitespace-nowrap">{{ p.issued_at }}</span>
@@ -127,7 +127,7 @@ onMounted(() => {
           <div class="flex items-end justify-between mb-8 md:mb-10">
             <div>
               <p class="eyebrow text-ink-muted">Patent Files</p>
-              <h2 class="mt-3 italic font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">특허 기록</h2>
+              <h2 class="mt-3 font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">특허 기록</h2>
             </div>
             <div class="mono-label text-ink-faint hidden md:block">
               CLICK CARD TO VIEW FULL
@@ -150,7 +150,7 @@ onMounted(() => {
                 <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none" />
 
                 <!-- 거대한 번호 (배경) -->
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 italic font-light text-[clamp(140px,18vw,240px)] text-accent-bronze/[0.06] group-hover:text-accent-bronze/[0.12] transition-colors duration-700 leading-none tracking-[-0.03em] pointer-events-none select-none">
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 font-light text-[clamp(140px,18vw,240px)] text-accent-bronze/[0.06] group-hover:text-accent-bronze/[0.12] transition-colors duration-700 leading-none tracking-[-0.03em] pointer-events-none select-none">
                   {{ String(i + 1).padStart(2, '0') }}
                 </div>
 
@@ -164,7 +164,7 @@ onMounted(() => {
 
                 <!-- 메인 -->
                 <div class="relative z-10 mt-auto">
-                  <h3 class="italic font-medium text-xl md:text-2xl tracking-[-0.015em] leading-tight group-hover:text-accent-bronze transition-colors duration-500">
+                  <h3 class="font-medium text-xl md:text-2xl tracking-[-0.015em] leading-tight group-hover:text-accent-bronze transition-colors duration-500">
                     {{ p.name }}
                   </h3>
                   <p v-if="p.description" class="mt-3 text-ink-dim text-sm font-light leading-relaxed line-clamp-2">
@@ -191,7 +191,7 @@ onMounted(() => {
           <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <div class="md:col-span-7">
               <p class="eyebrow text-ink-muted">Also See</p>
-              <h2 class="mt-6 italic font-light text-display-sm text-ink">
+              <h2 class="mt-6 font-light text-display-sm text-ink">
                 국제 표준으로 입증한<br>
                 <span class="text-accent-bronze">품질·환경 인증</span>.
               </h2>
@@ -201,7 +201,7 @@ onMounted(() => {
                 to="/certifications"
                 class="group inline-flex items-center gap-5 md:gap-6"
               >
-                <span class="italic text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
+                <span class="text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
                   인증 보기
                 </span>
                 <span class="relative w-14 h-14 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
@@ -281,7 +281,7 @@ onMounted(() => {
                 Registered · {{ openedPatent.issued_at }}
               </div>
 
-              <h2 class="mt-6 italic font-medium text-2xl md:text-[32px] leading-tight tracking-[-0.015em]">
+              <h2 class="mt-6 font-medium text-2xl md:text-[32px] leading-tight tracking-[-0.015em]">
                 {{ openedPatent.name }}
               </h2>
 
