@@ -191,7 +191,7 @@ onMounted(() => {
               <p class="eyebrow text-paper/50">Also See</p>
               <h2 class="mt-6 italic font-light text-display-sm text-paper">
                 국제 표준으로 입증한<br>
-                <span class="text-accent-eco-soft">품질·환경 인증</span>.
+                <span class="text-accent-bronze-soft">품질·환경 인증</span>.
               </h2>
             </div>
             <div class="md:col-span-5 md:text-right">
@@ -199,11 +199,11 @@ onMounted(() => {
                 to="/certifications"
                 class="group inline-flex items-center gap-5 md:gap-6"
               >
-                <span class="italic text-xl md:text-2xl text-paper group-hover:text-accent-eco-soft transition-colors duration-500">
+                <span class="italic text-xl md:text-2xl text-paper group-hover:text-accent-bronze-soft transition-colors duration-500">
                   인증 보기
                 </span>
-                <span class="relative w-14 h-14 rounded-full border border-paper/30 group-hover:border-accent-eco-soft group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
-                  <svg class="w-5 h-5 text-paper group-hover:text-accent-eco-soft transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <span class="relative w-14 h-14 rounded-full border border-paper/30 group-hover:border-accent-bronze-soft group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
+                  <svg class="w-5 h-5 text-paper group-hover:text-accent-bronze-soft transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </span>

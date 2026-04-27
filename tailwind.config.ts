@@ -21,13 +21,13 @@ export default <Partial<Config>>{
           line:     '#D9D2C0',
           'line-soft': '#E4DCC9',
         },
-        // 다크 톤
+        // 다크 톤 — paper(따뜻한 베이지)와 자연스럽게 어우러지는 warm espresso 갈색
         dark: {
-          DEFAULT:  '#1A1814',
-          soft:     '#22201B',
-          mid:      '#2A2823',
-          card:     '#322F29',
-          deep:     '#0F0E0B',       // 푸터용 더 깊은 검정
+          DEFAULT:  '#2A2218',       // warm espresso (기존 #1A1814보다 갈색 띔)
+          soft:     '#332921',
+          mid:      '#3D3127',
+          card:     '#4A3B2D',
+          deep:     '#1A130C',       // 푸터용 deep coffee
         },
         // 텍스트
         ink: {
@@ -40,12 +40,13 @@ export default <Partial<Config>>{
           'inverse-muted': '#9A9486',
           'inverse-faint': '#5E584D',
         },
-        // 포인트
+        // 포인트 — bronze 단일 액센트로 통일
         accent: {
-          bronze:       '#8B7355',
+          bronze:        '#8B7355',
           'bronze-soft': '#B59B7A',
-          eco:          '#5F7E4E',
-          'eco-soft':   '#8BA275',
+          // 옛 eco 토큰을 bronze로 alias (잔존 코드 호환)
+          eco:           '#8B7355',
+          'eco-soft':    '#B59B7A',
         },
         // ─── Admin 패널 전용 alias (옛 토큰 호환) ───
         // admin은 v3 톤이 아닌 자체 라이트 패널 디자인 유지

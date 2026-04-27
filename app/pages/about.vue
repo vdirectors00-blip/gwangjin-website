@@ -86,7 +86,7 @@ const { data: company } = await useCompanyInfo()
                 class="h-44 md:h-60 w-auto"
               />
             </div>
-            <div class="mt-8 mono-label text-accent-eco">
+            <div class="mt-8 mono-label text-accent-bronze">
               CORPORATE IDENTITY
             </div>
             <p class="mt-3 italic text-lg text-ink font-medium">주식회사 광진실업</p>

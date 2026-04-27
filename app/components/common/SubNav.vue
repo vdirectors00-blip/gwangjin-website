@@ -27,8 +27,8 @@ const tabs = computed(() => {
 })
 
 const accent = computed(() => props.accent ?? 'bronze')
-const accentBg = computed(() => accent.value === 'eco' ? 'bg-accent-eco' : 'bg-accent-bronze')
-const accentText = computed(() => accent.value === 'eco' ? 'text-accent-eco' : 'text-accent-bronze')
+const accentBg = computed(() => accent.value === 'eco' ? 'bg-accent-bronze' : 'bg-accent-bronze')
+const accentText = computed(() => accent.value === 'eco' ? 'text-accent-bronze' : 'text-accent-bronze')
 
 const isActive = (to: string) => route.path === to
 </script>
@@ -41,7 +41,7 @@ const isActive = (to: string) => route.path === to
         <NuxtLink :to="sectionMeta.to" class="group flex items-baseline gap-3 md:py-6 shrink-0">
           <h2
             class="italic font-light text-2xl md:text-3xl tracking-[-0.02em] transition-colors"
-            :class="accent === 'eco' ? 'text-ink-muted group-hover:text-accent-eco' : 'text-ink-muted group-hover:text-accent-bronze'"
+            :class="accent === 'eco' ? 'text-ink-muted group-hover:text-accent-bronze' : 'text-ink-muted group-hover:text-accent-bronze'"
           >
             {{ sectionMeta.label }}
           </h2>

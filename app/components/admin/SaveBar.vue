@@ -15,7 +15,7 @@ defineEmits<{
   <div class="sticky bottom-0 -mx-10 mt-10 px-10 py-4 bg-white border-t border-paper-line flex items-center justify-between">
     <div class="text-sm">
       <span v-if="error" class="text-red-500">⚠ {{ error }}</span>
-      <span v-else-if="message" class="text-accent-eco">✓ {{ message }}</span>
+      <span v-else-if="message" class="text-accent-bronze">✓ {{ message }}</span>
       <span v-else class="text-ink-dark-muted">변경사항을 저장하세요.</span>
     </div>
     <div class="flex gap-2">

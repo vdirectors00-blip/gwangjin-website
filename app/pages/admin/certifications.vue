@@ -120,7 +120,7 @@ const remove = async (row: Certification) => {
       @remove="remove"
     >
       <template #cell-category="{ value }">
-        <span :class="['text-xs px-2 py-0.5', value === 'patent' ? 'bg-accent-eco/15 text-accent-eco' : 'bg-accent-bronze/15 text-accent-bronze']">
+        <span :class="['text-xs px-2 py-0.5', value === 'patent' ? 'bg-accent-bronze/15 text-accent-bronze' : 'bg-accent-bronze/15 text-accent-bronze']">
           {{ value === 'patent' ? '특허' : '인증' }}
         </span>
       </template>

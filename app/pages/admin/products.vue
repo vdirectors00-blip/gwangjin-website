@@ -131,7 +131,7 @@ const remove = async (row: Product) => {
         <span :class="value ? 'text-accent-bronze' : 'text-ink-dark-faint'">{{ value ? '★' : '·' }}</span>
       </template>
       <template #cell-is_published="{ value }">
-        <span :class="value ? 'text-accent-eco' : 'text-red-400'">{{ value ? '●' : '×' }}</span>
+        <span :class="value ? 'text-accent-bronze' : 'text-red-400'">{{ value ? '●' : '×' }}</span>
       </template>
     </AdminListTable>
 

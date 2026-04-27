@@ -103,7 +103,7 @@ const cardStyle = (i: number) => {
       filter: 'blur(0)',
       zIndex: 10,
       pointerEvents: 'auto',
-      boxShadow: '0 30px 60px -15px rgba(95,126,78,0.45)',
+      boxShadow: '0 30px 60px -15px rgba(139,115,85,0.45)',
     }
   }
   return {
@@ -140,18 +140,18 @@ const jpgStyle = computed(() => {
       <section class="relative min-h-[calc(100vh-156px)] bg-paper flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
         <div
           class="absolute inset-0 pointer-events-none opacity-50"
-          style="background-image: linear-gradient(to right, rgba(95,126,78,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(95,126,78,0.06) 1px, transparent 1px); background-size: 80px 80px;"
+          style="background-image: linear-gradient(to right, rgba(139,115,85,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(139,115,85,0.06) 1px, transparent 1px); background-size: 80px 80px;"
         />
         <div class="relative z-10 max-w-container mx-auto w-full">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-end">
             <div class="md:col-span-6">
-              <p class="mono-label text-accent-eco mb-6 ink-fade" style="animation-delay: 0ms;">
+              <p class="mono-label text-accent-bronze mb-6 ink-fade" style="animation-delay: 0ms;">
                 Certifications · 품질·환경 인증
               </p>
               <h1 class="italic font-light text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
                 <span class="block ink-fade" style="animation-delay: 120ms;">검증된 시스템으로</span>
                 <span class="block ink-fade" style="animation-delay: 380ms;">
-                  <span class="text-accent-eco">증명한</span> 신뢰.
+                  <span class="text-accent-bronze">증명한</span> 신뢰.
                 </span>
               </h1>
               <div class="mt-8 w-16 h-px bg-ink/30 ink-fade" style="animation-delay: 640ms;" />
@@ -166,7 +166,7 @@ const jpgStyle = computed(() => {
 
           <div class="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-end ink-fade" style="animation-delay: 820ms;">
             <div class="md:col-span-4">
-              <div class="italic font-light text-[clamp(110px,12vw,180px)] text-accent-eco/80 tracking-[-0.04em] leading-none">03</div>
+              <div class="italic font-light text-[clamp(110px,12vw,180px)] text-accent-bronze/80 tracking-[-0.04em] leading-none">03</div>
               <p class="mono-label text-ink-muted mt-3">Active Certifications</p>
             </div>
             <div class="md:col-span-8 md:border-l md:border-paper-line md:pl-10">
@@ -200,7 +200,7 @@ const jpgStyle = computed(() => {
               leave-active-class="transition duration-300" leave-from-class="opacity-100" leave-to-class="opacity-0"
             >
               <button v-if="selectedIdx !== null" @click="selectedIdx = null"
-                class="mono-label text-ink-muted hover:text-accent-eco transition-colors"
+                class="mono-label text-ink-muted hover:text-accent-bronze transition-colors"
               >
                 ← 전체 보기
               </button>
@@ -227,26 +227,26 @@ const jpgStyle = computed(() => {
                 style="transition: all 700ms cubic-bezier(0.16, 1, 0.3, 1);"
                 :style="cardStyle(i)"
               >
-                <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-eco/60 pointer-events-none" />
-                <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-eco/60 pointer-events-none" />
-                <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-eco/60 pointer-events-none" />
-                <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-eco/60 pointer-events-none" />
+                <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
+                <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze/60 pointer-events-none" />
+                <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none" />
+                <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none" />
 
                 <!-- 도장 -->
                 <div
                   :class="[
                     'absolute top-6 right-6 w-14 h-14 rounded-full border border-dashed flex items-center justify-center transition-all duration-700 ease-out-expo',
-                    selectedIdx === i ? 'border-accent-eco rotate-0' : 'border-accent-eco/40 -rotate-12 group-hover:rotate-0',
+                    selectedIdx === i ? 'border-accent-bronze rotate-0' : 'border-accent-bronze/40 -rotate-12 group-hover:rotate-0',
                   ]"
                 >
-                  <div class="absolute inset-1 rounded-full border border-accent-eco/30" />
+                  <div class="absolute inset-1 rounded-full border border-accent-bronze/30" />
                   <div class="text-center relative z-10">
-                    <div class="mono-label text-accent-eco text-[7px] leading-tight">VERIFIED</div>
-                    <div class="font-mono text-accent-eco text-[9px] mt-0.5">★</div>
+                    <div class="mono-label text-accent-bronze text-[7px] leading-tight">VERIFIED</div>
+                    <div class="font-mono text-accent-bronze text-[9px] mt-0.5">★</div>
                   </div>
                 </div>
 
-                <div class="mono-label text-accent-eco">
+                <div class="mono-label text-accent-bronze">
                   No. {{ String(i + 1).padStart(2, '0') }} / {{ String(visibleCerts.length).padStart(2, '0') }}
                 </div>
 
@@ -291,7 +291,7 @@ const jpgStyle = computed(() => {
                   >
                     <div
                       v-for="(file, fi) in selectedFiles" :key="fi"
-                      class="relative bg-paper border border-accent-eco/40 overflow-hidden"
+                      class="relative bg-paper border border-accent-bronze/40 overflow-hidden"
                     >
                       <img
                         v-if="!imgFailed[fi]"
@@ -308,7 +308,7 @@ const jpgStyle = computed(() => {
                         loading="lazy"
                       />
                       <div v-if="selectedFiles.length > 1" class="absolute bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-sm px-3 py-2">
-                        <div class="mono-label text-accent-eco">{{ file.label }}</div>
+                        <div class="mono-label text-accent-bronze">{{ file.label }}</div>
                       </div>
                     </div>
                   </div>
@@ -322,20 +322,20 @@ const jpgStyle = computed(() => {
               <button v-for="(c, i) in visibleCerts" :key="c.id"
                 type="button"
                 @click.stop="selectCert(i)"
-                class="w-full bg-paper p-6 text-left border border-accent-eco/30 hover:border-accent-eco/60 transition-colors block relative"
+                class="w-full bg-paper p-6 text-left border border-accent-bronze/30 hover:border-accent-bronze/60 transition-colors block relative"
               >
                 <!-- 모서리 마커 -->
-                <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-eco/60 pointer-events-none" />
-                <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-eco/60 pointer-events-none" />
-                <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-eco/60 pointer-events-none" />
-                <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-eco/60 pointer-events-none" />
+                <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
+                <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze/60 pointer-events-none" />
+                <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none" />
+                <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none" />
 
-                <p class="mono-label text-accent-eco">{{ c.cert_type }}</p>
+                <p class="mono-label text-accent-bronze">{{ c.cert_type }}</p>
                 <h3 class="italic font-medium text-xl mt-2">{{ c.name }}</h3>
                 <div class="mt-4 pt-3 border-t border-paper-line flex justify-between items-baseline">
                   <span v-if="c.cert_number" class="font-mono text-ink-muted text-xs">№ {{ c.cert_number }}</span>
                   <span v-else class="mono-label text-ink-muted">CERTIFIED</span>
-                  <span class="mono-label text-accent-eco">VIEW →</span>
+                  <span class="mono-label text-accent-bronze">VIEW →</span>
                 </div>
               </button>
             </div>
@@ -351,7 +351,7 @@ const jpgStyle = computed(() => {
               <p class="eyebrow text-paper/50">Next</p>
               <h2 class="mt-6 italic font-light text-display-sm text-paper">
                 자체 기술의 또 다른 증명,<br>
-                <span class="text-accent-eco-soft">등록 특허 4건</span>.
+                <span class="text-accent-bronze-soft">등록 특허 4건</span>.
               </h2>
             </div>
             <div class="md:col-span-5 md:text-right">
@@ -405,7 +405,7 @@ const jpgStyle = computed(() => {
             <!-- 닫기 -->
             <button
               @click="selectedIdx = null"
-              class="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center text-ink-muted hover:text-accent-eco transition-colors text-2xl"
+              class="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center text-ink-muted hover:text-accent-bronze transition-colors text-2xl"
               aria-label="Close"
             >
               ×
@@ -413,7 +413,7 @@ const jpgStyle = computed(() => {
 
             <!-- 헤더 -->
             <div class="px-6 pt-7 pb-4 border-b border-paper-line">
-              <p class="mono-label text-accent-eco">{{ selectedCert.cert_type }}</p>
+              <p class="mono-label text-accent-bronze">{{ selectedCert.cert_type }}</p>
               <h2 class="mt-2 italic font-medium text-2xl tracking-[-0.015em]">{{ selectedCert.name }}</h2>
             </div>
 
@@ -421,7 +421,7 @@ const jpgStyle = computed(() => {
             <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-paper-soft">
               <div
                 v-for="(file, fi) in selectedFiles" :key="fi"
-                class="relative aspect-[3/4] bg-paper border border-accent-eco/40 overflow-hidden"
+                class="relative aspect-[3/4] bg-paper border border-accent-bronze/40 overflow-hidden"
               >
                 <img
                   v-if="!imgFailed[fi]"
@@ -441,7 +441,7 @@ const jpgStyle = computed(() => {
                   v-if="selectedFiles.length > 1"
                   class="absolute bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-sm px-3 py-2"
                 >
-                  <div class="mono-label text-accent-eco">{{ file.label }}</div>
+                  <div class="mono-label text-accent-bronze">{{ file.label }}</div>
                 </div>
               </div>
               <p v-if="selectedFiles.length === 0" class="text-center text-ink-faint text-sm py-8">

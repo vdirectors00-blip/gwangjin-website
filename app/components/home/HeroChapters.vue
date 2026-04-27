@@ -7,8 +7,9 @@ const chapters = [
     sub: '솜 한 가닥에,\n삼십 년.',
     hueA: '#3D3328',
     hueB: '#1A1814',
-    lineOpacity: 0.42,
+    lineOpacity: 0.30,
     focus: '72% 50%',
+    image: '/images/process/step-2-card.jpg',     // 카드기 — 기술의 핵심
   },
   {
     chapter: '02 — CRAFT',
@@ -17,8 +18,9 @@ const chapters = [
     sub: '이불 속, 매트리스의 결,\n겨울옷의 안쪽.',
     hueA: '#2F3A32',
     hueB: '#161916',
-    lineOpacity: 0.34,
+    lineOpacity: 0.24,
     focus: '25% 60%',
+    image: '/images/process/step-1-reserve.jpg',  // 원료 입고 — 시작점
   },
   {
     chapter: '03 — PROMISE',
@@ -27,8 +29,9 @@ const chapters = [
     sub: '1994년부터,\n조용히 품질로 증명합니다.',
     hueA: '#4A3A28',
     hueB: '#1A1510',
-    lineOpacity: 0.50,
+    lineOpacity: 0.36,
     focus: '60% 30%',
+    image: '/images/process/step-6-winding.jpg',  // 와인딩 — 완성·약속
   },
 ]
 
@@ -82,14 +85,23 @@ const fiberLines = (idx: number) => {
         cur === i ? 'opacity-100' : 'opacity-0',
       ]"
     >
+      <!-- 0. 사진 배경 (grayscale 50%, 어둡게) -->
+      <div
+        v-if="s.image"
+        class="absolute inset-0 bg-cover bg-center"
+        :style="`background-image: url('${s.image}'); filter: grayscale(50%) brightness(0.55);`"
+      />
+      <!-- 1. 그라데이션 컬러 오버레이 -->
+      <div
+        class="absolute inset-0 mix-blend-multiply"
+        :style="`background: linear-gradient(135deg, ${s.hueA} 0%, ${s.hueB} 100%); opacity: 0.65;`"
+      />
+      <!-- 2. 포커스 라이트 -->
       <div
         class="absolute inset-0"
-        :style="`background: linear-gradient(135deg, ${s.hueA} 0%, ${s.hueB} 100%);`"
+        :style="`background: radial-gradient(1400px 900px at ${s.focus}, rgba(181,155,122,0.18), transparent 62%), radial-gradient(900px 700px at 10% 90%, rgba(139,115,85,0.08), transparent 65%);`"
       />
-      <div
-        class="absolute inset-0"
-        :style="`background: radial-gradient(1400px 900px at ${s.focus}, rgba(181,155,122,0.18), transparent 62%), radial-gradient(900px 700px at 10% 90%, rgba(95,126,78,0.08), transparent 65%);`"
-      />
+      <!-- 3. SVG 섬유 라인 (사진 위에 약하게) -->
       <svg
         viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
         class="absolute inset-0 w-full h-full"
@@ -161,17 +173,18 @@ const fiberLines = (idx: number) => {
         </div>
       </div>
 
-      <!-- 메인 카피 (모바일 폰트 사이즈 축소: 64→44) -->
+      <!-- 메인 카피 — italic 줄이고 weight 진중하게 (font-light → font-normal) -->
       <div :key="`txt-${cur}`" class="animate-fade-up">
-        <h1 class="m-0 font-sans italic font-light text-[clamp(44px,10vw,156px)] leading-[0.95] tracking-[-0.035em]">
+        <h1 class="m-0 font-sans font-normal text-[clamp(44px,10vw,156px)] leading-[0.95] tracking-[-0.035em]">
           {{ slide.mainA }}<br>
-          <span class="inline-block text-accent-bronze-soft font-normal italic animate-hero-accent origin-bottom-left">
+          <!-- 강조 단어만 italic + bronze + 진중한 weight 유지 -->
+          <span class="inline-block text-accent-bronze-soft font-medium italic animate-hero-accent origin-bottom-left">
             {{ slide.mainB }}
           </span>
         </h1>
 
         <div class="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-[1fr_auto] items-end gap-6 md:gap-20">
-          <p class="text-[15px] md:text-[17px] leading-[1.75] max-w-md text-paper/80 font-light whitespace-pre-line m-0">
+          <p class="text-[15px] md:text-[17px] leading-[1.75] max-w-md text-paper/85 font-normal whitespace-pre-line m-0">
             {{ slide.sub }}
           </p>
           <div class="flex items-center gap-6">
