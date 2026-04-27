@@ -40,22 +40,17 @@ const save = async () => {
 
 <template>
   <div>
-    <AdminPageHeader title="사이트 설정" subtitle="로고, 푸터, 저작권 등 전역 설정" />
+    <AdminPageHeader title="사이트 설정" subtitle="모든 페이지 푸터에 표시되는 저작권 문구" />
 
     <section class="space-y-6 mb-12">
-      <h2 class="text-xl font-semibold text-ink-dark">브랜딩</h2>
-      <AdminFormField label="로고 (커스텀 업로드)" hint="비워두면 기본 BI 로고(/logo/bi-color.svg)가 사용됩니다">
-        <AdminImageUploader v-model="settings.logo_url" folder="branding" />
-      </AdminFormField>
-    </section>
-
-    <section class="space-y-6 mb-12">
-      <h2 class="text-xl font-semibold text-ink-dark">푸터</h2>
-      <AdminFormField label="푸터 태그라인" hint="브랜드 로고 아래 한 줄">
-        <AdminInputText v-model="settings.footer_tagline" placeholder="Premium Filling Materials" />
-      </AdminFormField>
-      <AdminFormField label="저작권 텍스트" hint="비워두면 자동 생성">
-        <AdminInputText v-model="settings.copyright_text" placeholder="© 2026 주식회사 광진실업. All Rights Reserved." />
+      <AdminFormField
+        label="저작권 텍스트"
+        hint="모든 페이지 하단 푸터에 표시됩니다. 비워두면 '© [올해] 주식회사 광진실업 · All Rights Reserved.'가 자동 표시됩니다."
+      >
+        <AdminInputText
+          v-model="settings.copyright_text"
+          placeholder="© 2026 주식회사 광진실업 · All Rights Reserved."
+        />
       </AdminFormField>
     </section>
 

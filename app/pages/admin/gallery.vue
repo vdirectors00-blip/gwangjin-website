@@ -61,7 +61,10 @@ const remove = async (row: FactoryImage) => {
 
 <template>
   <div>
-    <AdminPageHeader title="공장 갤러리 관리" :subtitle="`총 ${items.length}장`">
+    <AdminPageHeader
+      title="공장 갤러리 관리"
+      :subtitle="`표시: /factory 페이지 하단 시설 사진 갤러리 — 현재 ${items.length}장`"
+    >
       <template #actions>
         <button class="px-5 py-2.5 text-sm bg-ink-dark text-white hover:bg-accent-bronze transition" @click="openNew">
           + 사진 추가

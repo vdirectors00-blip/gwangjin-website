@@ -4,6 +4,32 @@ useHead({ title: '생산 시설 | 광진실업' })
 const { data: steps } = await useProcessSteps()
 const { data: gallery } = await useFactoryGallery()
 
+// ─── 갤러리 자동 슬라이드 (5초 간격) ───
+const galleryIdx = ref(0)
+const galleryPaused = ref(false)
+const GALLERY_INTERVAL = 5000
+
+const galleryCount = computed(() => (gallery.value || []).length)
+
+const goGallery = (n: number) => {
+  if (galleryCount.value === 0) return
+  galleryIdx.value = ((n % galleryCount.value) + galleryCount.value) % galleryCount.value
+}
+const nextGallery = () => goGallery(galleryIdx.value + 1)
+const prevGallery = () => goGallery(galleryIdx.value - 1)
+
+let galleryTimer: ReturnType<typeof setInterval> | null = null
+const startGalleryTimer = () => {
+  if (galleryTimer) clearInterval(galleryTimer)
+  if (galleryPaused.value || galleryCount.value <= 1) return
+  galleryTimer = setInterval(nextGallery, GALLERY_INTERVAL)
+}
+onMounted(() => {
+  startGalleryTimer()
+  watch([galleryPaused, galleryIdx, galleryCount], startGalleryTimer)
+})
+onBeforeUnmount(() => { if (galleryTimer) clearInterval(galleryTimer) })
+
 // 공정 단계별 이미지 매핑 (파일명 기준)
 const stepImageMap = ['reserve', 'card', 'form', 'dry', 'cool', 'winding']
 const stepImage = (n: number) => {
@@ -136,7 +162,7 @@ const stepImage = (n: number) => {
       </div>
     </section>
 
-    <!-- 갤러리 -->
+    <!-- 갤러리: 자동 슬라이드 (5초 간격) -->
     <section class="bg-paper-soft border-t border-paper-line py-24">
       <div class="container-x">
         <div class="flex items-end justify-between mb-10">
@@ -144,19 +170,78 @@ const stepImage = (n: number) => {
             <p class="eyebrow text-ink-muted">Facility Gallery</p>
             <h2 class="mt-6 italic font-medium text-display-md">생산 시설</h2>
           </div>
+          <div v-if="gallery && gallery.length > 1" class="mono-label text-ink-faint hidden md:block">
+            {{ String(galleryIdx + 1).padStart(2, '0') }} / {{ String(galleryCount).padStart(2, '0') }}
+          </div>
         </div>
 
-        <div v-if="gallery && gallery.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        <div
+          v-if="gallery && gallery.length > 0"
+          class="relative overflow-hidden bg-paper-warm aspect-[16/9] md:aspect-[21/9]"
+          @mouseenter="galleryPaused = true"
+          @mouseleave="galleryPaused = false"
+        >
+          <!-- 슬라이드 트랙 -->
           <div
-            v-for="(g, i) in gallery" :key="g.id"
-            :class="['overflow-hidden bg-paper-warm', i % 5 === 0 ? 'aspect-[4/5] md:row-span-2' : 'aspect-[4/3]']"
+            class="absolute inset-0 flex transition-transform duration-[900ms] ease-out-expo"
+            :style="`transform: translateX(-${galleryIdx * 100}%)`"
           >
-            <img
-              :src="useImageUrl(g.image_url, { width: 1000, format: 'webp', quality: 80 }) || ''"
-              :alt="g.caption || ''"
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-[1000ms] ease-out-expo"
-            />
+            <div
+              v-for="g in gallery" :key="g.id"
+              class="w-full h-full shrink-0 relative"
+            >
+              <img
+                :src="useImageUrl(g.image_url, { width: 1600, format: 'webp', quality: 82 }) || ''"
+                :alt="g.caption || ''"
+                class="absolute inset-0 w-full h-full object-cover"
+                loading="lazy"
+              />
+              <!-- 캡션 오버레이 (선택) -->
+              <div
+                v-if="g.caption"
+                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/70 via-dark/30 to-transparent px-6 md:px-10 py-6"
+              >
+                <p class="text-paper text-sm md:text-base font-light tracking-[-0.01em]">
+                  {{ g.caption }}
+                </p>
+              </div>
+            </div>
           </div>
+
+          <!-- 좌/우 화살표 (사진 2장 이상일 때) -->
+          <template v-if="gallery.length > 1">
+            <button
+              @click="prevGallery"
+              aria-label="Previous"
+              class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 z-10 rounded-full bg-paper/80 hover:bg-paper backdrop-blur-sm flex items-center justify-center transition-colors"
+            >
+              <svg class="w-5 h-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button
+              @click="nextGallery"
+              aria-label="Next"
+              class="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 z-10 rounded-full bg-paper/80 hover:bg-paper backdrop-blur-sm flex items-center justify-center transition-colors"
+            >
+              <svg class="w-5 h-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+
+            <!-- 도트 인디케이터 -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+              <button
+                v-for="(g, i) in gallery" :key="g.id"
+                @click="goGallery(i)"
+                :aria-label="`Image ${i + 1}`"
+                :class="[
+                  'h-1.5 rounded-full transition-all duration-300',
+                  galleryIdx === i ? 'w-8 bg-paper' : 'w-1.5 bg-paper/50 hover:bg-paper/80',
+                ]"
+              />
+            </div>
+          </template>
         </div>
         <p v-else class="py-24 text-center text-ink-faint border border-dashed border-paper-line">
           [공장 사진은 관리자 페이지에서 업로드합니다.]

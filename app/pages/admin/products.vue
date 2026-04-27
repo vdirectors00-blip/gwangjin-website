@@ -102,7 +102,10 @@ const remove = async (row: Product) => {
 
 <template>
   <div>
-    <AdminPageHeader title="제품 관리" :subtitle="`총 ${items.length}개 (하이라이트 ${items.filter(i => i.is_highlight).length}개)`">
+    <AdminPageHeader
+      title="제품 관리"
+      :subtitle="`표시: /products 페이지 카드 그리드 + 매트릭스 + 모달 · 메인 Materials 섹션 (하이라이트 3개) — 현재 총 ${items.length}개 / 하이라이트 ${items.filter(i => i.is_highlight).length}개`"
+    >
       <template #actions>
         <button class="px-5 py-2.5 text-sm bg-ink-dark text-white hover:bg-accent-bronze transition" @click="openNew">
           + 제품 추가

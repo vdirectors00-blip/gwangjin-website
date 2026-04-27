@@ -60,7 +60,10 @@ const remove = async (row: ProcessStep) => {
 
 <template>
   <div>
-    <AdminPageHeader title="생산 공정 관리" :subtitle="`총 ${items.length}단계`">
+    <AdminPageHeader
+      title="생산 공정 관리"
+      :subtitle="`표시: /factory 페이지 zigzag 6단계 공정 (Reserve → Card → Form → Dry → Cool → Winding) — 현재 ${items.length}단계`"
+    >
       <template #actions>
         <button class="px-5 py-2.5 text-sm bg-ink-dark text-white hover:bg-accent-bronze transition" @click="openNew">
           + 단계 추가

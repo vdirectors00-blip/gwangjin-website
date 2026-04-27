@@ -77,7 +77,10 @@ const remove = async (row: Certification) => {
 
 <template>
   <div>
-    <AdminPageHeader title="인증·특허 관리" :subtitle="`인증 ${items.filter(i => i.category === 'certification').length}건 · 특허 ${items.filter(i => i.category === 'patent').length}건`">
+    <AdminPageHeader
+      title="인증·특허 관리"
+      :subtitle="`표시: 인증 → /certifications + 메인 Trust 섹션 / 특허 → /patents + 메인 Trust 섹션 — 현재 인증 ${items.filter(i => i.category === 'certification').length}건 · 특허 ${items.filter(i => i.category === 'patent').length}건`"
+    >
       <template #actions>
         <button class="px-5 py-2.5 text-sm bg-ink-dark text-white hover:bg-accent-bronze transition" @click="openNew">
           + 추가

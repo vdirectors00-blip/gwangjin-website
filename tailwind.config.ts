@@ -47,6 +47,18 @@ export default <Partial<Config>>{
           eco:          '#5F7E4E',
           'eco-soft':   '#8BA275',
         },
+        // ─── Admin 패널 전용 alias (옛 토큰 호환) ───
+        // admin은 v3 톤이 아닌 자체 라이트 패널 디자인 유지
+        bg: {
+          DEFAULT:      '#1A1814',     // = dark.DEFAULT (admin 사이드바)
+          'light-soft': '#F2EEE6',     // = paper.soft (admin 본문)
+          mid:          '#22201B',     // = dark.soft
+        },
+        'ink-dark': {
+          DEFAULT: '#1A1814',          // = ink.DEFAULT
+          muted:   '#7A7367',          // = ink.muted
+          faint:   '#A8A192',          // = ink.faint
+        },
       },
       fontFamily: {
         sans:    ['Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'system-ui', '-apple-system', 'sans-serif'],

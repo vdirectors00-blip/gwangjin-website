@@ -70,7 +70,10 @@ const remove = async (row: HistoryItem) => {
 
 <template>
   <div>
-    <AdminPageHeader title="연혁 관리" :subtitle="`총 ${items.length}개 항목`">
+    <AdminPageHeader
+      title="연혁 관리"
+      :subtitle="`표시: /history 페이지 시기별 타임라인 (Foundation/Innovation/Brand/Renewal) — 현재 총 ${items.length}개 항목`"
+    >
       <template #actions>
         <button class="px-5 py-2.5 text-sm bg-ink-dark text-white hover:bg-accent-bronze transition" @click="openNew">
           + 연혁 추가
