@@ -139,7 +139,7 @@ const jpgStyle = computed(() => {
       <HomeSnapController container="cert-snap" :duration="600" :cooldown="700" />
 
       <!-- ───── 1. Intro ───── -->
-      <section class="relative min-h-[calc(100vh-156px)] bg-paper flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
+      <section class="relative min-h-[calc(100vh-156px)] bg-white flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
         <div
           class="absolute inset-0 pointer-events-none opacity-50"
           style="background-image: linear-gradient(to right, rgba(139,115,85,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(139,115,85,0.06) 1px, transparent 1px); background-size: 80px 80px;"
@@ -225,7 +225,7 @@ const jpgStyle = computed(() => {
                 v-for="(c, i) in visibleCerts" :key="c.id"
                 type="button"
                 @click.stop="selectCert(i)"
-                class="absolute top-0 bottom-0 bg-paper p-8 md:p-10 group flex flex-col text-left overflow-hidden"
+                class="absolute top-0 bottom-0 bg-white p-8 md:p-10 group flex flex-col text-left overflow-hidden"
                 style="transition: all 700ms cubic-bezier(0.16, 1, 0.3, 1);"
                 :style="cardStyle(i)"
               >
@@ -293,13 +293,13 @@ const jpgStyle = computed(() => {
                   >
                     <div
                       v-for="(file, fi) in selectedFiles" :key="fi"
-                      class="relative bg-paper border border-accent-bronze/40 overflow-hidden"
+                      class="relative bg-white border border-accent-bronze/40 overflow-hidden"
                     >
                       <img
                         v-if="!imgFailed[fi]"
                         :src="assetUrl(file.img)"
                         :alt="file.label"
-                        class="absolute inset-0 w-full h-full object-contain bg-paper"
+                        class="absolute inset-0 w-full h-full object-contain bg-white"
                         loading="lazy"
                         @error="onImgFail(fi)"
                       />
@@ -309,7 +309,7 @@ const jpgStyle = computed(() => {
                         class="absolute inset-0 w-full h-full pointer-events-none"
                         loading="lazy"
                       />
-                      <div v-if="selectedFiles.length > 1" class="absolute bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-sm px-3 py-2">
+                      <div v-if="selectedFiles.length > 1" class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm px-3 py-2">
                         <div class="mono-label text-accent-bronze">{{ file.label }}</div>
                       </div>
                     </div>
@@ -324,7 +324,7 @@ const jpgStyle = computed(() => {
               <button v-for="(c, i) in visibleCerts" :key="c.id"
                 type="button"
                 @click.stop="selectCert(i)"
-                class="w-full bg-paper p-6 text-left border border-accent-bronze/30 hover:border-accent-bronze/60 transition-colors block relative"
+                class="w-full bg-white p-6 text-left border border-accent-bronze/30 hover:border-accent-bronze/60 transition-colors block relative"
               >
                 <!-- 모서리 마커 -->
                 <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
@@ -401,7 +401,7 @@ const jpgStyle = computed(() => {
           leave-to-class="opacity-0 scale-95"
         >
           <div
-            class="relative max-w-md w-full max-h-[90vh] bg-paper flex flex-col overflow-hidden cursor-default"
+            class="relative max-w-md w-full max-h-[90vh] bg-white flex flex-col overflow-hidden cursor-default"
             @click.stop
           >
             <!-- 닫기 -->
@@ -423,13 +423,13 @@ const jpgStyle = computed(() => {
             <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-paper-soft">
               <div
                 v-for="(file, fi) in selectedFiles" :key="fi"
-                class="relative aspect-[3/4] bg-paper border border-accent-bronze/40 overflow-hidden"
+                class="relative aspect-[3/4] bg-white border border-accent-bronze/40 overflow-hidden"
               >
                 <img
                   v-if="!imgFailed[fi]"
                   :src="assetUrl(file.img)"
                   :alt="file.label"
-                  class="absolute inset-0 w-full h-full object-contain bg-paper"
+                  class="absolute inset-0 w-full h-full object-contain bg-white"
                   loading="lazy"
                   @error="onImgFail(fi)"
                 />
@@ -441,7 +441,7 @@ const jpgStyle = computed(() => {
                 />
                 <div
                   v-if="selectedFiles.length > 1"
-                  class="absolute bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-sm px-3 py-2"
+                  class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm px-3 py-2"
                 >
                   <div class="mono-label text-accent-bronze">{{ file.label }}</div>
                 </div>

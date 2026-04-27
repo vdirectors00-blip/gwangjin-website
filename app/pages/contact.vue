@@ -168,7 +168,7 @@ const resetForm = () => {
                 enter-from-class="opacity-0 translate-y-4"
                 enter-to-class="opacity-100 translate-y-0"
               >
-                <div v-if="submitted" class="relative bg-paper p-10 md:p-14 overflow-hidden">
+                <div v-if="submitted" class="relative bg-white p-10 md:p-14 overflow-hidden">
                   <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
                   <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze/60 pointer-events-none" />
                   <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none" />
@@ -241,7 +241,7 @@ const resetForm = () => {
               <div class="md:col-span-7">
                 <!-- 모바일: 명시적 높이 420px (viewport 충분히 커서 마커·줌 컨트롤 안 잘림)
                      데스크탑: 기존 grid stretch + min-h-[520px] -->
-                <div class="relative w-full h-[420px] md:h-full md:min-h-[520px] bg-paper border border-ink/15 overflow-hidden">
+                <div class="relative w-full h-[420px] md:h-full md:min-h-[520px] bg-white border border-ink/15 overflow-hidden">
                   <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none z-10" />
                   <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze/60 pointer-events-none z-10" />
                   <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none z-10" />

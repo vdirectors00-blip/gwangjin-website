@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
         v-for="(_, i) in slides" :key="i"
         :class="[
           'h-px transition-all duration-500',
-          current === i ? 'w-12 bg-paper' : 'w-6 bg-paper/40',
+          current === i ? 'w-12 bg-white' : 'w-6 bg-white/40',
         ]"
         :aria-label="`Slide ${i + 1}`"
         @click="current = i"

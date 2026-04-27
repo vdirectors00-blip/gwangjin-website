@@ -13,14 +13,14 @@ export default <Partial<Config>>{
   theme: {
     extend: {
       colors: {
-        // 라이트 톤
+        // 라이트 톤 — 원래 베이지 단계 복원
         paper: {
-          DEFAULT:  '#FAF8F4',
-          soft:     '#F2EEE6',
-          warm:     '#EDE6D8',
-          line:     '#D9D2C0',
+          DEFAULT:  '#FAF8F4',       // 가장 연한 베이지 (거의 흰) — 사용처에서 bg-white로 직접 교체
+          soft:     '#F2EEE6',       // 연한 베이지
+          warm:     '#EDE6D8',       // 더 진한 베이지
+          line:     '#D9D2C0',       // 라인
           'line-soft': '#E4DCC9',
-          deep:     '#DCD0B0',       // Footer 전용 — paper-warm보다 한 단계 진한 베이지 (페이지 본문과 명확 분리)
+          deep:     '#F2EEE6',       // Footer 전용 — 연한 베이지
         },
         // 다크 톤 — paper와 어우러지는 mid-brown (이전보다 살짝 옅게, 부드러운 인상)
         dark: {

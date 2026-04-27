@@ -119,7 +119,7 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
           <div
             v-for="(v, i) in values" :key="v.num"
             :class="[
-              'bg-paper p-10 md:p-14 flex flex-col transition-all duration-1000 ease-out-expo cursor-pointer overflow-hidden',
+              'bg-white p-10 md:p-14 flex flex-col transition-all duration-1000 ease-out-expo cursor-pointer overflow-hidden',
               activeIdx === i
                 ? 'md:flex-[2.4] md:min-h-[560px]'
                 : 'md:flex-[1] md:min-h-[560px]',

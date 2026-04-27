@@ -16,7 +16,7 @@ const assetUrl = useAssetUrl()
     <!-- ================================================
       CEO 인사말 — AVANTdeco 스타일 2-column
     ================================================ -->
-    <section class="bg-paper py-24 md:py-36">
+    <section class="bg-white py-24 md:py-36">
       <div class="container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-start">
         <!-- 좌: 큰 한글 카피 -->
         <div class="md:col-span-5">
@@ -58,7 +58,7 @@ const assetUrl = useAssetUrl()
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper-line">
           <!-- BI — 브랜드 -->
-          <div class="bg-paper p-12 md:p-16 flex flex-col items-center text-center">
+          <div class="bg-white p-12 md:p-16 flex flex-col items-center text-center">
             <!-- 고정 높이 이미지 영역 (BI/CI 라벨 정렬 맞춤) -->
             <div class="h-48 md:h-64 flex items-center justify-center">
               <img
@@ -78,7 +78,7 @@ const assetUrl = useAssetUrl()
           </div>
 
           <!-- CI — 기업 -->
-          <div class="bg-paper p-12 md:p-16 flex flex-col items-center text-center">
+          <div class="bg-white p-12 md:p-16 flex flex-col items-center text-center">
             <!-- 고정 높이 이미지 영역 — BI와 동일 -->
             <div class="h-48 md:h-64 flex items-center justify-center">
               <img

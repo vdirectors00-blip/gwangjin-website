@@ -6,7 +6,7 @@ const assetUrl = useAssetUrl()
 </script>
 
 <template>
-  <footer class="bg-paper text-ink px-6 md:px-10 lg:px-16 pt-16 pb-10 border-t border-ink/20">
+  <footer class="bg-paper-deep text-ink px-6 md:px-10 lg:px-16 pt-16 pb-10 border-t border-ink/20">
     <div class="max-w-[1280px] mx-auto grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-8 md:gap-12 items-start">
       <!-- 브랜드 -->
       <div class="col-span-2 md:col-span-1">

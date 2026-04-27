@@ -63,7 +63,7 @@ onMounted(() => {
       <HomeSnapController container="patents-snap" :duration="600" :cooldown="700" />
 
       <!-- ───── 1. Intro (bronze 변조) ───── -->
-      <section class="relative min-h-[calc(100vh-156px)] bg-paper flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
+      <section class="relative min-h-[calc(100vh-156px)] bg-white flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
         <!-- 그리드 배경: bronze 톤 -->
         <div
           class="absolute inset-0 pointer-events-none opacity-50"
@@ -141,7 +141,7 @@ onMounted(() => {
                 v-for="(p, i) in sortedPatents" :key="p.id"
                 type="button"
                 @click="open(i)"
-                class="group bg-paper p-8 md:p-10 relative text-left cursor-pointer flex flex-col min-h-[220px] hover:-translate-y-1.5 hover:shadow-[0_24px_48px_-12px_rgba(139,115,85,0.25)] transition-all duration-500 ease-out-expo overflow-hidden"
+                class="group bg-white p-8 md:p-10 relative text-left cursor-pointer flex flex-col min-h-[220px] hover:-translate-y-1.5 hover:shadow-[0_24px_48px_-12px_rgba(139,115,85,0.25)] transition-all duration-500 ease-out-expo overflow-hidden"
               >
                 <!-- 모서리 마커 (bronze) -->
                 <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
@@ -243,7 +243,7 @@ onMounted(() => {
         >
           <div
             v-if="openedPatent"
-            class="relative max-w-6xl w-full bg-paper flex flex-col md:flex-row max-h-[90vh] overflow-hidden cursor-default"
+            class="relative max-w-6xl w-full bg-white flex flex-col md:flex-row max-h-[90vh] overflow-hidden cursor-default"
             @click.stop
           >
             <!-- 닫기 버튼 -->

@@ -123,7 +123,7 @@ const splitCertName = (str: string): [string, string?] => {
               class="group inline-flex items-center gap-2 rounded-full pl-5 pr-2.5 py-2 bg-white border border-ink text-ink text-[11px] font-medium tracking-[0.06em] uppercase hover:bg-ink hover:text-paper hover:-translate-y-0.5 hover:shadow-lg transition-all duration-500 ease-out-expo"
             >
               <span>About COSY&nbsp;FEEL</span>
-              <span class="inline-flex items-center justify-center w-5 h-5 rounded-full border border-paper-line group-hover:bg-paper group-hover:border-paper group-hover:translate-x-0.5 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
+              <span class="inline-flex items-center justify-center w-5 h-5 rounded-full border border-paper-line group-hover:bg-white group-hover:border-paper group-hover:translate-x-0.5 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
                 <svg width="9" height="9" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
                   <path d="M3 7H11M11 7L7 3M11 7L7 11" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -160,7 +160,7 @@ const splitCertName = (str: string): [string, string?] => {
               v-reveal="400 + i * 160"
               class="group block text-inherit no-underline cursor-pointer"
             >
-              <div class="relative aspect-[5/6] overflow-hidden bg-paper border border-transparent group-hover:border-ink transition-all duration-500 ease-out-expo group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:scale-[1.025] group-hover:shadow-[0_18px_40px_-12px_rgba(26,24,20,0.18)]">
+              <div class="relative aspect-[5/6] overflow-hidden bg-white border border-transparent group-hover:border-ink transition-all duration-500 ease-out-expo group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:scale-[1.025] group-hover:shadow-[0_18px_40px_-12px_rgba(26,24,20,0.18)]">
                 <div
                   v-if="p.image"
                   class="absolute inset-0 bg-cover bg-center"

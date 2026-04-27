@@ -68,10 +68,10 @@ const isDark = computed(() => props.sections[current.value]?.dark ?? false)
           'block transition-all duration-500 ease-out-expo rounded-full',
           current === i ? 'w-[2px] h-5 rounded-sm' : 'w-[5px] h-[5px]',
           current === i
-            ? (isDark ? 'bg-paper' : 'bg-ink')
+            ? (isDark ? 'bg-white' : 'bg-ink')
             : hoverIdx === i
-              ? (isDark ? 'bg-paper' : 'bg-ink')
-              : (isDark ? 'bg-paper/40' : 'bg-ink/30'),
+              ? (isDark ? 'bg-white' : 'bg-ink')
+              : (isDark ? 'bg-white/40' : 'bg-ink/30'),
         ]"
       />
     </button>

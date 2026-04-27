@@ -34,7 +34,7 @@ const isActive = (to: string) => route.path === to
 </script>
 
 <template>
-  <nav class="border-b border-paper-line bg-paper">
+  <nav class="border-b border-paper-line bg-white">
     <div class="max-w-container mx-auto px-6 md:px-10 lg:px-16">
       <div class="flex flex-col md:flex-row md:items-end py-4 md:py-0">
         <!-- 섹션 이름 (왼쪽 고정, 클릭 시 섹션 첫 페이지로) -->

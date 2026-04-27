@@ -62,7 +62,7 @@ const getCategory = (slug: string) =>
       <HomeSnapController container="products-snap" :duration="1000" :cooldown="1100" />
 
       <!-- ───── 1. Hero ───── -->
-      <section class="relative min-h-[calc(100vh-76px)] bg-paper flex items-center px-6 md:px-10 lg:px-16 overflow-hidden">
+      <section class="relative min-h-[calc(100vh-76px)] bg-white flex items-center px-6 md:px-10 lg:px-16 overflow-hidden">
         <!-- 그리드 배경 -->
         <div
           class="absolute inset-0 pointer-events-none opacity-50"
@@ -217,7 +217,7 @@ const getCategory = (slug: string) =>
       </section>
 
       <!-- ───── 3. Card Grid (컴팩트 5×3) ───── -->
-      <section class="min-h-[calc(100vh-76px)] bg-paper border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-10">
+      <section class="min-h-[calc(100vh-76px)] bg-white border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-10">
         <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
           <div class="flex items-end justify-between mb-6 md:mb-8">
             <div>
@@ -346,7 +346,7 @@ const getCategory = (slug: string) =>
           leave-to-class="opacity-0 scale-95"
         >
           <div
-            class="relative max-w-6xl w-full bg-paper flex flex-col md:flex-row max-h-[90vh] overflow-hidden cursor-default"
+            class="relative max-w-6xl w-full bg-white flex flex-col md:flex-row max-h-[90vh] overflow-hidden cursor-default"
             @click.stop
           >
             <button

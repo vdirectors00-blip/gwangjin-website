@@ -3,7 +3,7 @@
   헤더만 있고 Footer는 페이지 안에서 직접 렌더링
 -->
 <template>
-  <div class="min-h-screen bg-paper text-ink">
+  <div class="min-h-screen bg-white text-ink">
     <CommonSiteHeader />
     <slot />
   </div>

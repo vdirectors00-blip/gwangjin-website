@@ -75,7 +75,7 @@ const stepImage = (n: number) => {
             다양한 소재와 규격에 대응할 수 있는 체계를 갖췄습니다.
           </p>
           <!-- 스탯 -->
-          <div class="mt-12 grid grid-cols-3 gap-0 border-t border-b border-paper-line/60 bg-paper/50 backdrop-blur-sm">
+          <div class="mt-12 grid grid-cols-3 gap-0 border-t border-b border-paper-line/60 bg-white/50 backdrop-blur-sm">
             <div v-for="(s, i) in [
               { k: 'Lines', v: '5' },
               { k: 'Steps', v: '6' },
@@ -92,7 +92,7 @@ const stepImage = (n: number) => {
     </section>
 
     <!-- 6단계 공정 — zigzag editorial -->
-    <section class="bg-paper border-t border-paper-line py-24 md:py-32">
+    <section class="bg-white border-t border-paper-line py-24 md:py-32">
       <div class="container-x">
         <div class="flex items-end justify-between mb-16 md:mb-20">
           <div>
@@ -217,7 +217,7 @@ const stepImage = (n: number) => {
             <button
               @click="prevGallery"
               aria-label="Previous"
-              class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 z-10 rounded-full bg-paper/80 hover:bg-paper backdrop-blur-sm flex items-center justify-center transition-colors"
+              class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 z-10 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm flex items-center justify-center transition-colors"
             >
               <svg class="w-5 h-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round" />
@@ -226,7 +226,7 @@ const stepImage = (n: number) => {
             <button
               @click="nextGallery"
               aria-label="Next"
-              class="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 z-10 rounded-full bg-paper/80 hover:bg-paper backdrop-blur-sm flex items-center justify-center transition-colors"
+              class="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 z-10 rounded-full bg-white/80 hover:bg-white backdrop-blur-sm flex items-center justify-center transition-colors"
             >
               <svg class="w-5 h-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
@@ -241,7 +241,7 @@ const stepImage = (n: number) => {
                 :aria-label="`Image ${i + 1}`"
                 :class="[
                   'h-1.5 rounded-full transition-all duration-300',
-                  galleryIdx === i ? 'w-8 bg-paper' : 'w-1.5 bg-paper/50 hover:bg-paper/80',
+                  galleryIdx === i ? 'w-8 bg-white' : 'w-1.5 bg-white/50 hover:bg-white/80',
                 ]"
               />
             </div>

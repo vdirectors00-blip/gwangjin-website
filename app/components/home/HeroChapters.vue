@@ -205,10 +205,10 @@ const fiberLines = (idx: number) => {
       >
         <!-- 실제 얇은 라인 (시각적) -->
         <span class="relative block w-full h-px">
-          <span class="absolute inset-0 bg-paper/25 group-hover:bg-paper/40 transition-colors" />
+          <span class="absolute inset-0 bg-white/25 group-hover:bg-white/40 transition-colors" />
           <span
             :key="`fill-${i}-${cur}-${paused}`"
-            class="absolute left-0 top-0 bottom-0 bg-paper"
+            class="absolute left-0 top-0 bottom-0 bg-white"
             :style="`width: ${cur === i ? '100%' : (i < cur ? '100%' : '0%')}; transition: width ${cur === i && !paused ? INTERVAL + 'ms linear' : '300ms ease'};`"
           />
         </span>
@@ -216,6 +216,6 @@ const fiberLines = (idx: number) => {
     </div>
 
     <!-- 하단 얇은 선 -->
-    <div class="absolute bottom-0 left-0 right-0 h-px bg-paper/10" />
+    <div class="absolute bottom-0 left-0 right-0 h-px bg-white/10" />
   </section>
 </template>

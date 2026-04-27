@@ -8,10 +8,10 @@ const groups = computed(() => {
   if (!history.value) return []
   const items = history.value
   return [
-    { label: 'Foundation', ko: '창업과 성장',   range: '1994 — 2010', bg: 'bg-paper',      items: items.filter(h => parseInt(h.year) <= 2010) },
+    { label: 'Foundation', ko: '창업과 성장',   range: '1994 — 2010', bg: 'bg-white',      items: items.filter(h => parseInt(h.year) <= 2010) },
     { label: 'Innovation', ko: '기술 혁신',     range: '2011 — 2014', bg: 'bg-paper-soft', items: items.filter(h => parseInt(h.year) >= 2011 && parseInt(h.year) <= 2014) },
     { label: 'Brand',      ko: '브랜드 도약',   range: '2015 — 2020', bg: 'bg-paper-warm', items: items.filter(h => parseInt(h.year) >= 2015 && parseInt(h.year) <= 2020) },
-    { label: 'Renewal',    ko: '재정립과 성장', range: '2021 — Now',  bg: 'bg-paper',      items: items.filter(h => parseInt(h.year) >= 2021) },
+    { label: 'Renewal',    ko: '재정립과 성장', range: '2021 — Now',  bg: 'bg-white',      items: items.filter(h => parseInt(h.year) >= 2021) },
   ]
 })
 </script>
@@ -28,7 +28,7 @@ const groups = computed(() => {
       <HomeSnapController container="history-snap" :duration="600" :cooldown="700" />
 
       <!-- ───── Intro (풀스크린) ───── -->
-      <section class="min-h-[calc(100vh-156px)] bg-paper flex items-center px-6 md:px-10 lg:px-16 py-16">
+      <section class="min-h-[calc(100vh-156px)] bg-white flex items-center px-6 md:px-10 lg:px-16 py-16">
         <div class="max-w-[1200px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
           <div class="md:col-span-5">
             <p class="mono-label text-accent-bronze mb-6">Our Journey · 연혁</p>

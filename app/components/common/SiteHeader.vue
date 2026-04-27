@@ -64,8 +64,8 @@ const drawer = [
       menuOpen
         ? 'bg-transparent text-ink'
         : overDarkHero
-          ? 'bg-transparent text-paper'
-          : 'bg-paper/[0.88] backdrop-blur-md border-b border-paper-line/60 text-ink',
+          ? 'bg-gradient-to-b from-dark/55 via-dark/20 to-transparent text-paper'
+          : 'bg-white/[0.88] backdrop-blur-md border-b border-paper-line/60 text-ink',
     ]"
   >
     <div class="max-w-container mx-auto px-6 md:px-10 lg:px-16 h-[76px] flex items-center justify-between">
