@@ -51,6 +51,19 @@ const signatures = computed(() => {
 
 // 제품 수: 하드코딩 15 (마케팅 숫자. 실제 DB 제품이 적어도 라인업 총 15개로 표기)
 const productCount = 15
+
+// cert_type "이노비즈(Inno-Biz)" → 모바일에서 한글 / (영문) 두 줄 분리
+const splitCertType = (str: string): [string, string?] => {
+  const m = str.match(/^(.+?)\s*(\([^)]+\))$/)
+  return m ? [m[1]!.trim(), m[2]] : [str]
+}
+
+// cert name "기술혁신형 중소기업 인증" → 모바일에서 마지막 단어("인증") 분리
+const splitCertName = (str: string): [string, string?] => {
+  const idx = str.lastIndexOf(' ')
+  if (idx <= 0 || str.length <= 6) return [str]
+  return [str.slice(0, idx), str.slice(idx + 1)]
+}
 </script>
 
 <template>
@@ -65,21 +78,21 @@ const productCount = 15
       <!-- ================================================
         1. HERO — 3 chapters crossfade
       ================================================ -->
-      <section class="snap-section h-screen">
+      <section class="snap-section h-[88vh] md:h-screen">
         <HomeHeroChapters />
       </section>
 
       <!-- ================================================
         2. INTRO — A Quiet Note
       ================================================ -->
-      <section class="snap-section bg-paper px-6 md:px-10 lg:px-16 flex items-center">
+      <section class="snap-section bg-paper px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center">
         <div class="max-w-[1200px] mx-auto w-full">
           <p class="eyebrow text-ink-muted">A Quiet Note · 소개</p>
 
           <!-- 카피: 크기 줄임 (clamp 24~40px) + leading 약간 여유 -->
           <p class="mt-12 italic font-light text-[clamp(22px,2.5vw,36px)] leading-[1.42] tracking-[-0.02em] text-ink max-w-[820px]">
-            <span v-reveal class="block">우리는 드러나지 않는 자리의 재료를 만듭니다.</span>
-            <span v-reveal="180" class="block">이불 속의 솜, 매트리스의 결, 겨울옷의 안쪽.</span>
+            <span v-reveal class="block">우리는 드러나지 않는<br class="md:hidden"> 자리의 재료를 만듭니다.</span>
+            <span v-reveal="180" class="block">이불 속의 솜, 매트리스의 결,<br class="md:hidden"> 겨울옷의 안쪽.</span>
             <span v-reveal="360" class="block">
               <span class="text-accent-bronze">보이지 않아도 가장 가까이</span>에서
             </span>
@@ -121,7 +134,7 @@ const productCount = 15
       <!-- ================================================
         3. MATERIALS — 3 signatures (헤더 여유 + 카드 축소)
       ================================================ -->
-      <section class="snap-section bg-paper-soft border-t border-paper-line px-6 md:px-10 lg:px-16 flex items-center overflow-hidden">
+      <section class="snap-section bg-paper-soft border-t border-paper-line px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center overflow-hidden">
         <div class="max-w-[1300px] mx-auto w-full py-10 md:py-12">
           <!-- 헤더 (gap·여백 더 축소) -->
           <div class="grid grid-cols-1 md:grid-cols-[180px_1fr_240px] gap-4 md:gap-10 items-end mb-6 md:mb-8">
@@ -185,14 +198,14 @@ const productCount = 15
             </NuxtLink>
           </div>
 
-          <!-- 푸터 (간격 축소) -->
-          <div class="mt-6 pt-5 border-t border-paper-line flex justify-between items-center">
+          <!-- 푸터: 데스크탑은 한 줄 (좌 라벨 / 우 CTA), 모바일은 세로 (위 라벨, 아래 CTA) -->
+          <div class="mt-6 pt-5 border-t border-paper-line flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-0">
             <div class="mono-label text-ink-muted">
               3 / {{ productCount }} &nbsp;·&nbsp; 시그니처 라인
             </div>
             <NuxtLink
               to="/products"
-              class="inline-flex items-center gap-3 text-sm text-ink font-medium pb-1 border-b border-ink hover:text-accent-bronze hover:border-accent-bronze transition-colors"
+              class="inline-flex items-center gap-3 text-sm text-ink font-medium pb-1 border-b border-ink hover:text-accent-bronze hover:border-accent-bronze transition-colors whitespace-nowrap self-start md:self-auto"
             >
               전체 제품군 {{ productCount }}개 보기 <span class="text-base">→</span>
             </NuxtLink>
@@ -203,7 +216,7 @@ const productCount = 15
       <!-- ================================================
         4. TECHNOLOGY / TRUST — Certifications + Patents
       ================================================ -->
-      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 flex items-center relative overflow-hidden">
+      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
         <!-- 원형 스탬프 우상 -->
         <div
           aria-hidden
@@ -242,13 +255,21 @@ const productCount = 15
                 <div
                   v-for="c in (certs || [])" :key="c.id"
                   v-reveal="100"
-                  class="group flex justify-between items-baseline py-6 px-4 border-b border-paper/10 cursor-default hover:bg-paper/5 transition-colors duration-400"
+                  class="group flex justify-between items-baseline gap-3 py-6 px-4 border-b border-paper/10 cursor-default hover:bg-paper/5 transition-colors duration-400"
                 >
-                  <span class="italic font-medium text-[22px] tracking-[-0.015em] text-paper group-hover:text-accent-bronze-soft transition-colors duration-400">
-                    {{ c.cert_type }}
+                  <!-- 좌: cert_type — 셀 안에서만 모바일 줄바꿈 (이노비즈 / (Inno-Biz)) -->
+                  <span class="italic font-medium text-[20px] md:text-[22px] tracking-[-0.015em] text-paper group-hover:text-accent-bronze-soft transition-colors duration-400 leading-tight">
+                    <template v-for="(part, idx) in splitCertType(c.cert_type)" :key="idx">
+                      <br v-if="idx > 0" class="md:hidden">
+                      <span>{{ part }}</span>
+                    </template>
                   </span>
-                  <span class="text-xs text-paper/55 tracking-[0.12em] group-hover:text-paper/85 transition-colors duration-400">
-                    {{ c.name }}
+                  <!-- 우: name — 셀 안에서만 모바일 줄바꿈 (앞부분 / 인증) -->
+                  <span class="text-[11px] md:text-xs text-paper/55 tracking-[0.12em] group-hover:text-paper/85 transition-colors duration-400 leading-relaxed text-right">
+                    <template v-for="(part, idx) in splitCertName(c.name)" :key="idx">
+                      <br v-if="idx > 0" class="md:hidden">
+                      <span>{{ part }}</span>
+                    </template>
                   </span>
                 </div>
               </div>
@@ -281,7 +302,7 @@ const productCount = 15
       <!-- ================================================
         5. CONTACT — Cut-corner cards
       ================================================ -->
-      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 flex items-center relative overflow-hidden">
+      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
         <div class="max-w-[1320px] mx-auto w-full relative z-10">
           <div class="grid grid-cols-1 md:grid-cols-[6fr_5fr] gap-12 md:gap-24 items-center">
             <!-- 좌측 카피 -->
@@ -295,8 +316,8 @@ const productCount = 15
                 담당자가 직접 답변드립니다.
               </p>
 
-              <a
-                href="mailto:info@gwangjin.co.kr"
+              <NuxtLink
+                to="/contact"
                 class="group mt-16 inline-flex items-center gap-6 py-3.5 text-paper relative"
               >
                 <span class="italic font-normal text-[28px] tracking-[-0.02em] group-hover:text-accent-bronze-soft group-hover:translate-x-0.5 transition-all duration-500 ease-out-expo">
@@ -308,7 +329,7 @@ const productCount = 15
                   </svg>
                 </span>
                 <span class="absolute left-0 bottom-1.5 h-px bg-accent-bronze-soft w-0 group-hover:w-[calc(100%-60px)] transition-[width] duration-500 ease-out-expo" />
-              </a>
+              </NuxtLink>
             </div>
 
             <!-- 우측: 네모 → 아키텍처 블루프린트 스타일 카드 -->

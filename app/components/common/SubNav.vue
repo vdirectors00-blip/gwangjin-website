@@ -57,8 +57,9 @@ const isActive = (to: string) => route.path === to
               :class="isActive(t.to) ? 'text-ink font-semibold' : ''"
             >
               <span class="block">{{ t.label }}</span>
+              <!-- 영어 라벨: 모바일 숨김 (한 줄에 4탭 다 들어가도록) -->
               <span
-                class="mono-label transition-colors"
+                class="mono-label transition-colors hidden md:block"
                 :class="isActive(t.to) ? `!${accentText}` : 'text-ink-faint'"
               >
                 {{ t.en }}

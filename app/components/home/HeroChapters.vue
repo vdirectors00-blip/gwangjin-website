@@ -118,13 +118,13 @@ const fiberLines = (idx: number) => {
       />
     </div>
 
-    <!-- 좌/우 화살표 — 도트 네비와 겹치지 않게 안쪽으로 배치 -->
+    <!-- 좌/우 화살표 — 데스크탑 전용 (모바일은 도트 인디케이터로 조작) -->
     <button
       @mouseenter="hover = 'L'" @mouseleave="hover = null"
       @click="prev"
       aria-label="Previous"
       :class="[
-        'absolute left-6 md:left-16 top-1/2 -translate-y-1/2 w-12 h-12 z-10 text-paper flex items-center justify-center transition-opacity duration-300',
+        'absolute left-6 md:left-16 top-1/2 -translate-y-1/2 w-12 h-12 z-10 text-paper hidden md:flex items-center justify-center transition-opacity duration-300',
         hover === 'L' ? 'opacity-90' : 'opacity-30',
       ]"
     >
@@ -137,7 +137,7 @@ const fiberLines = (idx: number) => {
       @click="next"
       aria-label="Next"
       :class="[
-        'absolute right-6 md:right-20 top-1/2 -translate-y-1/2 w-12 h-12 z-10 text-paper flex items-center justify-center transition-opacity duration-300',
+        'absolute right-6 md:right-20 top-1/2 -translate-y-1/2 w-12 h-12 z-10 text-paper hidden md:flex items-center justify-center transition-opacity duration-300',
         hover === 'R' ? 'opacity-90' : 'opacity-30',
       ]"
     >
@@ -148,30 +148,30 @@ const fiberLines = (idx: number) => {
 
     <!-- 콘텐츠 -->
     <div class="relative z-10 h-full max-w-container mx-auto px-6 md:px-10 lg:px-16 flex flex-col justify-end pb-24 md:pb-32">
-      <!-- 상단 메타 -->
-      <div class="absolute top-32 left-6 md:left-10 right-6 md:right-10 flex justify-between items-baseline">
-        <div class="text-[11px] tracking-[0.4em] text-paper/55 font-medium">
-          EST.&nbsp;&nbsp;1 9 9 4 &nbsp;&nbsp;·&nbsp;&nbsp; 인천
+      <!-- 상단 메타 (모바일은 tracking·텍스트 압축) -->
+      <div class="absolute top-32 left-6 md:left-10 right-6 md:right-10 flex justify-between items-baseline gap-3">
+        <div class="text-[10px] md:text-[11px] tracking-[0.2em] md:tracking-[0.4em] text-paper/55 font-medium whitespace-nowrap">
+          EST.&nbsp;&nbsp;1994&nbsp;&nbsp;·&nbsp;&nbsp;인천
         </div>
         <div
           :key="`chap-${cur}`"
-          class="text-[13px] md:text-[22px] tracking-[0.3em] text-paper/75 font-medium animate-fade-up"
+          class="text-[11px] md:text-[22px] tracking-[0.2em] md:tracking-[0.3em] text-paper/75 font-medium animate-fade-up whitespace-nowrap"
         >
           {{ slide.chapter }}
         </div>
       </div>
 
-      <!-- 메인 카피 -->
+      <!-- 메인 카피 (모바일 폰트 사이즈 축소: 64→44) -->
       <div :key="`txt-${cur}`" class="animate-fade-up">
-        <h1 class="m-0 font-sans italic font-light text-display-xl">
+        <h1 class="m-0 font-sans italic font-light text-[clamp(44px,10vw,156px)] leading-[0.95] tracking-[-0.035em]">
           {{ slide.mainA }}<br>
           <span class="inline-block text-accent-bronze-soft font-normal italic animate-hero-accent origin-bottom-left">
             {{ slide.mainB }}
           </span>
         </h1>
 
-        <div class="mt-14 grid grid-cols-[1fr_auto] items-end gap-20">
-          <p class="text-base md:text-[17px] leading-[1.75] max-w-md text-paper/80 font-light whitespace-pre-line m-0">
+        <div class="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-[1fr_auto] items-end gap-6 md:gap-20">
+          <p class="text-[15px] md:text-[17px] leading-[1.75] max-w-md text-paper/80 font-light whitespace-pre-line m-0">
             {{ slide.sub }}
           </p>
           <div class="flex items-center gap-6">

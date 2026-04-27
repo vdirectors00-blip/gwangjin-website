@@ -86,8 +86,10 @@ const getCategory = (slug: string) =>
         </div>
       </section>
 
-      <!-- ───── 2. Matrix (호버 인터랙션 — 폰트 사이즈 고정, 색만 변화) ───── -->
-      <section class="min-h-[calc(100vh-76px)] bg-paper-soft border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-6 md:py-8">
+      <!-- ───── 2. Matrix (호버 인터랙션 — 폰트 사이즈 고정, 색만 변화)
+        모바일: 표가 너무 커서 사용성 떨어짐 → 데스크탑(md+) 전용
+      ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-paper-soft border-t border-paper-line hidden md:flex flex-col px-6 md:px-10 lg:px-16 py-6 md:py-8">
         <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
           <!-- 헤더 -->
           <div class="flex items-end justify-between mb-4 md:mb-6">

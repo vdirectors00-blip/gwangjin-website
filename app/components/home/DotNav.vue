@@ -52,7 +52,7 @@ const isDark = computed(() => props.sections[current.value]?.dark ?? false)
 <template>
   <nav
     aria-label="Section navigation"
-    class="fixed right-4 md:right-7 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-4 py-3 px-2"
+    class="fixed right-4 md:right-7 top-1/2 -translate-y-1/2 z-30 hidden md:flex flex-col items-center gap-4 py-3 px-2"
   >
     <button
       v-for="(s, i) in sections" :key="s.key"
