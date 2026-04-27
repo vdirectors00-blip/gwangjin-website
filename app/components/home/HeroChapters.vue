@@ -1,4 +1,8 @@
 <script setup lang="ts">
+// GitHub Pages base path 자동 적용 (인라인 background-image url은 자동 처리 안 됨)
+const baseURL = useRuntimeConfig().app.baseURL
+const withBase = (path: string) => `${baseURL}${path.replace(/^\//, '')}`
+
 const chapters = [
   {
     chapter: '01 — HERITAGE',
@@ -89,7 +93,7 @@ const fiberLines = (idx: number) => {
       <div
         v-if="s.image"
         class="absolute inset-0 bg-cover bg-center"
-        :style="`background-image: url('${s.image}'); filter: grayscale(50%) brightness(0.55);`"
+        :style="`background-image: url('${withBase(s.image)}'); filter: grayscale(50%) brightness(0.55);`"
       />
       <!-- 1. 그라데이션 컬러 오버레이 -->
       <div

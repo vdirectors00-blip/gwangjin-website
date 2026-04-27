@@ -2,6 +2,7 @@
 useHead({ title: 'CEO 인사말 | 광진실업' })
 
 const { data: company } = await useCompanyInfo()
+const assetUrl = useAssetUrl()
 </script>
 
 <template>
@@ -61,7 +62,7 @@ const { data: company } = await useCompanyInfo()
             <!-- 고정 높이 이미지 영역 (BI/CI 라벨 정렬 맞춤) -->
             <div class="h-48 md:h-64 flex items-center justify-center">
               <img
-                src="/logo/bi-color.svg"
+                :src="assetUrl('/logo/bi-color.svg')"
                 alt="COSY FEEL"
                 class="h-28 md:h-36 w-auto"
               />
@@ -81,7 +82,7 @@ const { data: company } = await useCompanyInfo()
             <!-- 고정 높이 이미지 영역 — BI와 동일 -->
             <div class="h-48 md:h-64 flex items-center justify-center">
               <img
-                src="/logo/ci.svg"
+                :src="assetUrl('/logo/ci.svg')"
                 alt="광진실업"
                 class="h-44 md:h-60 w-auto"
               />

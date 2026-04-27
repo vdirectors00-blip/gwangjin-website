@@ -3,6 +3,10 @@ useHead({ title: '경영 이념 | 광진실업' })
 
 const { data: company } = await useCompanyInfo()
 
+// GitHub Pages base path 자동 적용
+const baseURL = useRuntimeConfig().app.baseURL
+const withBase = (path: string) => `${baseURL}${path.replace(/^\//, '')}`
+
 // desc: \n 위치에서 줄바꿈 (whitespace-pre-line)
 const values = computed(() => [
   {
@@ -63,7 +67,7 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
       <!-- 배경 이미지 + 오버레이 -->
       <div
         class="absolute inset-0 bg-cover bg-center"
-        style="background-image: url('/images/intro/philosophy.jpg'); filter: grayscale(40%) brightness(0.92);"
+        :style="`background-image: url('${withBase('/images/intro/philosophy.jpg')}'); filter: grayscale(40%) brightness(0.92);`"
       />
       <div class="absolute inset-0 bg-paper-soft/85" />
 

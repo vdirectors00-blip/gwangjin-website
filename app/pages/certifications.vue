@@ -23,6 +23,8 @@ const certFiles: Record<string, Array<{ pdf: string; img: string; label: string 
   ],
 }
 
+const assetUrl = useAssetUrl()
+
 const selectedIdx = ref<number | null>(null)
 const selectedCert = computed(() => {
   if (selectedIdx.value === null) return null
@@ -295,7 +297,7 @@ const jpgStyle = computed(() => {
                     >
                       <img
                         v-if="!imgFailed[fi]"
-                        :src="file.img"
+                        :src="assetUrl(file.img)"
                         :alt="file.label"
                         class="absolute inset-0 w-full h-full object-contain bg-paper"
                         loading="lazy"
@@ -303,7 +305,7 @@ const jpgStyle = computed(() => {
                       />
                       <iframe
                         v-else
-                        :src="`${file.pdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`"
+                        :src="`${assetUrl(file.pdf)}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`"
                         class="absolute inset-0 w-full h-full pointer-events-none"
                         loading="lazy"
                       />
@@ -425,7 +427,7 @@ const jpgStyle = computed(() => {
               >
                 <img
                   v-if="!imgFailed[fi]"
-                  :src="file.img"
+                  :src="assetUrl(file.img)"
                   :alt="file.label"
                   class="absolute inset-0 w-full h-full object-contain bg-paper"
                   loading="lazy"
@@ -433,7 +435,7 @@ const jpgStyle = computed(() => {
                 />
                 <iframe
                   v-else
-                  :src="`${file.pdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`"
+                  :src="`${assetUrl(file.pdf)}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`"
                   class="absolute inset-0 w-full h-full"
                   loading="lazy"
                 />

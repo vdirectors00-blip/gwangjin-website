@@ -2,6 +2,7 @@
 const route = useRoute()
 const scrolled = ref(false)
 const menuOpen = ref(false)
+const assetUrl = useAssetUrl()
 
 watch(() => route.fullPath, () => { menuOpen.value = false })
 
@@ -71,7 +72,7 @@ const drawer = [
       <!-- Logo: 다크 위는 흰색 필터, 라이트 위는 원본 컬러 -->
       <NuxtLink to="/" class="flex items-center gap-3.5">
         <img
-          src="/logo/bi-color.svg"
+          :src="assetUrl('/logo/bi-color.svg')"
           alt="COSY FEEL"
           :class="[
             'h-8 w-auto block transition-[filter] duration-500 ease-out-expo',

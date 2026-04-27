@@ -2,6 +2,8 @@
 definePageMeta({ layout: 'home' })
 useHead({ title: '특허 | 광진실업' })
 
+const assetUrl = useAssetUrl()
+
 const { data: patents } = await useCertifications('patent')
 
 // 등록일 기준 연대순 정렬 (오래된 것 → 최신)
@@ -260,7 +262,7 @@ onMounted(() => {
               </span>
               <img
                 v-if="openedFile && !imgFailed"
-                :src="openedFile.img"
+                :src="assetUrl(openedFile.img)"
                 :alt="openedPatent.name"
                 class="max-w-full max-h-[80vh] md:max-h-[78vh] w-auto h-auto object-contain"
                 @error="onImgFail"

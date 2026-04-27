@@ -2,6 +2,7 @@
 const year = new Date().getFullYear()
 const { data: company } = await useCompanyInfo()
 const { data: settings } = await useSiteSettings()
+const assetUrl = useAssetUrl()
 </script>
 
 <template>
@@ -10,7 +11,7 @@ const { data: settings } = await useSiteSettings()
       <!-- 브랜드 -->
       <div class="col-span-2 md:col-span-1">
         <img
-          src="/logo/bi-color.svg"
+          :src="assetUrl('/logo/bi-color.svg')"
           alt="COSY FEEL"
           class="h-9 w-auto block"
         />
@@ -23,7 +24,7 @@ const { data: settings } = await useSiteSettings()
         <!-- CI 심볼 — 크기 키움 + 선명도 올림 -->
         <div class="mt-7 flex items-center gap-4">
           <img
-            src="/logo/ci.svg"
+            :src="assetUrl('/logo/ci.svg')"
             alt="광진실업 CI"
             class="h-12 w-auto opacity-80 block"
           />

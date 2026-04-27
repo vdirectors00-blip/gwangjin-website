@@ -4,6 +4,10 @@ useHead({ title: '생산 시설 | 광진실업' })
 const { data: steps } = await useProcessSteps()
 const { data: gallery } = await useFactoryGallery()
 
+// GitHub Pages base path 자동 적용
+const baseURL = useRuntimeConfig().app.baseURL
+const withBase = (path: string) => `${baseURL}${path.replace(/^\//, '')}`
+
 // ─── 갤러리 자동 슬라이드 (5초 간격) ───
 const galleryIdx = ref(0)
 const galleryPaused = ref(false)
@@ -34,7 +38,7 @@ onBeforeUnmount(() => { if (galleryTimer) clearInterval(galleryTimer) })
 const stepImageMap = ['reserve', 'card', 'form', 'dry', 'cool', 'winding']
 const stepImage = (n: number) => {
   const slug = stepImageMap[n - 1] || 'reserve'
-  return `/images/process/step-${n}-${slug}.jpg`
+  return withBase(`/images/process/step-${n}-${slug}.jpg`)
 }
 </script>
 
@@ -50,7 +54,7 @@ const stepImage = (n: number) => {
     >
       <div
         class="absolute inset-0 bg-cover bg-center"
-        style="background-image: url('/images/intro/factory.jpg'); filter: grayscale(30%) brightness(0.88);"
+        :style="`background-image: url('${withBase('/images/intro/factory.jpg')}'); filter: grayscale(30%) brightness(0.88);`"
       />
       <div class="absolute inset-0 bg-paper-warm/80" />
 
