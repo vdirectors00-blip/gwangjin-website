@@ -197,19 +197,34 @@ const resetForm = () => {
       <section class="min-h-[calc(100vh-76px)] bg-dark text-paper flex flex-col border-t border-paper/10">
         <div class="flex-1 flex flex-col px-6 md:px-10 lg:px-16 py-10 md:py-14">
           <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
-            <!-- 헤더 -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end mb-8 md:mb-10">
-              <div class="md:col-span-7">
+            <!-- 좌 헤더+ADDRESS+CTA / 우 지도(전체 높이) -->
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-stretch min-h-0">
+              <!-- 좌: Visit Us 헤더 + ADDRESS + 안내 + 카카오맵 링크 -->
+              <div class="md:col-span-5 flex flex-col justify-center">
                 <p class="eyebrow text-paper/50">Visit Us</p>
                 <h2 class="mt-4 italic font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-paper">
                   직접 방문도 <span class="text-accent-bronze-soft">환영합니다</span>.
                 </h2>
-              </div>
-              <div class="md:col-span-5 md:text-right">
+
+                <div class="mt-12">
+                  <p class="mono-label text-accent-bronze-soft">ADDRESS</p>
+                  <p v-if="company?.address" class="mt-4 italic font-light text-2xl md:text-3xl text-paper leading-[1.45] tracking-[-0.015em]">
+                    {{ company.address }}
+                  </p>
+                  <p v-else class="mt-4 italic font-light text-2xl md:text-3xl text-paper/60 leading-[1.45]">
+                    주소 등록 대기 중
+                  </p>
+                </div>
+
+                <div class="mt-10 w-12 h-px bg-paper/30" />
+                <p class="mt-6 mono-label text-paper/40">
+                  방문 전 <a :href="`tel:${company?.tel || ''}`" class="text-paper/70 hover:text-accent-bronze-soft transition-colors underline underline-offset-4">전화 연락</a> 부탁드립니다.
+                </p>
+
                 <a v-if="company?.address"
                   :href="`https://map.kakao.com/?q=${encodeURIComponent(company.address)}`"
                   target="_blank" rel="noopener"
-                  class="group inline-flex items-center gap-4"
+                  class="group mt-6 inline-flex items-center gap-4 self-start"
                 >
                   <span class="italic text-base md:text-lg text-paper group-hover:text-accent-bronze-soft transition-colors duration-500">
                     카카오맵에서 보기
@@ -221,29 +236,10 @@ const resetForm = () => {
                   </span>
                 </a>
               </div>
-            </div>
 
-            <!-- 본문: 좌 ADDRESS / 우 지도 -->
-            <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-stretch min-h-0">
-              <!-- 좌: 주소 메인 -->
-              <div class="md:col-span-5 flex flex-col justify-center">
-                <p class="mono-label text-accent-bronze-soft">ADDRESS</p>
-                <p v-if="company?.address" class="mt-5 italic font-light text-2xl md:text-3xl text-paper leading-[1.45] tracking-[-0.015em]">
-                  {{ company.address }}
-                </p>
-                <p v-else class="mt-5 italic font-light text-2xl md:text-3xl text-paper/60 leading-[1.45]">
-                  주소 등록 대기 중
-                </p>
-
-                <div class="mt-10 w-12 h-px bg-paper/30" />
-                <p class="mt-6 mono-label text-paper/40">
-                  방문 전 <a :href="`tel:${company?.tel || ''}`" class="text-paper/70 hover:text-accent-bronze-soft transition-colors underline underline-offset-4">전화 연락</a> 부탁드립니다.
-                </p>
-              </div>
-
-              <!-- 우: 지도 -->
+              <!-- 우: 지도 (섹션 전체 높이 차지) -->
               <div class="md:col-span-7">
-                <div class="relative w-full h-full min-h-[280px] md:min-h-[360px] bg-dark-soft border border-paper/10 overflow-hidden">
+                <div class="relative w-full h-full min-h-[360px] md:min-h-[520px] bg-dark-soft border border-paper/10 overflow-hidden">
                   <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
                   <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze-soft/60 pointer-events-none z-10" />
                   <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
