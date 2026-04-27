@@ -20,14 +20,15 @@ export default <Partial<Config>>{
           warm:     '#EDE6D8',
           line:     '#D9D2C0',
           'line-soft': '#E4DCC9',
+          deep:     '#DCD0B0',       // Footer 전용 — paper-warm보다 한 단계 진한 베이지 (페이지 본문과 명확 분리)
         },
-        // 다크 톤 — paper(따뜻한 베이지)와 자연스럽게 어우러지는 warm espresso 갈색
+        // 다크 톤 — paper와 어우러지는 mid-brown (이전보다 살짝 옅게, 부드러운 인상)
         dark: {
-          DEFAULT:  '#2A2218',       // warm espresso (기존 #1A1814보다 갈색 띔)
-          soft:     '#332921',
-          mid:      '#3D3127',
-          card:     '#4A3B2D',
-          deep:     '#1A130C',       // 푸터용 deep coffee
+          DEFAULT:  '#3D3127',       // mid brown — Trust·Contact·Hero 등 메인 다크 섹션
+          soft:     '#473A2F',
+          mid:      '#544537',
+          card:     '#615040',
+          deep:     '#241C13',       // 푸터용 deep coffee (가장 어두움 유지)
         },
         // 텍스트
         ink: {

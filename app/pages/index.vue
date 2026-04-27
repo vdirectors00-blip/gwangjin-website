@@ -214,16 +214,16 @@ const splitCertName = (str: string): [string, string?] => {
       </section>
 
       <!-- ================================================
-        4. TECHNOLOGY / TRUST — Certifications + Patents
+        4. TECHNOLOGY / TRUST — Certifications + Patents (paper 흰 톤으로 강조)
       ================================================ -->
-      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
+      <section class="snap-section bg-paper text-ink px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
         <!-- 원형 스탬프 우상 -->
         <div
           aria-hidden
-          class="absolute top-[8%] right-[4%] w-44 h-44 rounded-full border border-paper/10 flex items-center justify-center -rotate-12"
+          class="absolute top-[8%] right-[4%] w-44 h-44 rounded-full border border-ink/10 flex items-center justify-center -rotate-12"
         >
-          <div class="absolute inset-3 rounded-full border border-dashed border-paper/15" />
-          <div class="font-mono text-[9px] tracking-[0.32em] text-paper/30 text-center leading-relaxed">
+          <div class="absolute inset-3 rounded-full border border-dashed border-ink/15" />
+          <div class="font-mono text-[9px] tracking-[0.32em] text-ink/40 text-center leading-relaxed">
             CERTIFIED<br>SINCE<br>1994
           </div>
         </div>
@@ -231,41 +231,41 @@ const splitCertName = (str: string): [string, string?] => {
         <div class="relative z-10 max-w-[1300px] mx-auto w-full">
           <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] items-end gap-16 mb-16 md:mb-24">
             <div>
-              <p v-reveal class="eyebrow text-paper/50">Technology · Trust</p>
-              <h2 class="mt-11 italic font-medium text-display-md text-paper leading-[1.02]">
+              <p v-reveal class="eyebrow text-ink-muted">Technology · Trust</p>
+              <h2 class="mt-11 italic font-medium text-display-md text-ink leading-[1.02]">
                 <span v-reveal="220" class="block">증명서는</span>
                 <span v-reveal="420" class="block">우리가 드리는 조용한 약속.</span>
               </h2>
             </div>
-            <div v-reveal="620" class="text-[13px] text-paper/60 max-w-[280px] leading-[1.7] md:text-right">
+            <div v-reveal="620" class="text-[13px] text-ink-dim max-w-[280px] leading-[1.7] md:text-right">
               국제 표준과 자체 기술로 쌓아 온 인증과 특허.<br>
-              <NuxtLink to="/certifications" class="text-accent-bronze-soft text-xs hover:opacity-80">
+              <NuxtLink to="/certifications" class="text-accent-bronze text-xs hover:opacity-80">
                 전체 인증 보기&nbsp;&nbsp;→
               </NuxtLink>
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
-            <!-- 인증 — 폰트 사이즈 변화 제거, 컬러+bg만 변화 (흔들림 방지) -->
+            <!-- 인증 — 라이트 톤 -->
             <div>
-              <div class="mono-label text-paper/50 mb-9">
+              <div class="mono-label text-ink-muted mb-9">
                 CERTIFICATIONS &nbsp;·&nbsp; {{ certs?.length || 4 }}
               </div>
-              <div class="border-t border-paper/20">
+              <div class="border-t border-ink/20">
                 <div
                   v-for="c in (certs || [])" :key="c.id"
                   v-reveal="100"
-                  class="group flex justify-between items-baseline gap-3 py-6 px-4 border-b border-paper/10 cursor-default hover:bg-paper/5 transition-colors duration-400"
+                  class="group flex justify-between items-baseline gap-3 py-6 px-4 border-b border-ink/10 cursor-default hover:bg-ink/[0.03] transition-colors duration-400"
                 >
                   <!-- 좌: cert_type — 셀 안에서만 모바일 줄바꿈 (이노비즈 / (Inno-Biz)) -->
-                  <span class="italic font-medium text-[20px] md:text-[22px] tracking-[-0.015em] text-paper group-hover:text-accent-bronze-soft transition-colors duration-400 leading-tight">
+                  <span class="italic font-medium text-[20px] md:text-[22px] tracking-[-0.015em] text-ink group-hover:text-accent-bronze transition-colors duration-400 leading-tight">
                     <template v-for="(part, idx) in splitCertType(c.cert_type)" :key="idx">
                       <br v-if="idx > 0" class="md:hidden">
                       <span>{{ part }}</span>
                     </template>
                   </span>
                   <!-- 우: name — 셀 안에서만 모바일 줄바꿈 (앞부분 / 인증) -->
-                  <span class="text-[11px] md:text-xs text-paper/55 tracking-[0.12em] group-hover:text-paper/85 transition-colors duration-400 leading-relaxed text-right">
+                  <span class="text-[11px] md:text-xs text-ink-muted tracking-[0.12em] group-hover:text-ink-dim transition-colors duration-400 leading-relaxed text-right">
                     <template v-for="(part, idx) in splitCertName(c.name)" :key="idx">
                       <br v-if="idx > 0" class="md:hidden">
                       <span>{{ part }}</span>
@@ -275,21 +275,21 @@ const splitCertName = (str: string): [string, string?] => {
               </div>
             </div>
 
-            <!-- 특허 — 폰트 사이즈 고정, 컬러만 변화 -->
+            <!-- 특허 — 라이트 톤 -->
             <div>
-              <div class="mono-label text-accent-bronze-soft mb-9">
+              <div class="mono-label text-accent-bronze mb-9">
                 PATENTS &nbsp;·&nbsp; {{ patents?.length || 4 }} REGISTERED
               </div>
-              <div class="border-t border-paper/20">
+              <div class="border-t border-ink/20">
                 <div
                   v-for="p in (patents || [])" :key="p.id"
                   v-reveal="200"
-                  class="group py-6 px-4 border-b border-paper/10 cursor-default hover:bg-paper/5 transition-colors duration-400"
+                  class="group py-6 px-4 border-b border-ink/10 cursor-default hover:bg-ink/[0.03] transition-colors duration-400"
                 >
-                  <div class="italic font-medium text-lg tracking-[-0.01em] text-paper group-hover:text-accent-bronze-soft transition-colors duration-400 leading-snug">
+                  <div class="italic font-medium text-lg tracking-[-0.01em] text-ink group-hover:text-accent-bronze transition-colors duration-400 leading-snug">
                     {{ p.name }}
                   </div>
-                  <div class="mt-2 mono-label text-paper/50 group-hover:text-paper/75 transition-colors duration-400">
+                  <div class="mt-2 mono-label text-ink-muted group-hover:text-ink-dim transition-colors duration-400">
                     {{ p.cert_number }} &nbsp;·&nbsp; {{ p.issued_at }}
                   </div>
                 </div>
@@ -300,35 +300,35 @@ const splitCertName = (str: string): [string, string?] => {
       </section>
 
       <!-- ================================================
-        5. CONTACT — Cut-corner cards
+        5. CONTACT — Cut-corner cards (paper-soft 회색으로 Footer와 구분)
       ================================================ -->
-      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
+      <section class="snap-section bg-paper-soft text-ink px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
         <div class="max-w-[1320px] mx-auto w-full relative z-10">
           <div class="grid grid-cols-1 md:grid-cols-[6fr_5fr] gap-12 md:gap-24 items-center">
             <!-- 좌측 카피 -->
             <div>
-              <p v-reveal class="eyebrow text-paper/50">Inquiries</p>
-              <h2 v-reveal="180" class="mt-10 italic font-light text-display-lg text-paper">
+              <p v-reveal class="eyebrow text-ink-muted">Inquiries</p>
+              <h2 v-reveal="180" class="mt-10 italic font-light text-display-lg text-ink">
                 편하게,<br>
-                <span class="text-accent-bronze-soft">말씀</span>주세요.
+                <span class="text-accent-bronze">말씀</span>주세요.
               </h2>
-              <p v-reveal="360" class="mt-10 text-[15px] leading-[1.85] text-paper/70 font-light max-w-[460px]">
+              <p v-reveal="360" class="mt-10 text-[15px] leading-[1.85] text-ink-dim font-light max-w-[460px]">
                 담당자가 직접 답변드립니다.
               </p>
 
               <NuxtLink
                 to="/contact"
-                class="group mt-16 inline-flex items-center gap-6 py-3.5 text-paper relative"
+                class="group mt-16 inline-flex items-center gap-6 py-3.5 text-ink relative"
               >
-                <span class="italic font-normal text-[28px] tracking-[-0.02em] group-hover:text-accent-bronze-soft group-hover:translate-x-0.5 transition-all duration-500 ease-out-expo">
+                <span class="italic font-normal text-[28px] tracking-[-0.02em] group-hover:text-accent-bronze group-hover:translate-x-0.5 transition-all duration-500 ease-out-expo">
                   문의 보내기
                 </span>
-                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-paper/40 group-hover:border-accent-bronze-soft group-hover:text-accent-bronze-soft group-hover:translate-x-3 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-ink/40 group-hover:border-accent-bronze group-hover:text-accent-bronze group-hover:translate-x-3 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
                     <path d="M3 7H11M11 7L7 3M11 7L7 11" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </span>
-                <span class="absolute left-0 bottom-1.5 h-px bg-accent-bronze-soft w-0 group-hover:w-[calc(100%-60px)] transition-[width] duration-500 ease-out-expo" />
+                <span class="absolute left-0 bottom-1.5 h-px bg-accent-bronze w-0 group-hover:w-[calc(100%-60px)] transition-[width] duration-500 ease-out-expo" />
               </NuxtLink>
             </div>
 
@@ -342,31 +342,31 @@ const splitCertName = (str: string): [string, string?] => {
                   { k: 'HOURS', v: company?.business_hours || '월 — 금 09:00-18:00', sub: '업무 시간' },
                 ]" :key="c.k"
                 v-reveal="i * 100"
-                class="group relative px-8 py-7 bg-paper/[0.025] hover:bg-paper/[0.06] hover:-translate-x-3 transition-all duration-500 ease-out-expo cursor-default overflow-hidden"
+                class="group relative px-8 py-7 bg-ink/[0.02] hover:bg-ink/[0.04] hover:-translate-x-3 transition-all duration-500 ease-out-expo cursor-default overflow-hidden"
               >
                 <!-- 외곽 1px 하이라인 (모든 변) -->
-                <span class="absolute inset-0 border border-paper/15 group-hover:border-paper/35 transition-colors duration-500 pointer-events-none" />
+                <span class="absolute inset-0 border border-ink/15 group-hover:border-ink/35 transition-colors duration-500 pointer-events-none" />
                 <!-- 좌측 bronze 엑센트 바 (hover) -->
-                <span class="absolute left-0 top-4 bottom-4 w-[2px] bg-accent-bronze-soft scale-y-0 group-hover:scale-y-100 origin-center transition-transform duration-500 ease-out-expo" />
+                <span class="absolute left-0 top-4 bottom-4 w-[2px] bg-accent-bronze scale-y-0 group-hover:scale-y-100 origin-center transition-transform duration-500 ease-out-expo" />
                 <!-- 상단-우측 L 브래킷 (아키텍처 블루프린트 마크) -->
                 <span class="absolute top-0 right-0 w-4 h-4 pointer-events-none">
-                  <span class="absolute top-0 right-0 w-4 h-px bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
-                  <span class="absolute top-0 right-0 w-px h-4 bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
+                  <span class="absolute top-0 right-0 w-4 h-px bg-ink/40 group-hover:bg-accent-bronze transition-colors duration-500" />
+                  <span class="absolute top-0 right-0 w-px h-4 bg-ink/40 group-hover:bg-accent-bronze transition-colors duration-500" />
                 </span>
                 <!-- 하단-좌측 L 브래킷 (대칭) -->
                 <span class="absolute bottom-0 left-0 w-4 h-4 pointer-events-none">
-                  <span class="absolute bottom-0 left-0 w-4 h-px bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
-                  <span class="absolute bottom-0 left-0 w-px h-4 bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
+                  <span class="absolute bottom-0 left-0 w-4 h-px bg-ink/40 group-hover:bg-accent-bronze transition-colors duration-500" />
+                  <span class="absolute bottom-0 left-0 w-px h-4 bg-ink/40 group-hover:bg-accent-bronze transition-colors duration-500" />
                 </span>
 
-                <div class="relative mono-label text-paper/50 group-hover:text-accent-bronze-soft transition-colors duration-500">
+                <div class="relative mono-label text-ink-muted group-hover:text-accent-bronze transition-colors duration-500">
                   {{ String(i + 1).padStart(2, '0') }} &nbsp;/&nbsp; {{ c.k }}
                 </div>
                 <!-- 폰트 사이즈 고정 (흔들림 방지) -->
-                <div class="relative mt-2.5 italic font-normal text-xl tracking-[-0.015em] text-paper leading-tight">
+                <div class="relative mt-2.5 italic font-normal text-xl tracking-[-0.015em] text-ink leading-tight">
                   {{ c.v }}
                 </div>
-                <div class="relative mt-1.5 text-[11px] tracking-[0.2em] text-paper/40 group-hover:text-paper/60 transition-colors duration-500">
+                <div class="relative mt-1.5 text-[11px] tracking-[0.2em] text-ink-muted group-hover:text-ink-dim transition-colors duration-500">
                   {{ c.sub }}
                 </div>
               </div>

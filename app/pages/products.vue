@@ -290,15 +290,15 @@ const getCategory = (slug: string) =>
         </div>
       </section>
 
-      <!-- ───── 4. Next + Footer ───── -->
-      <section class="min-h-[calc(100vh-76px)] bg-dark text-paper flex flex-col border-t border-paper/10">
+      <!-- ───── 4. Next + Footer (라이트 paper-soft 톤) ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-paper-soft text-ink flex flex-col border-t border-paper-line/60">
         <div class="flex-1 flex items-center px-6 md:px-10 lg:px-16 py-16">
           <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <div class="md:col-span-7">
-              <p class="eyebrow text-paper/50">Next</p>
-              <h2 class="mt-6 italic font-light text-display-sm text-paper">
+              <p class="eyebrow text-ink-muted">Next</p>
+              <h2 class="mt-6 italic font-light text-display-sm text-ink">
                 제품에 대한 문의가 있다면,<br>
-                <span class="text-accent-bronze-soft">편하게 연락주세요</span>.
+                <span class="text-accent-bronze">편하게 연락주세요</span>.
               </h2>
             </div>
             <div class="md:col-span-5 md:text-right">
@@ -306,11 +306,11 @@ const getCategory = (slug: string) =>
                 to="/contact"
                 class="group inline-flex items-center gap-5 md:gap-6"
               >
-                <span class="italic text-xl md:text-2xl text-paper group-hover:text-accent-bronze-soft transition-colors duration-500">
+                <span class="italic text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
                   문의하기
                 </span>
-                <span class="relative w-14 h-14 rounded-full border border-paper/30 group-hover:border-accent-bronze-soft group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
-                  <svg class="w-5 h-5 text-paper group-hover:text-accent-bronze-soft transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <span class="relative w-14 h-14 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
+                  <svg class="w-5 h-5 text-ink group-hover:text-accent-bronze transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </span>

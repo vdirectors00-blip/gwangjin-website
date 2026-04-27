@@ -193,32 +193,32 @@ const resetForm = () => {
         </div>
       </section>
 
-      <!-- ───── 2. Visit + Footer (컴팩트) ───── -->
-      <section class="min-h-[calc(100vh-76px)] bg-dark text-paper flex flex-col border-t border-paper/10">
+      <!-- ───── 2. Visit + Footer (라이트 paper-warm 톤) ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-paper-warm text-ink flex flex-col border-t border-paper-line/60">
         <div class="flex-1 flex flex-col px-6 md:px-10 lg:px-16 py-10 md:py-14">
           <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
             <!-- 좌 헤더+ADDRESS+CTA / 우 지도(전체 높이) -->
             <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-stretch min-h-0">
               <!-- 좌: Visit Us 헤더 + ADDRESS + 안내 + 카카오맵 링크 -->
               <div class="md:col-span-5 flex flex-col justify-center">
-                <p class="eyebrow text-paper/50">Visit Us</p>
-                <h2 class="mt-4 italic font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-paper">
-                  직접 방문도 <span class="text-accent-bronze-soft">환영합니다</span>.
+                <p class="eyebrow text-ink-muted">Visit Us</p>
+                <h2 class="mt-4 italic font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-ink">
+                  직접 방문도 <span class="text-accent-bronze">환영합니다</span>.
                 </h2>
 
                 <div class="mt-12">
-                  <p class="mono-label text-accent-bronze-soft">ADDRESS</p>
-                  <p v-if="company?.address" class="mt-4 italic font-light text-2xl md:text-3xl text-paper leading-[1.45] tracking-[-0.015em]">
+                  <p class="mono-label text-accent-bronze">ADDRESS</p>
+                  <p v-if="company?.address" class="mt-4 italic font-light text-2xl md:text-3xl text-ink leading-[1.45] tracking-[-0.015em]">
                     {{ company.address }}
                   </p>
-                  <p v-else class="mt-4 italic font-light text-2xl md:text-3xl text-paper/60 leading-[1.45]">
+                  <p v-else class="mt-4 italic font-light text-2xl md:text-3xl text-ink/60 leading-[1.45]">
                     주소 등록 대기 중
                   </p>
                 </div>
 
-                <div class="mt-10 w-12 h-px bg-paper/30" />
-                <p class="mt-6 mono-label text-paper/40">
-                  방문 전 <a :href="`tel:${company?.tel || ''}`" class="text-paper/70 hover:text-accent-bronze-soft transition-colors underline underline-offset-4">전화 연락</a> 부탁드립니다.
+                <div class="mt-10 w-12 h-px bg-ink/30" />
+                <p class="mt-6 mono-label text-ink-muted">
+                  방문 전 <a :href="`tel:${company?.tel || ''}`" class="text-ink-dim hover:text-accent-bronze transition-colors underline underline-offset-4">전화 연락</a> 부탁드립니다.
                 </p>
 
                 <a v-if="company?.address"
@@ -226,11 +226,11 @@ const resetForm = () => {
                   target="_blank" rel="noopener"
                   class="group mt-6 inline-flex items-center gap-4 self-start"
                 >
-                  <span class="italic text-base md:text-lg text-paper group-hover:text-accent-bronze-soft transition-colors duration-500">
+                  <span class="italic text-base md:text-lg text-ink group-hover:text-accent-bronze transition-colors duration-500">
                     카카오맵에서 보기
                   </span>
-                  <span class="relative w-11 h-11 rounded-full border border-paper/30 group-hover:border-accent-bronze-soft group-hover:translate-x-1 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
-                    <svg class="w-4 h-4 text-paper group-hover:text-accent-bronze-soft transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <span class="relative w-11 h-11 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-1 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
+                    <svg class="w-4 h-4 text-ink group-hover:text-accent-bronze transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                       <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                   </span>
@@ -241,11 +241,11 @@ const resetForm = () => {
               <div class="md:col-span-7">
                 <!-- 모바일: 명시적 높이 420px (viewport 충분히 커서 마커·줌 컨트롤 안 잘림)
                      데스크탑: 기존 grid stretch + min-h-[520px] -->
-                <div class="relative w-full h-[420px] md:h-full md:min-h-[520px] bg-dark-soft border border-paper/10 overflow-hidden">
-                  <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
-                  <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze-soft/60 pointer-events-none z-10" />
-                  <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
-                  <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze-soft/60 pointer-events-none z-10" />
+                <div class="relative w-full h-[420px] md:h-full md:min-h-[520px] bg-paper border border-ink/15 overflow-hidden">
+                  <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none z-10" />
+                  <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze/60 pointer-events-none z-10" />
+                  <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none z-10" />
+                  <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none z-10" />
 
                   <!-- 카카오맵: iframe·script 둘 다 지원 (script는 v-html에서 실행 안 되므로 별도 컴포넌트) -->
                   <CommonKakaoMapEmbed
@@ -253,7 +253,7 @@ const resetForm = () => {
                     :embed-code="company.kakao_map_embed"
                     class="absolute inset-0"
                   />
-                  <div v-else class="absolute inset-0 flex flex-col items-center justify-center text-paper/40">
+                  <div v-else class="absolute inset-0 flex flex-col items-center justify-center text-ink-faint">
                     <p class="mono-label">MAP</p>
                     <p class="mt-2 italic font-light text-sm">카카오맵 임베드 — 관리자에서 입력</p>
                   </div>

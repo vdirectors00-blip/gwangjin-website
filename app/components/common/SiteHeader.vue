@@ -61,7 +61,7 @@ const drawer = [
     :class="[
       'fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out-expo',
       menuOpen
-        ? 'bg-transparent text-paper'
+        ? 'bg-transparent text-ink'
         : overDarkHero
           ? 'bg-transparent text-paper'
           : 'bg-paper/[0.88] backdrop-blur-md border-b border-paper-line/60 text-ink',
@@ -75,18 +75,13 @@ const drawer = [
           alt="COSY FEEL"
           :class="[
             'h-8 w-auto block transition-[filter] duration-500 ease-out-expo',
-            (menuOpen || overDarkHero) ? '[filter:brightness(0)_invert(1)]' : '',
+            overDarkHero ? '[filter:brightness(0)_invert(1)]' : '',
           ]"
         />
       </NuxtLink>
 
-      <!-- 우측: 언어 + 햄버거 -->
+      <!-- 우측: 햄버거 (영문 버전 미제공으로 KOR/ENG 표시 제거) -->
       <div class="flex items-center gap-6">
-        <div class="hidden md:flex items-center gap-2.5 text-[11px] opacity-70" style="letter-spacing: 0.2em;">
-          <span class="font-semibold">KOR</span>
-          <span class="opacity-40">/</span>
-          <span>ENG</span>
-        </div>
         <button
           class="relative w-10 h-10 flex items-center justify-center group"
           :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
@@ -126,17 +121,17 @@ const drawer = [
   >
     <div
       v-if="menuOpen"
-      class="fixed inset-0 z-30 bg-dark text-paper overflow-y-auto"
+      class="fixed inset-0 z-30 bg-paper-soft text-ink overflow-y-auto"
     >
       <div class="max-w-container mx-auto px-6 md:px-10 lg:px-16 pt-32 pb-20 min-h-screen flex flex-col">
         <nav class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-12">
           <template v-for="item in drawer" :key="item.label">
-            <div v-if="item.children" class="py-6 border-b border-paper/10">
+            <div v-if="item.children" class="py-6 border-b border-paper-line/60">
               <NuxtLink
                 :to="item.to"
-                class="block hover:text-accent-bronze-soft transition italic font-medium"
+                class="block hover:text-accent-bronze transition italic font-medium"
               >
-                <div class="text-3xl md:text-5xl tracking-tightest leading-tight">
+                <div class="text-3xl md:text-5xl tracking-tightest leading-tight text-ink">
                   {{ item.label }}
                 </div>
               </NuxtLink>
@@ -144,38 +139,34 @@ const drawer = [
                 <NuxtLink
                   v-for="c in item.children" :key="c.label"
                   :to="c.to"
-                  class="flex flex-col text-ink-inverse-dim hover:text-paper py-2 transition"
+                  class="flex flex-col text-ink-dim hover:text-ink py-2 transition"
                 >
                   <span class="text-sm font-medium">{{ c.label }}</span>
-                  <span class="text-xs text-ink-inverse-faint mt-0.5">{{ c.sub }}</span>
+                  <span class="text-xs text-ink-faint mt-0.5">{{ c.sub }}</span>
                 </NuxtLink>
               </div>
             </div>
             <NuxtLink
               v-else
               :to="item.to"
-              class="group block py-6 border-b border-paper/10 hover:text-accent-bronze-soft transition italic font-medium"
+              class="group block py-6 border-b border-paper-line/60 hover:text-accent-bronze transition italic font-medium"
             >
-              <div class="text-3xl md:text-5xl tracking-tightest leading-tight">
+              <div class="text-3xl md:text-5xl tracking-tightest leading-tight text-ink">
                 {{ item.label }}
               </div>
-              <div class="text-sm text-ink-inverse-faint mt-2 not-italic font-normal">{{ item.sub }}</div>
+              <div class="text-sm text-ink-muted mt-2 not-italic font-normal">{{ item.sub }}</div>
             </NuxtLink>
           </template>
         </nav>
 
-        <div class="mt-12 pt-8 border-t border-paper/10 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-ink-inverse-muted">
+        <div class="mt-12 pt-8 border-t border-paper-line/60 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-ink-muted">
           <div>
-            <div class="text-paper font-medium mb-2 italic">COSY FEEL</div>
+            <div class="text-ink font-medium mb-2 italic">COSY FEEL</div>
             <p>주식회사 광진실업<br>인천광역시 서구 가정로 58번길 3</p>
           </div>
-          <div>
-            <div class="text-paper font-medium mb-2">CONTACT</div>
-            <p>TEL · 032-582-4149<br>EMAIL · info@gwangjin.co.kr</p>
-          </div>
           <div class="md:text-right">
-            <div class="text-paper font-medium mb-2">LANGUAGE</div>
-            <p class="text-paper">KOR</p>
+            <div class="text-ink font-medium mb-2">CONTACT</div>
+            <p>TEL · 032-582-4149<br>EMAIL · info@gwangjin.co.kr</p>
           </div>
         </div>
       </div>
