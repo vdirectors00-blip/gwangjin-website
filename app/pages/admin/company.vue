@@ -114,33 +114,12 @@ const save = async () => {
       <h2 class="text-xl font-semibold text-ink-dark">카카오맵 임베드</h2>
       <p class="text-sm text-ink-dark-muted">표시 위치: Contact 페이지 Visit Us 섹션 우측</p>
 
-      <AdminFormField label="임베드 코드">
+      <AdminFormField
+        label="임베드 코드"
+        hint="카카오맵에서 장소 검색 → 공유 → 'HTML 태그 복사' → 그대로 붙여넣기"
+      >
         <AdminInputTextarea v-model="company.kakao_map_embed" :rows="4" placeholder="<iframe src='...'></iframe>" />
       </AdminFormField>
-
-      <!-- 단계별 가이드 -->
-      <div class="bg-paper-soft border-l-4 border-accent-bronze p-5 text-sm text-ink-dark">
-        <p class="font-semibold mb-3">📍 카카오맵 iframe 코드 받는 법</p>
-        <ol class="list-decimal list-outside ml-5 space-y-2 leading-relaxed">
-          <li>
-            <a href="https://map.kakao.com" target="_blank" rel="noopener" class="text-accent-bronze underline hover:opacity-80">
-              map.kakao.com
-            </a>
-            접속 (회원가입/로그인 불필요)
-          </li>
-          <li>좌측 검색창에 회사 주소 입력 → Enter (예: <span class="font-mono text-xs bg-white px-1.5 py-0.5 rounded">인천광역시 서구 가정로 58번길 3</span>)</li>
-          <li>검색 결과에서 해당 장소 클릭 → 우측에 장소 상세 패널 열림</li>
-          <li>패널 상단의 <span class="font-semibold">공유</span> 아이콘 클릭 (사람 모양 또는 ⤴︎ 화살표)</li>
-          <li>'공유' 팝업이 뜨면 <span class="font-semibold">'카카오맵에서 보기'</span> 옆 탭 중 <span class="font-semibold">'지도 퍼가기'</span> 또는 <span class="font-semibold">'iframe'</span> 선택</li>
-          <li>지도 크기 옵션 선택 (예: 가로 800 × 세로 400 권장)</li>
-          <li>아래 코드 영역 우측의 <span class="font-semibold">'복사'</span> 버튼 클릭</li>
-          <li>위 입력창에 <kbd class="font-mono text-xs bg-white border border-paper-line px-1.5 py-0.5 rounded">Ctrl+V</kbd>로 붙여넣기</li>
-          <li>맨 아래 <span class="font-semibold">저장</span> 버튼 클릭 → Contact 페이지에 즉시 반영</li>
-        </ol>
-        <p class="mt-4 text-xs text-ink-dark-muted">
-          ※ 코드는 <span class="font-mono">&lt;iframe src="https://...kakao..."&gt;...&lt;/iframe&gt;</span> 형식이어야 합니다. 다른 사이트 임베드 코드는 작동하지 않습니다.
-        </p>
-      </div>
     </section>
 
     <AdminSaveBar

@@ -239,13 +239,20 @@ const resetForm = () => {
 
               <!-- 우: 지도 (섹션 전체 높이 차지) -->
               <div class="md:col-span-7">
-                <div class="relative w-full h-full min-h-[360px] md:min-h-[520px] bg-dark-soft border border-paper/10 overflow-hidden">
+                <!-- 모바일: 명시적 높이 420px (viewport 충분히 커서 마커·줌 컨트롤 안 잘림)
+                     데스크탑: 기존 grid stretch + min-h-[520px] -->
+                <div class="relative w-full h-[420px] md:h-full md:min-h-[520px] bg-dark-soft border border-paper/10 overflow-hidden">
                   <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
                   <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze-soft/60 pointer-events-none z-10" />
                   <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
                   <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze-soft/60 pointer-events-none z-10" />
 
-                  <div v-if="company?.kakao_map_embed" class="w-full h-full" v-html="company.kakao_map_embed" />
+                  <!-- 카카오맵: iframe·script 둘 다 지원 (script는 v-html에서 실행 안 되므로 별도 컴포넌트) -->
+                  <CommonKakaoMapEmbed
+                    v-if="company?.kakao_map_embed"
+                    :embed-code="company.kakao_map_embed"
+                    class="absolute inset-0"
+                  />
                   <div v-else class="absolute inset-0 flex flex-col items-center justify-center text-paper/40">
                     <p class="mono-label">MAP</p>
                     <p class="mt-2 italic font-light text-sm">카카오맵 임베드 — 관리자에서 입력</p>
