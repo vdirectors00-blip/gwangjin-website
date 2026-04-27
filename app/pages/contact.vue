@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import emailjs from '@emailjs/browser'
 
+definePageMeta({ layout: 'home' })
 useHead({ title: 'Contact | 광진실업' })
 
 const { data: company } = await useCompanyInfo()
 const config = useRuntimeConfig()
 
 const form = reactive({
-  name: '',
-  company: '',
-  email: '',
-  phone: '',
-  message: '',
+  name: '', company: '', email: '', phone: '', message: '',
 })
-
 const submitting = ref(false)
 const submitted = ref(false)
 const error = ref<string | null>(null)
@@ -21,132 +17,250 @@ const error = ref<string | null>(null)
 const submit = async () => {
   error.value = null
   submitting.value = true
-
-  // EmailJS 키가 없으면 mailto 폴백
   const { emailjsServiceId, emailjsTemplateId, emailjsPublicKey } = config.public
   if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey) {
     submitting.value = false
     error.value = '문의 폼이 아직 설정되지 않았습니다. 직접 이메일로 연락 부탁드립니다: ' + (company.value?.email || 'info@gwangjin.co.kr')
     return
   }
-
   try {
     await emailjs.send(
-      emailjsServiceId,
-      emailjsTemplateId,
+      emailjsServiceId, emailjsTemplateId,
       {
-        from_name: form.name,
-        from_company: form.company || '(미입력)',
-        from_email: form.email,
-        from_phone: form.phone || '(미입력)',
-        message: form.message,
-        to_email: company.value?.email || 'info@gwangjin.co.kr',
+        from_name: form.name, from_company: form.company || '(미입력)',
+        from_email: form.email, from_phone: form.phone || '(미입력)',
+        message: form.message, to_email: company.value?.email || 'info@gwangjin.co.kr',
       },
       { publicKey: emailjsPublicKey }
     )
     submitted.value = true
   } catch (e: any) {
-    error.value = '전송 중 오류가 발생했습니다. 잠시 후 다시 시도하거나 이메일로 연락 부탁드립니다.'
+    error.value = '전송 중 오류가 발생했습니다.'
     console.error('[EmailJS]', e)
   } finally {
     submitting.value = false
   }
 }
+
+const resetForm = () => {
+  form.name = ''
+  form.company = ''
+  form.email = ''
+  form.phone = ''
+  form.message = ''
+  submitted.value = false
+}
 </script>
 
 <template>
   <div>
-    <CommonPageHero
-      title="Contact"
-      subtitle="문의 · 샘플 요청 · 거래 상담"
-      eyebrow="Get in Touch"
-      background="/images/hero/hero-3.jpg"
-    />
+    <div class="h-[76px]" />
 
-    <!-- 정보 + 폼 -->
-    <section class="bg-paper py-32">
-      <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12">
-        <!-- 회사 정보 -->
-        <div class="md:col-span-5">
-          <p class="eyebrow text-ink-muted">Company</p>
-          <h2 class="mt-6 text-3xl md:text-4xl font-bold tracking-tightest">
-            {{ company?.company_name || '주식회사 광진실업' }}
-          </h2>
+    <div id="contact-snap" class="h-[calc(100vh-76px)] overflow-y-auto no-scrollbar">
+      <HomeSnapController container="contact-snap" :duration="600" :cooldown="700" />
 
-          <dl class="mt-12 space-y-7">
-            <div v-if="company?.address" class="border-b border-paper-line pb-5">
-              <dt class="text-ink-muted text-xs tracking-[0.3em]">ADDRESS</dt>
-              <dd class="text-ink mt-2 text-lg">{{ company.address }}</dd>
+      <!-- ───── 1. Inquiry ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-paper-soft flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-12">
+        <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
+          <!-- 헤더 -->
+          <div class="flex items-end justify-between mb-8 md:mb-10">
+            <div>
+              <p class="eyebrow text-accent-bronze ink-fade" style="animation-delay: 0ms;">Contact</p>
+              <h2 class="mt-3 italic font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-ink-dim ink-fade" style="animation-delay: 120ms;">
+                편하게, <span class="text-accent-bronze">말씀</span>주세요.
+              </h2>
+              <p class="mt-3 text-ink-dim font-light text-sm md:text-base ink-fade" style="animation-delay: 280ms;">
+                담당자가 직접 검토 후 영업일 기준 1~2일 내 회신드립니다.
+              </p>
             </div>
-            <div v-if="company?.tel" class="border-b border-paper-line pb-5">
-              <dt class="text-ink-muted text-xs tracking-[0.3em]">TEL</dt>
-              <dd class="mt-2">
-                <a :href="`tel:${company.tel}`" class="text-ink text-lg hover:text-accent-bronze">
-                  {{ company.tel }}
-                </a>
-              </dd>
+            <div class="mono-label text-ink-faint hidden md:block">
+              SECURE · EMAILJS
             </div>
-            <div v-if="company?.email" class="border-b border-paper-line pb-5">
-              <dt class="text-ink-muted text-xs tracking-[0.3em]">EMAIL</dt>
-              <dd class="mt-2">
-                <a :href="`mailto:${company.email}`" class="text-ink text-lg hover:text-accent-bronze">
-                  {{ company.email }}
-                </a>
-              </dd>
-            </div>
-            <div v-if="company?.business_hours" class="border-b border-paper-line pb-5">
-              <dt class="text-ink-muted text-xs tracking-[0.3em]">HOURS</dt>
-              <dd class="text-ink mt-2 text-lg">{{ company.business_hours }}</dd>
-            </div>
-          </dl>
+          </div>
 
-          <div class="mt-10 aspect-video bg-paper-warm overflow-hidden">
-            <div v-if="company?.kakao_map_embed" class="w-full h-full" v-html="company.kakao_map_embed" />
-            <div v-else class="w-full h-full flex items-center justify-center text-ink-faint text-sm">
-              [카카오맵 임베드 — 관리자에서 입력]
+          <!-- 본문: 좌 연락처 / 우 폼 -->
+          <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-start">
+            <!-- 좌: 빠른 연락처 (TEL/EMAIL/HOURS) -->
+            <aside class="md:col-span-4 md:sticky md:top-8">
+              <p class="mono-label text-accent-bronze">Quick Contact</p>
+              <h3 class="mt-4 italic font-light text-xl md:text-2xl tracking-[-0.02em] text-ink">
+                {{ company?.company_name || '주식회사 광진실업' }}
+              </h3>
+
+              <div class="mt-8 space-y-5">
+                <div v-if="company?.tel" class="border-l-2 border-accent-bronze/40 pl-4">
+                  <p class="mono-label text-ink-muted">TEL</p>
+                  <a :href="`tel:${company.tel}`" class="mt-1 italic font-medium text-lg text-ink hover:text-accent-bronze transition-colors block">
+                    {{ company.tel }}
+                  </a>
+                </div>
+                <div v-if="company?.email" class="border-l-2 border-paper-line pl-4">
+                  <p class="mono-label text-ink-muted">EMAIL</p>
+                  <a :href="`mailto:${company.email}`" class="mt-1 italic font-medium text-lg text-ink hover:text-accent-bronze transition-colors block break-all">
+                    {{ company.email }}
+                  </a>
+                </div>
+                <div v-if="company?.business_hours" class="border-l-2 border-paper-line pl-4">
+                  <p class="mono-label text-ink-muted">HOURS</p>
+                  <p class="mt-1 italic font-medium text-lg text-ink">{{ company.business_hours }}</p>
+                </div>
+              </div>
+
+              <div class="mt-10 pt-6 border-t border-paper-line">
+                <p class="mono-label text-ink-faint">담당자가 직접 답변드립니다.</p>
+              </div>
+            </aside>
+
+            <!-- 우: 폼 -->
+            <div class="md:col-span-8">
+              <form v-if="!submitted" class="space-y-5" @submit.prevent="submit">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <label class="block group">
+                    <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">NAME *</span>
+                    <input v-model="form.name" required type="text" placeholder="홍길동"
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                  </label>
+                  <label class="block group">
+                    <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">COMPANY</span>
+                    <input v-model="form.company" type="text" placeholder="회사명 (선택)"
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                  </label>
+                  <label class="block group">
+                    <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">EMAIL *</span>
+                    <input v-model="form.email" required type="email" placeholder="you@example.com"
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                  </label>
+                  <label class="block group">
+                    <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">PHONE</span>
+                    <input v-model="form.phone" type="tel" placeholder="010-0000-0000"
+                      class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition italic font-light text-lg">
+                  </label>
+                </div>
+
+                <label class="block group pt-2">
+                  <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">MESSAGE *</span>
+                  <textarea v-model="form.message" required rows="5" placeholder="문의 내용을 자유롭게 작성해 주세요."
+                    class="w-full bg-transparent border-0 border-b border-paper-line px-0 py-3 text-ink placeholder-ink-faint focus:border-accent-bronze outline-none transition font-light text-base leading-relaxed resize-none" />
+                </label>
+
+                <div class="pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <p v-if="error" class="text-red-600 text-sm font-light">{{ error }}</p>
+                  <p v-else class="mono-label text-ink-faint">* 필수 항목</p>
+
+                  <button type="submit" :disabled="submitting"
+                    class="group inline-flex items-center gap-5 self-start md:self-auto disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="italic text-xl md:text-2xl text-ink group-hover:text-accent-bronze transition-colors duration-500">
+                      {{ submitting ? '전송 중' : '문의 보내기' }}
+                    </span>
+                    <span class="relative w-14 h-14 rounded-full border border-ink/30 group-hover:border-accent-bronze group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
+                      <svg class="w-5 h-5 text-ink group-hover:text-accent-bronze transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </form>
+
+              <!-- 전송 완료 -->
+              <Transition
+                appear
+                enter-active-class="transition-all duration-700 ease-out-expo"
+                enter-from-class="opacity-0 translate-y-4"
+                enter-to-class="opacity-100 translate-y-0"
+              >
+                <div v-if="submitted" class="relative bg-paper p-10 md:p-14 overflow-hidden">
+                  <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
+                  <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze/60 pointer-events-none" />
+                  <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none" />
+                  <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none" />
+
+                  <p class="mono-label text-accent-bronze">Thank You</p>
+                  <h3 class="mt-4 italic font-light text-3xl md:text-4xl tracking-[-0.02em]">
+                    문의가 <span class="text-accent-bronze">접수</span>되었습니다.
+                  </h3>
+                  <p class="mt-4 text-ink-dim font-light leading-relaxed">
+                    영업일 기준 1~2일 내 담당자가 직접 회신드립니다.<br>
+                    급한 건은 <a :href="`tel:${company?.tel || ''}`" class="italic text-ink hover:text-accent-bronze transition-colors underline underline-offset-4">{{ company?.tel || '대표 전화' }}</a>로 연락 부탁드립니다.
+                  </p>
+                  <button @click="resetForm"
+                    class="mt-8 mono-label text-ink-muted hover:text-accent-bronze transition-colors">
+                    ← 새 문의 작성
+                  </button>
+                </div>
+              </Transition>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- 폼 -->
-        <div class="md:col-span-7 md:pl-12">
-          <p class="eyebrow text-ink-muted">Inquiry</p>
-          <h2 class="mt-6 text-3xl md:text-4xl font-bold tracking-tightest">
-            무엇이든 편하게<br>물어보세요
-          </h2>
-          <p class="mt-6 text-ink-dim leading-relaxed">
-            샘플 요청, 단가 협의, 신규 거래 문의 등 모든 비즈니스 상담을 환영합니다.
-            영업일 기준 1~2일 내 회신드립니다.
-          </p>
-
-          <form v-if="!submitted" class="mt-12 space-y-5" @submit.prevent="submit">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <input v-model="form.name" required type="text" placeholder="이름 *"
-                class="w-full bg-paper-soft border border-paper-line px-4 py-4 text-ink placeholder-ink-faint focus:border-ink outline-none transition">
-              <input v-model="form.company" type="text" placeholder="회사명"
-                class="w-full bg-paper-soft border border-paper-line px-4 py-4 text-ink placeholder-ink-faint focus:border-ink outline-none transition">
-              <input v-model="form.email" required type="email" placeholder="이메일 *"
-                class="w-full bg-paper-soft border border-paper-line px-4 py-4 text-ink placeholder-ink-faint focus:border-ink outline-none transition">
-              <input v-model="form.phone" type="tel" placeholder="전화번호"
-                class="w-full bg-paper-soft border border-paper-line px-4 py-4 text-ink placeholder-ink-faint focus:border-ink outline-none transition">
+      <!-- ───── 2. Visit + Footer (컴팩트) ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-dark text-paper flex flex-col border-t border-paper/10">
+        <div class="flex-1 flex flex-col px-6 md:px-10 lg:px-16 py-10 md:py-14">
+          <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
+            <!-- 헤더 -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end mb-8 md:mb-10">
+              <div class="md:col-span-7">
+                <p class="eyebrow text-paper/50">Visit Us</p>
+                <h2 class="mt-4 italic font-light text-[clamp(32px,4.2vw,56px)] tracking-[-0.025em] text-paper">
+                  직접 방문도 <span class="text-accent-bronze-soft">환영합니다</span>.
+                </h2>
+              </div>
+              <div class="md:col-span-5 md:text-right">
+                <a v-if="company?.address"
+                  :href="`https://map.kakao.com/?q=${encodeURIComponent(company.address)}`"
+                  target="_blank" rel="noopener"
+                  class="group inline-flex items-center gap-4"
+                >
+                  <span class="italic text-base md:text-lg text-paper group-hover:text-accent-bronze-soft transition-colors duration-500">
+                    카카오맵에서 보기
+                  </span>
+                  <span class="relative w-11 h-11 rounded-full border border-paper/30 group-hover:border-accent-bronze-soft group-hover:translate-x-1 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
+                    <svg class="w-4 h-4 text-paper group-hover:text-accent-bronze-soft transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
             </div>
-            <textarea v-model="form.message" required rows="7" placeholder="문의 내용 *"
-              class="w-full bg-paper-soft border border-paper-line px-4 py-4 text-ink placeholder-ink-faint focus:border-ink outline-none transition resize-none" />
-            <button type="submit" :disabled="submitting" class="btn-dark w-full md:w-auto">
-              {{ submitting ? '전송 중...' : '문의 보내기 →' }}
-            </button>
-            <p v-if="error" class="text-red-500 text-sm">{{ error }}</p>
-            <p class="text-ink-muted text-xs">
-              * 표시는 필수 입력 항목입니다.
-            </p>
-          </form>
-          <div v-else class="mt-12 border border-paper-line p-12 text-center bg-paper-soft">
-            <p class="eyebrow text-accent-bronze">Thank You</p>
-            <h3 class="text-ink text-2xl font-bold mt-4">감사합니다</h3>
-            <p class="text-ink-muted mt-3">빠른 시일 내에 답변드리겠습니다.</p>
+
+            <!-- 본문: 좌 ADDRESS / 우 지도 -->
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-stretch min-h-0">
+              <!-- 좌: 주소 메인 -->
+              <div class="md:col-span-5 flex flex-col justify-center">
+                <p class="mono-label text-accent-bronze-soft">ADDRESS</p>
+                <p v-if="company?.address" class="mt-5 italic font-light text-2xl md:text-3xl text-paper leading-[1.45] tracking-[-0.015em]">
+                  {{ company.address }}
+                </p>
+                <p v-else class="mt-5 italic font-light text-2xl md:text-3xl text-paper/60 leading-[1.45]">
+                  주소 등록 대기 중
+                </p>
+
+                <div class="mt-10 w-12 h-px bg-paper/30" />
+                <p class="mt-6 mono-label text-paper/40">
+                  방문 전 <a :href="`tel:${company?.tel || ''}`" class="text-paper/70 hover:text-accent-bronze-soft transition-colors underline underline-offset-4">전화 연락</a> 부탁드립니다.
+                </p>
+              </div>
+
+              <!-- 우: 지도 -->
+              <div class="md:col-span-7">
+                <div class="relative w-full h-full min-h-[280px] md:min-h-[360px] bg-dark-soft border border-paper/10 overflow-hidden">
+                  <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
+                  <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze-soft/60 pointer-events-none z-10" />
+                  <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze-soft/60 pointer-events-none z-10" />
+                  <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze-soft/60 pointer-events-none z-10" />
+
+                  <div v-if="company?.kakao_map_embed" class="w-full h-full" v-html="company.kakao_map_embed" />
+                  <div v-else class="absolute inset-0 flex flex-col items-center justify-center text-paper/40">
+                    <p class="mono-label">MAP</p>
+                    <p class="mt-2 italic font-light text-sm">카카오맵 임베드 — 관리자에서 입력</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+        <CommonSiteFooter />
+      </section>
+    </div>
   </div>
 </template>

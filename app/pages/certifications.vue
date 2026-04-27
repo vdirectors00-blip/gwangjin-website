@@ -1,87 +1,356 @@
 <script setup lang="ts">
-useHead({ title: 'Quality Certifications | 광진실업' })
+definePageMeta({ layout: 'home' })
+useHead({ title: '품질·환경 인증 | 광진실업' })
 
 const { data: certs } = await useCertifications('certification')
+
+// 한국인증원 QER 표시 제외
+const visibleCerts = computed(() =>
+  (certs.value || []).filter(c => !c.cert_type.includes('한국인증원'))
+)
+
+const certFiles: Record<string, Array<{ pdf: string; img: string; label: string }>> = {
+  'ISO 9001': [
+    { pdf: '/certificates/iso-9001.pdf', img: '/certificates/images/iso-9001-kor.jpg', label: '국문' },
+    { pdf: '/certificates/iso-9001.pdf', img: '/certificates/images/iso-9001-eng.jpg', label: 'ENG' },
+  ],
+  'ISO 14001': [
+    { pdf: '/certificates/iso-14001.pdf', img: '/certificates/images/iso-14001-kor.jpg', label: '국문' },
+    { pdf: '/certificates/iso-14001.pdf', img: '/certificates/images/iso-14001-eng.jpg', label: 'ENG' },
+  ],
+  '이노비즈(Inno-Biz)': [
+    { pdf: '/certificates/innobiz.pdf',   img: '/certificates/images/innobiz.jpg',       label: '확인서' },
+  ],
+}
+
+const selectedIdx = ref<number | null>(null)
+const selectedCert = computed(() => {
+  if (selectedIdx.value === null) return null
+  return visibleCerts.value[selectedIdx.value]
+})
+const selectedFiles = computed(() => {
+  const c = selectedCert.value
+  return c ? (certFiles[c.cert_type] || []) : []
+})
+
+const selectCert = (i: number) => {
+  selectedIdx.value = selectedIdx.value === i ? null : i
+}
+
+const imgFailed = ref<Record<number, boolean>>({})
+const onImgFail = (idx: number) => { imgFailed.value[idx] = true }
+
+// 1-file일 때 이미지 자연 비율을 측정해서 JPG 컨테이너 너비에 반영 (여백 최소화)
+const oneFileAspect = ref<number>(0.71)   // 기본 A4 포트레이트
+const CONTAINER_H = 480
+const CONTAINER_MAX_W = 1152
+
+watch(selectedIdx, (idx) => {
+  if (idx === null) return
+  const files = selectedFiles.value
+  if (files.length !== 1) return
+  const img = new Image()
+  img.onload = () => {
+    if (img.naturalHeight > 0) {
+      oneFileAspect.value = img.naturalWidth / img.naturalHeight
+    }
+  }
+  img.src = files[0].img
+})
+
+const onefileJpgPct = computed(() => {
+  const imgWidth = CONTAINER_H * oneFileAspect.value
+  return Math.min(44, (imgWidth / CONTAINER_MAX_W) * 100)
+})
+
+// ─── 카드 위치 계산 (absolute layout) ───
+// 기본: 3개 카드 균등 배치 (각 31%, 갭 3.5%)
+// 선택 시: 해당 카드는 왼쪽 0%로 이동 + 38% 너비, 다른 카드는 제자리에서 흐려짐
+const cardStyle = (i: number) => {
+  const defaultLeft = i * 34.5
+  const defaultWidth = 31
+
+  const sel = selectedIdx.value
+  if (sel === null) {
+    return {
+      left: `${defaultLeft}%`,
+      width: `${defaultWidth}%`,
+      opacity: 1,
+      transform: 'scale(1)',
+      filter: 'blur(0)',
+      zIndex: 1,
+      pointerEvents: 'auto',
+    }
+  }
+  if (sel === i) {
+    const numFiles = (certFiles[visibleCerts.value[i].cert_type] || []).length
+    // 2 파일: 40%, 1 파일: JPG 너비 맞춰서 남은 공간
+    const width = numFiles > 1 ? '40%' : `${Math.max(50, 96 - onefileJpgPct.value)}%`
+    return {
+      left: '0%',
+      width,
+      opacity: 1,
+      transform: 'scale(1)',
+      filter: 'blur(0)',
+      zIndex: 10,
+      pointerEvents: 'auto',
+      boxShadow: '0 30px 60px -15px rgba(95,126,78,0.45)',
+    }
+  }
+  return {
+    left: `${defaultLeft}%`,
+    width: `${defaultWidth}%`,
+    opacity: 0.18,
+    transform: 'scale(0.95)',
+    filter: 'blur(4px)',
+    zIndex: 1,
+    pointerEvents: 'none',
+  }
+}
+
+// JPG 컨테이너: 우측에서 슬라이드 인
+// 2개: 56% 고정 / 1개: 이미지 자연 비율에 맞춰 자동 (여백 제거)
+const jpgStyle = computed(() => {
+  if (selectedIdx.value === null) {
+    return { width: '0%', opacity: 0, pointerEvents: 'none' }
+  }
+  const width = selectedFiles.value.length > 1 ? '56%' : `${onefileJpgPct.value}%`
+  return { width, opacity: 1, pointerEvents: 'auto' }
+})
 </script>
 
 <template>
   <div>
-    <CommonPageHero
-      title="Quality Certifications"
-      subtitle="국제 표준으로 검증된 품질·환경 시스템"
-      eyebrow="Technology & Certifications · 01"
-      background="/images/hero/hero-3.jpg"
-    />
+    <div class="h-[76px]" />
+    <CommonSubNav section="technology" accent="eco" />
 
-    <!-- Intro -->
-    <section class="bg-paper py-32 md:py-40">
-      <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
-        <div class="md:col-span-7">
-          <p class="eyebrow text-ink-muted">Certified Quality</p>
-          <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
-            ISO와 한국인증원으로<br>입증한 시스템
-          </h2>
-          <p class="mt-8 text-ink-dim text-lg leading-relaxed max-w-2xl">
-            품질경영(ISO 9001) · 환경경영(ISO 14001) · 한국인증원 Q E R · 이노비즈.
-            네 가지 공식 인증으로 광진실업의 품질·환경 시스템을 외부에 공증합니다.
-          </p>
-        </div>
-        <div class="md:col-span-5 md:text-right">
-          <div class="text-7xl font-bold text-accent-bronze tracking-tightest">{{ certs?.length || 4 }}</div>
-          <p class="text-ink-muted text-sm mt-1">OFFICIAL CERTIFICATIONS</p>
-        </div>
-      </div>
-    </section>
+    <div id="cert-snap" class="h-[calc(100vh-156px)] overflow-y-auto no-scrollbar">
+      <HomeSnapController container="cert-snap" :duration="600" :cooldown="700" />
 
-    <!-- 인증 카드 -->
-    <section class="bg-paper-warm py-24 border-t border-paper-line">
-      <div class="container-x">
-        <div v-if="certs && certs.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper-line">
-          <div
-            v-for="c in certs" :key="c.id"
-            class="bg-paper p-12 md:p-14"
-          >
-            <div class="aspect-[4/3] bg-paper-soft mb-8 overflow-hidden flex items-center justify-center">
-              <img
-                v-if="c.image_url"
-                :src="useImageUrl(c.image_url, { width: 1000, format: 'webp', quality: 90 }) || ''"
-                :alt="c.name"
-                class="w-full h-full object-contain"
-              />
-              <div v-else class="text-ink-faint text-sm">[인증서 이미지 — 관리자에서 업로드]</div>
+      <!-- ───── 1. Intro ───── -->
+      <section class="relative min-h-[calc(100vh-156px)] bg-paper flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
+        <div
+          class="absolute inset-0 pointer-events-none opacity-50"
+          style="background-image: linear-gradient(to right, rgba(95,126,78,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(95,126,78,0.06) 1px, transparent 1px); background-size: 80px 80px;"
+        />
+        <div class="relative z-10 max-w-container mx-auto w-full">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14 items-end">
+            <div class="md:col-span-6">
+              <p class="mono-label text-accent-eco mb-6 ink-fade" style="animation-delay: 0ms;">
+                Certifications · 품질·환경 인증
+              </p>
+              <h1 class="italic font-light text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
+                <span class="block ink-fade" style="animation-delay: 120ms;">검증된 시스템으로</span>
+                <span class="block ink-fade" style="animation-delay: 380ms;">
+                  <span class="text-accent-eco">증명한</span> 신뢰.
+                </span>
+              </h1>
+              <div class="mt-8 w-16 h-px bg-ink/30 ink-fade" style="animation-delay: 640ms;" />
             </div>
+            <div class="md:col-span-6">
+              <p class="text-ink-dim text-base md:text-lg leading-[1.9] font-light whitespace-pre-line ink-fade" style="animation-delay: 520ms;">{{
+                `ISO 9001(품질) · ISO 14001(환경) · 이노비즈.
+세 가지 공식 인증으로 광진실업의 품질·환경 시스템을 외부에 공증합니다.`
+              }}</p>
+            </div>
+          </div>
 
-            <p class="eyebrow text-accent-bronze">{{ c.cert_type }}</p>
-            <h3 class="text-ink text-2xl font-bold mt-4">{{ c.name }}</h3>
-            <p v-if="c.description" class="text-ink-dim mt-3 leading-relaxed">{{ c.description }}</p>
-
-            <div class="mt-8 pt-6 border-t border-paper-line flex justify-between text-sm">
-              <span v-if="c.cert_number" class="text-ink-muted">{{ c.cert_number }}</span>
-              <span v-if="c.issued_at" class="text-ink-muted">{{ c.issued_at }}</span>
+          <div class="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-end ink-fade" style="animation-delay: 820ms;">
+            <div class="md:col-span-4">
+              <div class="italic font-light text-[clamp(110px,12vw,180px)] text-accent-eco/80 tracking-[-0.04em] leading-none">03</div>
+              <p class="mono-label text-ink-muted mt-3">Active Certifications</p>
+            </div>
+            <div class="md:col-span-8 md:border-l md:border-paper-line md:pl-10">
+              <ul class="space-y-3">
+                <li v-for="item in [
+                  { name: 'ISO 9001',   sub: '품질경영시스템 — KS Q' },
+                  { name: 'ISO 14001',  sub: '환경경영시스템 — KSI' },
+                  { name: 'Inno-Biz',   sub: '기술혁신형 중소기업' },
+                ]" :key="item.name"
+                  class="flex items-baseline justify-between border-b border-paper-line/60 pb-3"
+                >
+                  <span class="italic font-medium text-lg md:text-xl tracking-[-0.015em] text-ink">{{ item.name }}</span>
+                  <span class="mono-label text-ink-muted">{{ item.sub }}</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
+      </section>
 
-        <p v-else class="py-32 text-center text-ink-faint border border-dashed border-paper-line">
-          [인증 데이터가 비어있습니다.]
-        </p>
-      </div>
-    </section>
+      <!-- ───── 2. Official Records (슬라이드 인터랙션) ───── -->
+      <section class="min-h-[calc(100vh-156px)] bg-paper-soft border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-10">
+        <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
+          <div class="flex items-end justify-between mb-6 md:mb-8">
+            <div>
+              <p class="eyebrow text-ink-muted">Official Records</p>
+              <h2 class="mt-3 italic font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">공식 인증 기록</h2>
+            </div>
+            <Transition
+              enter-active-class="transition duration-500" enter-from-class="opacity-0" enter-to-class="opacity-100"
+              leave-active-class="transition duration-300" leave-from-class="opacity-100" leave-to-class="opacity-0"
+            >
+              <button v-if="selectedIdx !== null" @click="selectedIdx = null"
+                class="mono-label text-ink-muted hover:text-accent-eco transition-colors"
+              >
+                ← 전체 보기
+              </button>
+            </Transition>
+          </div>
 
-    <!-- 특허 페이지 링크 -->
-    <section class="bg-dark text-paper py-24">
-      <div class="container-x grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div>
-          <p class="eyebrow text-ink-inverse-muted">Next</p>
-          <h2 class="mt-6 text-3xl md:text-4xl font-bold tracking-tightest">
-            기술력의 또 다른 증명,<br>
-            <span class="text-accent-bronze-soft">자체 특허 4건</span>
-          </h2>
+          <!-- 본문: 클릭 영역을 본문 전체로 확장 -->
+          <div
+            class="flex-1 flex items-center justify-center min-h-0"
+            :class="selectedIdx !== null ? 'cursor-pointer' : ''"
+            @click="selectedIdx = null"
+          >
+            <!-- Desktop: absolute layout with sliding -->
+            <div
+              class="hidden md:block relative w-full max-w-6xl mx-auto"
+              style="height: 480px;"
+            >
+              <!-- 3 카드 (absolute positioned) -->
+              <button
+                v-for="(c, i) in visibleCerts" :key="c.id"
+                type="button"
+                @click.stop="selectCert(i)"
+                class="absolute top-0 bottom-0 bg-paper p-8 md:p-10 group flex flex-col text-left overflow-hidden"
+                style="transition: all 700ms cubic-bezier(0.16, 1, 0.3, 1);"
+                :style="cardStyle(i)"
+              >
+                <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-eco/60 pointer-events-none" />
+                <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-eco/60 pointer-events-none" />
+                <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-eco/60 pointer-events-none" />
+                <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-eco/60 pointer-events-none" />
+
+                <!-- 도장 -->
+                <div
+                  :class="[
+                    'absolute top-6 right-6 w-14 h-14 rounded-full border border-dashed flex items-center justify-center transition-all duration-700 ease-out-expo',
+                    selectedIdx === i ? 'border-accent-eco rotate-0' : 'border-accent-eco/40 -rotate-12 group-hover:rotate-0',
+                  ]"
+                >
+                  <div class="absolute inset-1 rounded-full border border-accent-eco/30" />
+                  <div class="text-center relative z-10">
+                    <div class="mono-label text-accent-eco text-[7px] leading-tight">VERIFIED</div>
+                    <div class="font-mono text-accent-eco text-[9px] mt-0.5">★</div>
+                  </div>
+                </div>
+
+                <div class="mono-label text-accent-eco">
+                  No. {{ String(i + 1).padStart(2, '0') }} / {{ String(visibleCerts.length).padStart(2, '0') }}
+                </div>
+
+                <div class="mt-auto">
+                  <p class="mono-label text-ink-muted">{{ c.cert_type }}</p>
+                  <h3
+                    :class="[
+                      'italic font-medium tracking-[-0.015em] leading-tight transition-all duration-700 ease-out-expo',
+                      selectedIdx === i ? 'text-3xl md:text-[34px] mt-3' : 'text-xl md:text-2xl mt-2',
+                    ]"
+                  >
+                    {{ c.name }}
+                  </h3>
+                  <p
+                    v-if="c.description && selectedIdx === i"
+                    class="mt-3 text-ink-dim leading-relaxed font-light text-sm"
+                  >
+                    {{ c.description }}
+                  </p>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-paper-line flex justify-between items-baseline text-xs">
+                  <span v-if="c.cert_number" class="font-mono text-ink-muted">№ {{ c.cert_number }}</span>
+                  <span v-else class="font-mono text-ink-muted">CERTIFIED</span>
+                  <span v-if="c.issued_at" class="mono-label text-ink-muted">{{ c.issued_at }}</span>
+                </div>
+              </button>
+
+              <!-- JPG 컨테이너 (우측 슬라이드 인) -->
+              <div
+                class="absolute top-0 bottom-0 right-0 overflow-hidden"
+                style="transition: all 700ms cubic-bezier(0.16, 1, 0.3, 1);"
+                :style="jpgStyle"
+                @click.stop
+              >
+                <div class="h-full pl-6">
+                  <div
+                    :class="[
+                      'grid gap-3 md:gap-4 h-full',
+                      selectedFiles.length === 1 ? 'grid-cols-1' : 'grid-cols-2',
+                    ]"
+                  >
+                    <div
+                      v-for="(file, fi) in selectedFiles" :key="fi"
+                      class="relative bg-paper border border-accent-eco/40 overflow-hidden"
+                    >
+                      <img
+                        v-if="!imgFailed[fi]"
+                        :src="file.img"
+                        :alt="file.label"
+                        class="absolute inset-0 w-full h-full object-contain bg-paper"
+                        loading="lazy"
+                        @error="onImgFail(fi)"
+                      />
+                      <iframe
+                        v-else
+                        :src="`${file.pdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`"
+                        class="absolute inset-0 w-full h-full pointer-events-none"
+                        loading="lazy"
+                      />
+                      <div v-if="selectedFiles.length > 1" class="absolute bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-sm px-3 py-2">
+                        <div class="mono-label text-accent-eco">{{ file.label }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile: simple stack -->
+            <div class="md:hidden w-full space-y-4">
+              <div v-for="(c, i) in visibleCerts" :key="c.id"
+                class="bg-paper p-6 relative"
+                @click="selectCert(i)"
+              >
+                <p class="mono-label text-accent-eco">{{ c.cert_type }}</p>
+                <h3 class="italic font-medium text-xl mt-2">{{ c.name }}</h3>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="md:text-right">
-          <NuxtLink to="/patents" class="btn-light">특허 보기 →</NuxtLink>
+      </section>
+
+      <!-- ───── 3. Next + Footer ───── -->
+      <section class="min-h-[calc(100vh-156px)] bg-dark text-paper flex flex-col border-t border-paper/10">
+        <div class="flex-1 flex items-center px-6 md:px-10 lg:px-16 py-16">
+          <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+            <div class="md:col-span-7">
+              <p class="eyebrow text-paper/50">Next</p>
+              <h2 class="mt-6 italic font-light text-display-sm text-paper">
+                자체 기술의 또 다른 증명,<br>
+                <span class="text-accent-eco-soft">등록 특허 4건</span>.
+              </h2>
+            </div>
+            <div class="md:col-span-5 md:text-right">
+              <NuxtLink
+                to="/patents"
+                class="group inline-flex items-center gap-5 md:gap-6"
+              >
+                <span class="italic text-xl md:text-2xl text-paper group-hover:text-accent-bronze-soft transition-colors duration-500">
+                  특허 보기
+                </span>
+                <span class="relative w-14 h-14 rounded-full border border-paper/30 group-hover:border-accent-bronze-soft group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
+                  <svg class="w-5 h-5 text-paper group-hover:text-accent-bronze-soft transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </NuxtLink>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+        <CommonSiteFooter />
+      </section>
+    </div>
   </div>
 </template>

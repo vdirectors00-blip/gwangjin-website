@@ -1,88 +1,103 @@
 <script setup lang="ts">
-useHead({ title: 'CEO Message | 광진실업' })
+useHead({ title: 'CEO 인사말 | 광진실업' })
 
 const { data: company } = await useCompanyInfo()
 </script>
 
 <template>
   <div>
-    <CommonPageHero
-      title="CEO Message"
-      subtitle="대표 인사말"
-      eyebrow="About · 01"
-      background="/images/hero/hero-2.jpg"
-    />
+    <!-- 상단 여백 (헤더와 간격) -->
+    <div class="h-[76px]" />
 
-    <!-- CEO 메시지 풀 -->
-    <section class="bg-paper py-32 md:py-40">
-      <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-        <div class="md:col-span-5 md:sticky md:top-32">
-          <div class="aspect-[3/4] bg-paper-warm overflow-hidden">
-            <img
-              v-if="company?.ceo_image_url"
-              :src="useImageUrl(company.ceo_image_url, { width: 800, format: 'webp' }) || ''"
-              :alt="company.ceo_name || 'CEO'"
-              class="w-full h-full object-cover"
-            />
-            <div v-else class="w-full h-full flex items-center justify-center text-ink-faint text-sm">
-              [CEO 사진 — 관리자에서 업로드]
-            </div>
-          </div>
-          <div class="mt-6">
-            <p class="text-ink-faint text-xs tracking-[0.3em]">FOUNDER & CHAIRMAN</p>
-            <p class="text-ink text-3xl font-bold tracking-tightest mt-2">{{ company?.ceo_name || '최광은' }}</p>
-            <p class="text-ink-muted text-sm mt-1">{{ company?.company_name || '주식회사 광진실업' }}</p>
-          </div>
+    <!-- About 서브 네비 -->
+    <CommonSubNav section="about" />
+
+    <!-- ================================================
+      CEO 인사말 — AVANTdeco 스타일 2-column
+    ================================================ -->
+    <section class="bg-paper py-24 md:py-36">
+      <div class="container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-start">
+        <!-- 좌: 큰 한글 카피 -->
+        <div class="md:col-span-5">
+          <p class="mono-label text-accent-bronze mb-6">A Letter · 인사말</p>
+          <h1 class="italic font-light text-[clamp(32px,4.5vw,56px)] leading-[1.25] tracking-[-0.025em] text-ink-dim">
+            편안한 휴식을 짓는<br>
+            <span class="text-accent-bronze">삼십 년</span>의 한 길.
+          </h1>
+          <!-- 작은 액센트 라인 -->
+          <div class="mt-10 w-16 h-px bg-ink/30" />
         </div>
 
+        <!-- 우: 인사말 본문 + 서명 -->
         <div class="md:col-span-7">
-          <p class="eyebrow text-ink-muted">A Letter from the Chairman</p>
-          <div class="mt-6">
-            <img src="/logo/bi-color.svg" alt="COSY FEEL" class="h-16 w-auto mb-6" />
-          </div>
-          <h2 class="text-4xl md:text-6xl font-bold tracking-tightest leading-tight">
-            안녕하세요.<br>
-            <span class="text-accent-bronze">COSY FEEL</span> 입니다.
-          </h2>
+          <div
+            class="text-ink-dim text-base md:text-lg leading-[1.95] font-light whitespace-pre-line"
+          >{{ company?.ceo_message || '[인사말 본문은 관리자 페이지에서 입력 가능합니다.]' }}</div>
 
-          <div class="mt-12 space-y-6 text-ink-dim text-lg leading-relaxed whitespace-pre-line">
-            {{ company?.ceo_message || '[인사말 본문은 관리자 페이지에서 입력 가능합니다.]' }}
-          </div>
-
-          <div class="mt-16 pt-8 border-t border-paper-line flex items-center justify-between">
-            <p class="text-ink-muted text-sm">
-              {{ company?.founded_year ? `Since ${company.founded_year}` : 'Since 1994' }}
-            </p>
-            <p class="text-ink font-medium">
-              회장 {{ company?.ceo_name || '최광은' }}
-            </p>
+          <!-- 서명 — 이탤릭 세리프 -->
+          <div class="mt-16 flex items-baseline justify-end gap-4">
+            <span class="mono-label text-ink-muted">회장</span>
+            <span
+              class="font-serif italic text-[32px] md:text-[40px] text-ink tracking-[0.1em]"
+              style="font-weight: 400;"
+            >
+              최 광 은
+            </span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- About 다른 섹션 링크 -->
-    <section class="bg-paper-soft py-24 border-t border-paper-line">
-      <div class="container-x">
-        <p class="eyebrow text-ink-muted mb-10">More about COSY FEEL</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper-line">
-          <NuxtLink
-            v-for="(p, i) in [
-              { num: '02', en: 'Philosophy', ko: '경영 이념', to: '/philosophy' },
-              { num: '03', en: 'History',    ko: '연혁',     to: '/history' },
-              { num: '04', en: 'Factory',    ko: '생산 시설', to: '/factory' },
-            ]" :key="i" :to="p.to"
-            class="bg-paper p-10 group hover:bg-paper-warm transition-colors duration-300"
-          >
-            <div class="text-ink-faint text-sm tracking-[0.3em]">{{ p.num }}</div>
-            <h3 class="text-2xl font-bold mt-4">{{ p.en }}</h3>
-            <p class="text-ink-muted text-sm mt-1">{{ p.ko }}</p>
-            <div class="mt-8 inline-flex items-center text-ink text-sm font-medium group-hover:text-accent-bronze">
-              자세히 보기 →
+    <!-- ================================================
+      브랜드 아이덴티티 — BI/CI 2분할
+    ================================================ -->
+    <section class="bg-paper-soft border-t border-paper-line py-20 md:py-28">
+      <div class="container-narrow">
+        <p class="eyebrow text-ink-muted mb-12 text-center">Our Identity · 브랜드 구조</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper-line">
+          <!-- BI — 브랜드 -->
+          <div class="bg-paper p-12 md:p-16 flex flex-col items-center text-center">
+            <!-- 고정 높이 이미지 영역 (BI/CI 라벨 정렬 맞춤) -->
+            <div class="h-48 md:h-64 flex items-center justify-center">
+              <img
+                src="/logo/bi-color.svg"
+                alt="COSY FEEL"
+                class="h-28 md:h-36 w-auto"
+              />
             </div>
-          </NuxtLink>
+            <div class="mt-8 mono-label text-accent-bronze">
+              BRAND IDENTITY
+            </div>
+            <p class="mt-3 italic text-lg text-ink font-medium">COSY FEEL</p>
+            <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-light">
+              편안한 휴식을 짓는 프리미엄 충전재 브랜드.<br>
+              2015년 출시 이후, 품질로 증명합니다.
+            </p>
+          </div>
+
+          <!-- CI — 기업 -->
+          <div class="bg-paper p-12 md:p-16 flex flex-col items-center text-center">
+            <!-- 고정 높이 이미지 영역 — BI와 동일 -->
+            <div class="h-48 md:h-64 flex items-center justify-center">
+              <img
+                src="/logo/ci.svg"
+                alt="광진실업"
+                class="h-44 md:h-60 w-auto"
+              />
+            </div>
+            <div class="mt-8 mono-label text-accent-eco">
+              CORPORATE IDENTITY
+            </div>
+            <p class="mt-3 italic text-lg text-ink font-medium">주식회사 광진실업</p>
+            <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-light">
+              1994년 설립. 부직포·제면 한 길만 걸어온<br>
+              충전재 전문 제조사.
+            </p>
+          </div>
         </div>
       </div>
     </section>
+
   </div>
 </template>

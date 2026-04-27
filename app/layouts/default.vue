@@ -7,3 +7,7 @@
     <CommonSiteFooter />
   </div>
 </template>
+
+<style>
+/* default 레이아웃 페이지들은 본문이 고정 헤더 아래서 시작 */
+</style>

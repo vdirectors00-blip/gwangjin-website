@@ -1,318 +1,363 @@
 <script setup lang="ts">
 useHead({ title: '광진실업 | COSY FEEL' })
 
+definePageMeta({ layout: 'home' })
+
 const { data: company } = await useCompanyInfo()
-const { data: dbSlides } = await useHeroSlides()
 const { data: highlights } = await useProducts({ onlyHighlight: true })
+const { data: allProducts } = await useProducts()
 const { data: certs } = await useCertifications('certification')
 const { data: patents } = await useCertifications('patent')
 
-// DB에 슬라이드 없으면 임시 이미지 3장 폴백
-const slides = computed(() => {
-  if (dbSlides.value && dbSlides.value.length > 0) return dbSlides.value
+const sections = [
+  { key: 'hero',       label: 'HERITAGE',  dark: true  },
+  { key: 'intro',      label: 'ABOUT',     dark: false },
+  { key: 'materials',  label: 'MATERIALS', dark: false },
+  { key: 'technology', label: 'TRUST',     dark: true  },
+  { key: 'contact',    label: 'CONTACT',   dark: true  },
+]
+
+// stats (DB가 있으면 DB 기반, 없으면 폴백)
+const stats = computed(() => {
+  const c = company.value
   return [
-    { media_type: 'image' as const, media_url: '/images/hero/hero-1.jpg' },
-    { media_type: 'image' as const, media_url: '/images/hero/hero-2.jpg' },
-    { media_type: 'image' as const, media_url: '/images/hero/hero-3.jpg' },
+    { k: '설립',     v: c?.founded_year ? String(c.founded_year) : '1994' },
+    { k: '생산 라인', v: String(c?.production_lines ?? 5) },
+    { k: '제품군',   v: '15' },
+    { k: '등록 특허', v: String(c?.patent_count ?? 4) },
   ]
 })
 
-const stats = computed(() => [
-  { num: company.value?.founded_year ? new Date().getFullYear() - company.value.founded_year : 30, label: 'Years', sub: 'Heritage Since 1994' },
-  { num: company.value?.production_lines || 5, label: 'Lines', sub: 'Active Production' },
-  { num: company.value?.patent_count || 4,    label: 'Patents', sub: 'Registered Tech' },
-  { num: company.value?.product_count || 10,  label: 'Products', sub: 'Filling Materials' },
-])
+// Materials 시그니처 3종 (하이라이트 우선 → 없으면 F/T·AR·PE 고정)
+const signatures = computed(() => {
+  const fallback = [
+    { code: 'F/T', name: 'Feather Touch',  desc: '실리콘 처리 Conjugate. 깃털 같은 감촉.', tag: 'SIGNATURE', slug: 'ft' },
+    { code: 'AR',  name: 'AR',             desc: '중공 + 입체 Crimp, 벌키성과 탄성.',     tag: 'BULKY',     slug: 'ar' },
+    { code: 'PE',  name: 'Polyester',      desc: '부직포 범용. Carding성 우수.',          tag: 'VERSATILE', slug: 'pe' },
+  ]
+  const h = highlights.value
+  if (h && h.length >= 3) {
+    return h.slice(0, 3).map((p, i) => ({
+      code: p.name,
+      name: p.korean_name || p.name,
+      desc: p.short_desc || '',
+      tag: ['SIGNATURE', 'BULKY', 'VERSATILE'][i],
+      slug: p.slug,
+      image: p.image_url,
+    }))
+  }
+  return fallback
+})
+
+// 제품 수: 하드코딩 15 (마케팅 숫자. 실제 DB 제품이 적어도 라인업 총 15개로 표기)
+const productCount = 15
 </script>
 
 <template>
   <div>
-    <!-- ============================================================
-      1. HERO — 풀스크린 영상/이미지 crossfade
-    ============================================================== -->
-    <section class="relative h-screen flex items-end overflow-hidden">
-      <HomeHeroCrossfade :slides="slides" />
+    <!-- dot nav (우측) -->
+    <HomeDotNav :sections="sections" container="snap" />
+    <!-- 커스텀 스냅 스크롤 컨트롤러 -->
+    <HomeSnapController container="snap" :duration="1000" :cooldown="1100" />
 
-      <!-- 어두운 베일 -->
-      <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-dark/20 pointer-events-none" />
+    <!-- 스냅 컨테이너 -->
+    <div id="snap" class="snap-container">
+      <!-- ================================================
+        1. HERO — 3 chapters crossfade
+      ================================================ -->
+      <section class="snap-section h-screen">
+        <HomeHeroChapters />
+      </section>
 
-      <!-- 텍스트 레이어 -->
-      <div class="relative container-x pb-32 md:pb-40 z-10 w-full text-paper">
-        <p class="eyebrow text-paper/70">COSY FEEL · Since 1994</p>
-        <h1 class="text-6xl md:text-8xl lg:text-[8.5rem] font-bold tracking-tightest leading-[0.95] mt-8">
-          {{ company?.tagline_en || 'Heritage in Every Fiber' }}
-        </h1>
-        <div class="mt-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <p class="text-lg md:text-xl text-paper/80 max-w-xl">
-            {{ company?.tagline || '솜 한 가닥에, 30년의 기술' }}
+      <!-- ================================================
+        2. INTRO — A Quiet Note
+      ================================================ -->
+      <section class="snap-section bg-paper px-6 md:px-10 lg:px-16 flex items-center">
+        <div class="max-w-[1200px] mx-auto w-full">
+          <p class="eyebrow text-ink-muted">A Quiet Note · 소개</p>
+
+          <!-- 카피: 크기 줄임 (clamp 24~40px) + leading 약간 여유 -->
+          <p class="mt-12 italic font-light text-[clamp(22px,2.5vw,36px)] leading-[1.42] tracking-[-0.02em] text-ink max-w-[820px]">
+            <span v-reveal class="block">우리는 드러나지 않는 자리의 재료를 만듭니다.</span>
+            <span v-reveal="180" class="block">이불 속의 솜, 매트리스의 결, 겨울옷의 안쪽.</span>
+            <span v-reveal="360" class="block">
+              <span class="text-accent-bronze">보이지 않아도 가장 가까이</span>에서
+            </span>
+            <span v-reveal="540" class="block">하루의 온도와 감촉을 결정하는 일.</span>
           </p>
-          <div class="flex gap-3">
-            <NuxtLink to="/products" class="btn-light">View Products</NuxtLink>
-            <NuxtLink to="/contact" class="btn-ghost-light">Contact</NuxtLink>
-          </div>
-        </div>
-      </div>
 
-      <!-- 스크롤 인디케이터 -->
-      <div class="absolute bottom-4 left-6 text-paper/50 text-xs tracking-[0.3em]">
-        SCROLL
-      </div>
-    </section>
-
-    <!-- ============================================================
-      2. INTRO — 따뜻한 라이트, 큰 타이포 한 줄
-    ============================================================== -->
-    <section class="bg-paper py-32 md:py-48">
-      <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
-        <div v-reveal class="md:col-span-2 hidden md:block">
-          <div class="text-7xl md:text-9xl font-light text-ink/10 leading-none">01</div>
-        </div>
-        <div v-reveal:[100] class="md:col-span-7">
-          <p class="eyebrow text-ink-muted">Who We Are</p>
-          <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
-            부직포와 제면 분야 30년,<br>
-            축적된 기술이 만드는 충전재
-          </h2>
-          <p class="mt-8 text-ink-dim text-lg leading-relaxed max-w-2xl">
-            {{ company?.business_area || '광진실업은 부직포 및 제면 분야에서 여러 해 동안 축적해온 기술과 노하우를 바탕으로, 여러 브랜드의 이불솜 및 침대 부자재를 생산하고 있습니다.' }}
-          </p>
-        </div>
-        <div v-reveal:[200] class="md:col-span-3 flex md:justify-end">
-          <NuxtLink to="/about" class="btn-outline-dark">About COSY FEEL →</NuxtLink>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-      3. NUMBERS — 따뜻한 차콜, 큰 숫자 스탯
-    ============================================================== -->
-    <section class="bg-dark text-paper py-32">
-      <div class="container-x">
-        <p class="eyebrow text-ink-inverse-muted">02 · By the Numbers</p>
-        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-px bg-paper/10">
-          <div
-            v-for="(s, i) in stats" :key="s.label"
-            v-reveal="i * 100"
-            class="bg-dark p-10 md:p-12"
-          >
-            <div class="flex items-baseline gap-1">
-              <div class="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tightest text-paper">
-                {{ s.num }}
-              </div>
-              <div v-if="s.label === 'Years'" class="text-2xl text-accent-bronze-soft">+</div>
+          <!-- 스탯 4개 — 카피와 간격 확보 (mt-20 md:mt-28) -->
+          <div v-reveal="720" class="mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-0 border-t border-b border-paper-line">
+            <div
+              v-for="(s, i) in stats" :key="s.k"
+              :class="[
+                'px-5 py-7 flex flex-col gap-2',
+                i > 0 ? 'md:border-l md:border-paper-line' : '',
+                i === 1 || i === 3 ? 'border-l border-paper-line md:border-l' : '',
+              ]"
+            >
+              <div class="mono-label text-ink-muted">{{ s.k }}</div>
+              <div class="text-[32px] italic font-medium tracking-[-0.02em] text-ink leading-none">{{ s.v }}</div>
             </div>
-            <div class="mt-4 text-paper text-sm font-medium">{{ s.label }}</div>
-            <div class="text-ink-inverse-muted text-xs mt-1">{{ s.sub }}</div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============================================================
-      4. FEATURED PRODUCTS — 라이트, 카테고리 카드
-    ============================================================== -->
-    <section class="bg-paper-soft py-32 md:py-40">
-      <div class="container-x">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end mb-16">
-          <div class="md:col-span-7">
-            <p class="eyebrow text-ink-muted">03 · Products</p>
-            <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest">
-              우리의 핵심 충전재
-            </h2>
-          </div>
-          <div class="md:col-span-5 md:text-right">
-            <p class="text-ink-dim leading-relaxed">
-              합성·천연·기능성 소재를 아우르는 10가지 라인업.
-            </p>
-            <NuxtLink to="/products" class="inline-block mt-4 text-ink font-medium hover:text-accent-bronze">
-              전체 라인업 →
+          <!-- About CTA pill -->
+          <div class="mt-10 flex justify-end">
+            <NuxtLink
+              to="/about"
+              class="group inline-flex items-center gap-2 rounded-full pl-5 pr-2.5 py-2 bg-paper border border-ink text-ink text-[11px] font-medium tracking-[0.06em] uppercase hover:bg-ink hover:text-paper hover:-translate-y-0.5 hover:shadow-lg transition-all duration-500 ease-out-expo"
+            >
+              <span>About COSY&nbsp;FEEL</span>
+              <span class="inline-flex items-center justify-center w-5 h-5 rounded-full border border-paper-line group-hover:bg-paper group-hover:border-paper group-hover:translate-x-0.5 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
+                <svg width="9" height="9" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M3 7H11M11 7L7 3M11 7L7 11" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
             </NuxtLink>
           </div>
         </div>
+      </section>
 
-        <div v-if="highlights && highlights.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper-line">
-          <NuxtLink
-            v-for="(p, i) in highlights" :key="p.id"
-            :to="`/products#${p.slug}`"
-            class="group relative aspect-[3/4] overflow-hidden bg-paper-warm flex items-end p-8 hover:bg-paper transition-all duration-500"
-          >
-            <img
-              v-if="p.image_url"
-              :src="useImageUrl(p.image_url, { width: 800, format: 'webp', quality: 80 }) || ''"
-              :alt="p.name"
-              class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700 ease-out-expo"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/20 to-transparent" />
-            <div class="relative text-paper">
-              <div class="text-paper/70 text-xs tracking-[0.3em]">0{{ i + 1 }}</div>
-              <div class="text-3xl font-bold mt-3">{{ p.name }}</div>
-              <p v-if="p.short_desc" class="text-paper/80 text-sm mt-2">{{ p.short_desc }}</p>
+      <!-- ================================================
+        3. MATERIALS — 3 signatures (헤더 여유 + 카드 축소)
+      ================================================ -->
+      <section class="snap-section bg-paper-soft border-t border-paper-line px-6 md:px-10 lg:px-16 flex items-center overflow-hidden">
+        <div class="max-w-[1300px] mx-auto w-full py-10 md:py-12">
+          <!-- 헤더 (gap·여백 더 축소) -->
+          <div class="grid grid-cols-1 md:grid-cols-[180px_1fr_240px] gap-4 md:gap-10 items-end mb-6 md:mb-8">
+            <div v-reveal>
+              <p class="eyebrow text-ink-muted">Materials</p>
             </div>
-          </NuxtLink>
-        </div>
-
-        <!-- 폴백: 데이터 없을 때 -->
-        <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper-line">
-          <div v-for="(label, i) in ['F/T (Feather Touch)', 'Tencel', 'Wool']" :key="i"
-            class="aspect-[3/4] bg-paper-warm flex items-end p-8">
-            <div>
-              <div class="text-ink-faint text-xs tracking-[0.3em]">0{{ i + 1 }}</div>
-              <div class="text-ink text-3xl font-bold mt-3">{{ label }}</div>
-              <p class="text-ink-muted text-sm mt-2">[관리자 페이지에서 등록]</p>
+            <h2 v-reveal="150" class="m-0 italic font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em] leading-none text-ink">
+              대표하는 세 가지.
+            </h2>
+            <div v-reveal="300" class="text-[13px] text-ink-dim leading-relaxed md:text-right">
+              우리를 대표하는 충전재<br>
+              <span class="text-ink-muted text-[11px] tracking-caps-xs">THREE SIGNATURE LINES</span>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============================================================
-      5. PHILOSOPHY — 베이지, 3가지 가치 (Heritage / Quality / Future)
-    ============================================================== -->
-    <section class="bg-paper-warm py-32 md:py-40">
-      <div class="container-x">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end mb-16">
-          <div class="md:col-span-7">
-            <p class="eyebrow text-ink-muted">04 · Philosophy</p>
-            <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
-              우리가 일하는 방식
-            </h2>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div
-            v-for="(v, i) in [
-              { num: '01', en: 'Heritage', ko: '축적된 노하우', desc: '1994년부터 부직포·제면 한 길. 30년이 만든 디테일과 노하우.' },
-              { num: '02', en: 'Quality',  ko: '우수한 품질',   desc: 'ISO 인증 + 한국인증원 검증된 품질·환경 시스템.' },
-              { num: '03', en: 'Future',   ko: '미래지향',     desc: '5라인 + 4건의 특허로 다음 세대의 충전재를 만듭니다.' },
-            ]" :key="i"
-            v-reveal="i * 150"
-            class="bg-paper p-10 md:p-12 hover:shadow-lg transition-shadow duration-500"
-          >
-            <div class="text-ink-faint text-sm tracking-[0.3em]">{{ v.num }}</div>
-            <h3 class="text-3xl font-bold mt-6">{{ v.en }}</h3>
-            <p class="text-accent-bronze text-sm mt-1">{{ v.ko }}</p>
-            <div class="w-12 h-px bg-ink/20 my-6" />
-            <p class="text-ink-dim leading-relaxed">{{ v.desc }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-      6. TECHNOLOGY & CERTIFICATIONS — 다크 드라마틱
-    ============================================================== -->
-    <section class="bg-dark text-paper py-32 md:py-40">
-      <div class="container-x">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end mb-16">
-          <div class="md:col-span-7">
-            <p class="eyebrow text-ink-inverse-muted">05 · Technology & Certifications</p>
-            <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
-              기술과 인증으로<br>증명한 신뢰
-            </h2>
-          </div>
-          <div class="md:col-span-5 md:text-right">
-            <p class="text-ink-inverse-dim leading-relaxed">
-              국제 표준 인증과 자체 특허로 입증된 기술력.
-            </p>
-            <NuxtLink to="/certifications" class="inline-block mt-4 text-paper font-medium hover:text-accent-bronze-soft">
-              전체 인증 보기 →
-            </NuxtLink>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper/10">
-          <!-- 인증 -->
-          <div class="bg-dark p-10 md:p-12">
-            <div class="eyebrow text-accent-bronze-soft mb-6">Quality Certifications</div>
-            <ul class="space-y-3">
-              <li v-for="c in (certs?.slice(0, 4) || [])" :key="c.id"
-                class="flex justify-between items-start py-3 border-b border-paper/10">
-                <span class="text-paper font-medium">{{ c.cert_type }}</span>
-                <span class="text-ink-inverse-muted text-sm text-right">{{ c.name }}</span>
-              </li>
-              <li v-if="!certs || certs.length === 0" class="text-ink-inverse-faint text-sm">
-                ISO 9001 · ISO 14001 · 한국인증원 · Inno-Biz
-              </li>
-            </ul>
-          </div>
-          <!-- 특허 -->
-          <div class="bg-dark p-10 md:p-12">
-            <div class="eyebrow text-accent-eco-soft mb-6">Patents · {{ patents?.length || 4 }}건</div>
-            <ul class="space-y-3">
-              <li v-for="p in (patents?.slice(0, 4) || [])" :key="p.id"
-                class="py-3 border-b border-paper/10">
-                <div class="text-paper text-sm font-medium">{{ p.name }}</div>
-                <div v-if="p.cert_number" class="text-ink-inverse-muted text-xs mt-1">
-                  {{ p.cert_number }} · {{ p.issued_at }}
+          <!-- 카드 그리드 (aspect 1/1 정사각형으로 더 작게) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <NuxtLink
+              v-for="(p, i) in signatures" :key="p.slug"
+              :to="`/products#${p.slug}`"
+              v-reveal="400 + i * 160"
+              class="group block text-inherit no-underline cursor-pointer"
+            >
+              <div class="relative aspect-[5/6] overflow-hidden bg-paper border border-transparent group-hover:border-ink transition-all duration-500 ease-out-expo group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:scale-[1.025] group-hover:shadow-[0_18px_40px_-12px_rgba(26,24,20,0.18)]">
+                <div
+                  v-if="p.image"
+                  class="absolute inset-0 bg-cover bg-center"
+                  :style="`background-image:url('${p.image}'); filter: grayscale(55%) contrast(1.05) brightness(0.96);`"
+                />
+                <div
+                  v-else
+                  class="absolute inset-0 flex items-center justify-center"
+                  :style="`background: linear-gradient(135deg, rgba(250,248,244,0.35) 0%, rgba(230,224,210,0.25) 100%);`"
+                >
+                  <div class="italic font-light text-[clamp(60px,7vw,110px)] text-ink opacity-80 tracking-[-0.04em] leading-none">
+                    {{ p.code }}
+                  </div>
                 </div>
-              </li>
-            </ul>
+                <span class="absolute top-3 left-3 mono-label text-ink">
+                  {{ String(i + 1).padStart(2, '0') }}
+                </span>
+                <span class="absolute top-3 right-3 mono-label text-accent-bronze font-semibold">
+                  {{ p.tag }}
+                </span>
+                <div class="absolute right-4 bottom-4 w-9 h-9 rounded-full bg-ink text-paper flex items-center justify-center text-sm opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out-expo">
+                  ↗
+                </div>
+              </div>
+
+              <div class="mt-4 flex justify-between items-baseline">
+                <div>
+                  <div class="italic font-medium text-[22px] md:text-[26px] tracking-[-0.02em] text-ink group-hover:text-accent-bronze transition-colors duration-300 leading-none">
+                    {{ p.name }}
+                  </div>
+                  <div class="mt-2 text-[12px] text-ink-dim leading-[1.55] max-w-xs">
+                    {{ p.desc }}
+                  </div>
+                </div>
+                <div class="mono-label text-ink-faint whitespace-nowrap">{{ p.code }}</div>
+              </div>
+            </NuxtLink>
+          </div>
+
+          <!-- 푸터 (간격 축소) -->
+          <div class="mt-6 pt-5 border-t border-paper-line flex justify-between items-center">
+            <div class="mono-label text-ink-muted">
+              3 / {{ productCount }} &nbsp;·&nbsp; 시그니처 라인
+            </div>
+            <NuxtLink
+              to="/products"
+              class="inline-flex items-center gap-3 text-sm text-ink font-medium pb-1 border-b border-ink hover:text-accent-bronze hover:border-accent-bronze transition-colors"
+            >
+              전체 제품군 {{ productCount }}개 보기 <span class="text-base">→</span>
+            </NuxtLink>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ============================================================
-      7. CEO MESSAGE PREVIEW — 라이트, 인사말 미리보기
-    ============================================================== -->
-    <section class="bg-paper-soft py-32 md:py-40">
-      <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-        <div class="md:col-span-5">
-          <div class="aspect-[4/5] bg-paper-warm overflow-hidden">
-            <img
-              v-if="company?.ceo_image_url"
-              :src="useImageUrl(company.ceo_image_url, { width: 600, format: 'webp' }) || ''"
-              :alt="company.ceo_name || 'CEO'"
-              class="w-full h-full object-cover"
-            />
-            <div v-else class="w-full h-full flex items-center justify-center text-ink-faint text-sm">
-              [CEO 사진]
+      <!-- ================================================
+        4. TECHNOLOGY / TRUST — Certifications + Patents
+      ================================================ -->
+      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 flex items-center relative overflow-hidden">
+        <!-- 원형 스탬프 우상 -->
+        <div
+          aria-hidden
+          class="absolute top-[8%] right-[4%] w-44 h-44 rounded-full border border-paper/10 flex items-center justify-center -rotate-12"
+        >
+          <div class="absolute inset-3 rounded-full border border-dashed border-paper/15" />
+          <div class="font-mono text-[9px] tracking-[0.32em] text-paper/30 text-center leading-relaxed">
+            CERTIFIED<br>SINCE<br>1994
+          </div>
+        </div>
+
+        <div class="relative z-10 max-w-[1300px] mx-auto w-full">
+          <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] items-end gap-16 mb-16 md:mb-24">
+            <div>
+              <p v-reveal class="eyebrow text-paper/50">Technology · Trust</p>
+              <h2 class="mt-11 italic font-medium text-display-md text-paper leading-[1.02]">
+                <span v-reveal="220" class="block">증명서는</span>
+                <span v-reveal="420" class="block">우리가 드리는 조용한 약속.</span>
+              </h2>
+            </div>
+            <div v-reveal="620" class="text-[13px] text-paper/60 max-w-[280px] leading-[1.7] md:text-right">
+              국제 표준과 자체 기술로 쌓아 온 인증과 특허.<br>
+              <NuxtLink to="/certifications" class="text-accent-bronze-soft text-xs hover:opacity-80">
+                전체 인증 보기&nbsp;&nbsp;→
+              </NuxtLink>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+            <!-- 인증 — 폰트 사이즈 변화 제거, 컬러+bg만 변화 (흔들림 방지) -->
+            <div>
+              <div class="mono-label text-paper/50 mb-9">
+                CERTIFICATIONS &nbsp;·&nbsp; {{ certs?.length || 4 }}
+              </div>
+              <div class="border-t border-paper/20">
+                <div
+                  v-for="c in (certs || [])" :key="c.id"
+                  v-reveal="100"
+                  class="group flex justify-between items-baseline py-6 px-4 border-b border-paper/10 cursor-default hover:bg-paper/5 transition-colors duration-400"
+                >
+                  <span class="italic font-medium text-[22px] tracking-[-0.015em] text-paper group-hover:text-accent-bronze-soft transition-colors duration-400">
+                    {{ c.cert_type }}
+                  </span>
+                  <span class="text-xs text-paper/55 tracking-[0.12em] group-hover:text-paper/85 transition-colors duration-400">
+                    {{ c.name }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 특허 — 폰트 사이즈 고정, 컬러만 변화 -->
+            <div>
+              <div class="mono-label text-accent-bronze-soft mb-9">
+                PATENTS &nbsp;·&nbsp; {{ patents?.length || 4 }} REGISTERED
+              </div>
+              <div class="border-t border-paper/20">
+                <div
+                  v-for="p in (patents || [])" :key="p.id"
+                  v-reveal="200"
+                  class="group py-6 px-4 border-b border-paper/10 cursor-default hover:bg-paper/5 transition-colors duration-400"
+                >
+                  <div class="italic font-medium text-lg tracking-[-0.01em] text-paper group-hover:text-accent-bronze-soft transition-colors duration-400 leading-snug">
+                    {{ p.name }}
+                  </div>
+                  <div class="mt-2 mono-label text-paper/50 group-hover:text-paper/75 transition-colors duration-400">
+                    {{ p.cert_number }} &nbsp;·&nbsp; {{ p.issued_at }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="md:col-span-7">
-          <p class="eyebrow text-ink-muted">06 · CEO Message</p>
-          <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
-            안녕하세요.<br>
-            <span class="text-accent-bronze">COSY FEEL</span> 입니다.
-          </h2>
-          <p class="mt-8 text-ink-dim leading-relaxed text-lg">
-            우수하고 깨끗한 제품과 고객에 대한 신뢰를 바탕으로 침장업계 품질을 위해 힘쓰고, 최고의 설비와 풍부한 기술과 경험을 바탕으로 더 좋은 제품을 제공하기 위해 언제나 노력하고 있습니다.
-          </p>
-          <p class="mt-6 text-ink font-medium">
-            회장 {{ company?.ceo_name || '최광은' }}
-          </p>
-          <NuxtLink to="/about" class="inline-block mt-8 text-ink font-medium hover:text-accent-bronze">
-            인사말 전문 보기 →
-          </NuxtLink>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ============================================================
-      8. CTA — 다크
-    ============================================================== -->
-    <section class="bg-dark text-paper py-32 md:py-40">
-      <div class="container-x grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div>
-          <p class="eyebrow text-accent-bronze-soft">07 · Get in Touch</p>
-          <h2 class="mt-6 text-4xl md:text-6xl font-bold tracking-tightest leading-tight">
-            함께할<br>파트너를<br>찾으시나요?
-          </h2>
-        </div>
-        <div class="md:text-right">
-          <p class="text-ink-inverse-dim text-lg max-w-md md:ml-auto">
-            샘플 요청, 단가 협의, 신규 거래 문의 등 무엇이든 편하게 연락주세요.
-          </p>
-          <div class="mt-10 flex flex-col md:flex-row md:justify-end gap-3">
-            <NuxtLink to="/contact" class="btn-light">문의하기</NuxtLink>
-            <a v-if="company?.tel" :href="`tel:${company.tel}`" class="btn-ghost-light">
-              📞 {{ company.tel }}
-            </a>
+      <!-- ================================================
+        5. CONTACT — Cut-corner cards
+      ================================================ -->
+      <section class="snap-section bg-dark text-paper px-6 md:px-10 lg:px-16 flex items-center relative overflow-hidden">
+        <div class="max-w-[1320px] mx-auto w-full relative z-10">
+          <div class="grid grid-cols-1 md:grid-cols-[6fr_5fr] gap-12 md:gap-24 items-center">
+            <!-- 좌측 카피 -->
+            <div>
+              <p v-reveal class="eyebrow text-paper/50">Inquiries</p>
+              <h2 v-reveal="180" class="mt-10 italic font-light text-display-lg text-paper">
+                편하게,<br>
+                <span class="text-accent-bronze-soft">말씀</span>주세요.
+              </h2>
+              <p v-reveal="360" class="mt-10 text-[15px] leading-[1.85] text-paper/70 font-light max-w-[460px]">
+                담당자가 직접 답변드립니다.
+              </p>
+
+              <a
+                href="mailto:info@gwangjin.co.kr"
+                class="group mt-16 inline-flex items-center gap-6 py-3.5 text-paper relative"
+              >
+                <span class="italic font-normal text-[28px] tracking-[-0.02em] group-hover:text-accent-bronze-soft group-hover:translate-x-0.5 transition-all duration-500 ease-out-expo">
+                  문의 보내기
+                </span>
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-paper/40 group-hover:border-accent-bronze-soft group-hover:text-accent-bronze-soft group-hover:translate-x-3 group-hover:-rotate-45 transition-all duration-500 ease-out-expo">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <path d="M3 7H11M11 7L7 3M11 7L7 11" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <span class="absolute left-0 bottom-1.5 h-px bg-accent-bronze-soft w-0 group-hover:w-[calc(100%-60px)] transition-[width] duration-500 ease-out-expo" />
+              </a>
+            </div>
+
+            <!-- 우측: 네모 → 아키텍처 블루프린트 스타일 카드 -->
+            <div class="flex flex-col gap-3.5">
+              <div
+                v-for="(c, i) in [
+                  { k: 'TEL',   v: company?.tel || '032-582-4149',             sub: '대표 전화' },
+                  { k: 'EMAIL', v: company?.email || 'info@gwangjin.co.kr',    sub: '이메일 문의' },
+                  { k: 'VISIT', v: company?.address || '인천 서구 가정로 58번길 3', sub: '본사 · 공장 방문' },
+                  { k: 'HOURS', v: company?.business_hours || '월 — 금 09:00-18:00', sub: '업무 시간' },
+                ]" :key="c.k"
+                v-reveal="i * 100"
+                class="group relative px-8 py-7 bg-paper/[0.025] hover:bg-paper/[0.06] hover:-translate-x-3 transition-all duration-500 ease-out-expo cursor-default overflow-hidden"
+              >
+                <!-- 외곽 1px 하이라인 (모든 변) -->
+                <span class="absolute inset-0 border border-paper/15 group-hover:border-paper/35 transition-colors duration-500 pointer-events-none" />
+                <!-- 좌측 bronze 엑센트 바 (hover) -->
+                <span class="absolute left-0 top-4 bottom-4 w-[2px] bg-accent-bronze-soft scale-y-0 group-hover:scale-y-100 origin-center transition-transform duration-500 ease-out-expo" />
+                <!-- 상단-우측 L 브래킷 (아키텍처 블루프린트 마크) -->
+                <span class="absolute top-0 right-0 w-4 h-4 pointer-events-none">
+                  <span class="absolute top-0 right-0 w-4 h-px bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
+                  <span class="absolute top-0 right-0 w-px h-4 bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
+                </span>
+                <!-- 하단-좌측 L 브래킷 (대칭) -->
+                <span class="absolute bottom-0 left-0 w-4 h-4 pointer-events-none">
+                  <span class="absolute bottom-0 left-0 w-4 h-px bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
+                  <span class="absolute bottom-0 left-0 w-px h-4 bg-paper/40 group-hover:bg-accent-bronze-soft transition-colors duration-500" />
+                </span>
+
+                <div class="relative mono-label text-paper/50 group-hover:text-accent-bronze-soft transition-colors duration-500">
+                  {{ String(i + 1).padStart(2, '0') }} &nbsp;/&nbsp; {{ c.k }}
+                </div>
+                <!-- 폰트 사이즈 고정 (흔들림 방지) -->
+                <div class="relative mt-2.5 italic font-normal text-xl tracking-[-0.015em] text-paper leading-tight">
+                  {{ c.v }}
+                </div>
+                <div class="relative mt-1.5 text-[11px] tracking-[0.2em] text-paper/40 group-hover:text-paper/60 transition-colors duration-500">
+                  {{ c.sub }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- ================================================
+        Footer (마지막 섹션)
+      ================================================ -->
+      <CommonSiteFooter />
+    </div>
   </div>
 </template>

@@ -1,21 +1,30 @@
 <script setup lang="ts">
+const route = useRoute()
 const scrolled = ref(false)
 const menuOpen = ref(false)
 
-const route = useRoute()
-
 watch(() => route.fullPath, () => { menuOpen.value = false })
 
-const onScroll = () => {
-  scrolled.value = window.scrollY > 60
+const onScroll = (e?: Event) => {
+  // snap container가 있으면 그걸 사용
+  const snap = typeof document !== 'undefined' ? document.getElementById('snap') : null
+  const y = snap ? snap.scrollTop : window.scrollY
+  scrolled.value = y > 60
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', onScroll, { passive: true })
+  const snap = document.getElementById('snap')
+  const target = snap || window
+  target.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
 })
-onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+onBeforeUnmount(() => {
+  const snap = typeof document !== 'undefined' ? document.getElementById('snap') : null
+  const target = snap || window
+  target.removeEventListener('scroll', onScroll)
+})
 
+// Home 페이지의 Hero(다크) 위에 있을 때는 헤더 투명 + 흰글씨
 const overDarkHero = computed(() => route.path === '/' && !scrolled.value)
 
 watch(menuOpen, (v) => {
@@ -24,7 +33,7 @@ watch(menuOpen, (v) => {
   }
 })
 
-const nav = [
+const drawer = [
   {
     label: 'About', to: '/about',
     children: [
@@ -47,63 +56,66 @@ const nav = [
 </script>
 
 <template>
+  <!-- 상단 미니 헤더 -->
   <header
     :class="[
-      'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out-expo',
+      'fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out-expo',
       menuOpen
         ? 'bg-transparent text-paper'
-        : scrolled
-          ? 'bg-paper/90 backdrop-blur-md border-b border-paper-line/40 text-ink'
-          : overDarkHero
-            ? 'bg-transparent text-paper'
-            : 'bg-paper/90 backdrop-blur-md border-b border-paper-line/40 text-ink',
+        : overDarkHero
+          ? 'bg-transparent text-paper'
+          : 'bg-paper/[0.88] backdrop-blur-md border-b border-paper-line/60 text-ink',
     ]"
   >
-    <div class="container-x flex items-center justify-between h-20">
-      <NuxtLink to="/" class="flex items-center gap-3 h-12">
-        <!-- 로고: 다크 위에선 흰색, 라이트 위에선 컬러 -->
+    <div class="max-w-container mx-auto px-6 md:px-10 lg:px-16 h-[76px] flex items-center justify-between">
+      <!-- Logo: 다크 위는 흰색 필터, 라이트 위는 원본 컬러 -->
+      <NuxtLink to="/" class="flex items-center gap-3.5">
         <img
-          v-if="menuOpen || overDarkHero"
-          src="/logo/bi-white.svg"
-          alt="COSY FEEL"
-          class="h-9 w-auto"
-        />
-        <img
-          v-else
           src="/logo/bi-color.svg"
           alt="COSY FEEL"
-          class="h-9 w-auto"
+          :class="[
+            'h-8 w-auto block transition-[filter] duration-500 ease-out-expo',
+            (menuOpen || overDarkHero) ? '[filter:brightness(0)_invert(1)]' : '',
+          ]"
         />
       </NuxtLink>
 
-      <button
-        class="relative w-12 h-12 flex items-center justify-center group"
-        :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
-        @click="menuOpen = !menuOpen"
-      >
-        <span class="sr-only">Menu</span>
-        <span
-          :class="[
-            'absolute block h-px w-7 bg-current transition-all duration-300 ease-out-expo',
-            menuOpen ? 'rotate-45' : '-translate-y-1.5',
-          ]"
-        />
-        <span
-          :class="[
-            'absolute block h-px w-7 bg-current transition-all duration-300 ease-out-expo',
-            menuOpen ? 'opacity-0' : 'opacity-100',
-          ]"
-        />
-        <span
-          :class="[
-            'absolute block h-px w-7 bg-current transition-all duration-300 ease-out-expo',
-            menuOpen ? '-rotate-45' : 'translate-y-1.5',
-          ]"
-        />
-      </button>
+      <!-- 우측: 언어 + 햄버거 -->
+      <div class="flex items-center gap-6">
+        <div class="hidden md:flex items-center gap-2.5 text-[11px] opacity-70" style="letter-spacing: 0.2em;">
+          <span class="font-semibold">KOR</span>
+          <span class="opacity-40">/</span>
+          <span>ENG</span>
+        </div>
+        <button
+          class="relative w-10 h-10 flex items-center justify-center group"
+          :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
+          @click="menuOpen = !menuOpen"
+        >
+          <span
+            :class="[
+              'absolute block h-px w-6 bg-current transition-all duration-300 ease-out-expo',
+              menuOpen ? 'rotate-45' : '-translate-y-1.5',
+            ]"
+          />
+          <span
+            :class="[
+              'absolute block h-px w-6 bg-current transition-all duration-300 ease-out-expo',
+              menuOpen ? 'opacity-0' : 'opacity-100',
+            ]"
+          />
+          <span
+            :class="[
+              'absolute block h-px w-6 bg-current transition-all duration-300 ease-out-expo',
+              menuOpen ? '-rotate-45' : 'translate-y-1.5',
+            ]"
+          />
+        </button>
+      </div>
     </div>
   </header>
 
+  <!-- 풀스크린 메뉴 -->
   <Transition
     enter-active-class="transition-all duration-700 ease-out-expo"
     enter-from-class="opacity-0"
@@ -114,17 +126,17 @@ const nav = [
   >
     <div
       v-if="menuOpen"
-      class="fixed inset-0 z-40 bg-dark text-paper overflow-y-auto"
+      class="fixed inset-0 z-30 bg-dark text-paper overflow-y-auto"
     >
-      <div class="container-x pt-32 pb-20 min-h-screen flex flex-col">
+      <div class="max-w-container mx-auto px-6 md:px-10 lg:px-16 pt-32 pb-20 min-h-screen flex flex-col">
         <nav class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-12">
-          <template v-for="item in nav" :key="item.label">
+          <template v-for="item in drawer" :key="item.label">
             <div v-if="item.children" class="py-6 border-b border-paper/10">
               <NuxtLink
                 :to="item.to"
-                class="block text-paper hover:text-accent-bronze-soft transition"
+                class="block hover:text-accent-bronze-soft transition italic font-medium"
               >
-                <div class="text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
+                <div class="text-3xl md:text-5xl tracking-tightest leading-tight">
                   {{ item.label }}
                 </div>
               </NuxtLink>
@@ -132,30 +144,29 @@ const nav = [
                 <NuxtLink
                   v-for="c in item.children" :key="c.label"
                   :to="c.to"
-                  class="group flex flex-col text-ink-inverse-dim hover:text-paper py-2 transition"
+                  class="flex flex-col text-ink-inverse-dim hover:text-paper py-2 transition"
                 >
                   <span class="text-sm font-medium">{{ c.label }}</span>
                   <span class="text-xs text-ink-inverse-faint mt-0.5">{{ c.sub }}</span>
                 </NuxtLink>
               </div>
             </div>
-
             <NuxtLink
               v-else
               :to="item.to"
-              class="group block py-6 border-b border-paper/10 hover:text-accent-bronze-soft transition"
+              class="group block py-6 border-b border-paper/10 hover:text-accent-bronze-soft transition italic font-medium"
             >
-              <div class="text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
+              <div class="text-3xl md:text-5xl tracking-tightest leading-tight">
                 {{ item.label }}
               </div>
-              <div class="text-sm text-ink-inverse-faint mt-2">{{ item.sub }}</div>
+              <div class="text-sm text-ink-inverse-faint mt-2 not-italic font-normal">{{ item.sub }}</div>
             </NuxtLink>
           </template>
         </nav>
 
         <div class="mt-12 pt-8 border-t border-paper/10 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-ink-inverse-muted">
           <div>
-            <div class="text-paper font-medium mb-2">COSY FEEL</div>
+            <div class="text-paper font-medium mb-2 italic">COSY FEEL</div>
             <p>주식회사 광진실업<br>인천광역시 서구 가정로 58번길 3</p>
           </div>
           <div>

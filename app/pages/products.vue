@@ -1,146 +1,440 @@
 <script setup lang="ts">
 import { PRODUCT_TRAITS } from '~/types/database.types'
 
+definePageMeta({ layout: 'home' })
 useHead({ title: 'Products | 광진실업' })
 
 const { data: products } = await useProducts()
+const items = computed(() => products.value || [])
+
+// 매트릭스 호버
+const hoveredIdx = ref<number | null>(null)
+
+// 모달
+const openedIdx = ref<number | null>(null)
+const openedProduct = computed(() => {
+  if (openedIdx.value === null) return null
+  return items.value[openedIdx.value]
+})
+const openModal = (i: number) => { openedIdx.value = i }
+const closeModal = () => { openedIdx.value = null }
+
+onMounted(() => {
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') closeModal()
+  }
+  window.addEventListener('keydown', onKey)
+  onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+})
+
+// 제품별 활성 특성 키 목록
+const activeTraits = (p: typeof items.value[0]) =>
+  PRODUCT_TRAITS.filter(t => (p as any)[t.key])
+const activeTraitsCount = (p: typeof items.value[0]) => activeTraits(p).length
+
+// 소재 카테고리 (임시 — 클라이언트 최종 확인 필요)
+const categoryMap: Record<string, { label: string; colorClass: string }> = {
+  'ft':              { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
+  'ar':              { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
+  'pe':              { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
+  'low-denier':      { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
+  'outlast':         { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
+  'tencel':          { label: 'NATURAL',   colorClass: 'text-accent-eco' },
+  'wool':            { label: 'NATURAL',   colorClass: 'text-accent-eco' },
+  'cotton':          { label: 'NATURAL',   colorClass: 'text-accent-eco' },
+  'cashmere':        { label: 'NATURAL',   colorClass: 'text-accent-eco' },
+  'mohair':          { label: 'NATURAL',   colorClass: 'text-accent-eco' },
+  'alpaca':          { label: 'NATURAL',   colorClass: 'text-accent-eco' },
+  'smartcel':        { label: 'NATURAL',   colorClass: 'text-accent-eco' },
+  'needle-punching': { label: 'PROCESSED', colorClass: 'text-ink-muted' },
+  'felt':            { label: 'PROCESSED', colorClass: 'text-ink-muted' },
+  'flame-retardant': { label: 'PROCESSED', colorClass: 'text-ink-muted' },
+}
+const getCategory = (slug: string) =>
+  categoryMap[slug] || { label: 'OTHER', colorClass: 'text-ink-muted' }
 </script>
 
 <template>
   <div>
-    <CommonPageHero
-      title="Products"
-      subtitle="COSY FEEL의 충전재 라인업"
-      eyebrow="Products"
-      background="/images/hero/hero-2.jpg"
-    />
+    <div class="h-[76px]" />
 
-    <!-- Intro -->
-    <section class="bg-paper py-32 md:py-40">
-      <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
-        <div class="md:col-span-7">
-          <p class="eyebrow text-ink-muted">Product Lineup</p>
-          <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest leading-tight">
-            합성·천연·기능성 소재를<br>아우르는 라인업
-          </h2>
+    <div id="products-snap" class="h-[calc(100vh-76px)] overflow-y-auto no-scrollbar">
+      <HomeSnapController container="products-snap" :duration="1000" :cooldown="1100" />
+
+      <!-- ───── 1. Hero ───── -->
+      <section class="relative min-h-[calc(100vh-76px)] bg-paper flex items-center px-6 md:px-10 lg:px-16 overflow-hidden">
+        <!-- 그리드 배경 -->
+        <div
+          class="absolute inset-0 pointer-events-none opacity-50"
+          style="background-image: linear-gradient(to right, rgba(139,115,85,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(139,115,85,0.06) 1px, transparent 1px); background-size: 80px 80px;"
+        />
+
+        <div class="relative z-10 max-w-container mx-auto w-full">
+          <p class="mono-label text-accent-bronze mb-6 ink-fade" style="animation-delay: 0ms;">
+            Products · 충전재 라인업
+          </p>
+          <h1 class="italic font-light text-[clamp(56px,8vw,140px)] leading-[0.95] tracking-[-0.035em] text-ink-dim">
+            <span class="block ink-fade" style="animation-delay: 180ms;">Fifteen</span>
+            <span class="block ink-fade" style="animation-delay: 480ms;">
+              <span class="text-accent-bronze">Filling</span> Materials.
+            </span>
+          </h1>
+          <div class="mt-12 w-16 h-px bg-ink/30 ink-fade" style="animation-delay: 820ms;" />
+          <p class="mt-10 mono-label text-ink-faint ink-fade" style="animation-delay: 1100ms;">
+            Scroll ↓ &nbsp;·&nbsp; Three Sections
+          </p>
         </div>
-        <div class="md:col-span-5 md:text-right">
-          <div class="text-7xl font-bold text-accent-bronze tracking-tightest">{{ products?.length || 10 }}</div>
-          <p class="text-ink-muted text-sm mt-1">FILLING MATERIALS</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 매트릭스 -->
-    <section v-if="products && products.length > 0" class="bg-paper-soft py-24 border-t border-paper-line">
-      <div class="container-x">
-        <p class="eyebrow text-ink-muted">Characteristics</p>
-        <h2 class="mt-6 text-3xl md:text-5xl font-bold tracking-tightest">특성 매트릭스</h2>
-
-        <div class="mt-12 overflow-x-auto bg-paper">
-          <table class="w-full border-collapse text-sm min-w-[720px]">
-            <thead>
-              <tr class="border-b border-paper-line">
-                <th class="text-left p-5 text-ink-muted font-medium">Product</th>
-                <th
-                  v-for="t in PRODUCT_TRAITS" :key="t.key"
-                  class="text-center p-5 text-ink-muted font-medium whitespace-nowrap"
-                >
-                  {{ t.label }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="p in products" :key="p.id"
-                class="border-b border-paper-line/60 hover:bg-paper-warm transition-colors"
-              >
-                <td class="p-5">
-                  <a :href="`#${p.slug}`" class="text-ink hover:text-accent-bronze font-semibold">
-                    {{ p.name }}
-                  </a>
-                  <p v-if="p.korean_name" class="text-ink-muted text-xs mt-1">{{ p.korean_name }}</p>
-                </td>
-                <td v-for="t in PRODUCT_TRAITS" :key="t.key" class="text-center">
-                  <span v-if="p[t.key]" class="text-accent-bronze text-2xl">●</span>
-                  <span v-else class="text-paper-line text-xl">·</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- 제품 상세 -->
-    <template v-if="products && products.length > 0">
-      <section
-        v-for="(p, idx) in products" :id="p.slug" :key="p.id"
-        :class="[idx % 2 === 0 ? 'bg-paper' : 'bg-paper-warm', 'py-24 md:py-32 border-t border-paper-line']"
-      >
-        <div class="container-x grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-          <div :class="idx % 2 === 0 ? 'md:col-span-6 md:order-1' : 'md:col-span-6 md:order-2'">
-            <div class="aspect-[4/5] bg-paper-soft overflow-hidden">
-              <img
-                v-if="p.image_url"
-                :src="useImageUrl(p.image_url, { width: 1200, format: 'webp', quality: 85 }) || ''"
-                :alt="p.name"
-                class="w-full h-full object-cover"
-              />
-              <div v-else class="w-full h-full flex items-center justify-center text-ink-faint text-sm">
-                [제품 이미지]
-              </div>
+      <!-- ───── 2. Matrix (호버 인터랙션 — 폰트 사이즈 고정, 색만 변화) ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-paper-soft border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-6 md:py-8">
+        <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
+          <!-- 헤더 -->
+          <div class="flex items-end justify-between mb-4 md:mb-6">
+            <div>
+              <p class="eyebrow text-ink-muted">Characteristic Matrix</p>
+              <h2 class="mt-2 italic font-medium text-[clamp(24px,3vw,40px)] tracking-[-0.03em]">특성 매트릭스</h2>
+            </div>
+            <div class="mono-label text-ink-faint hidden md:block">
+              HOVER TO EXPLORE
             </div>
           </div>
-          <div :class="idx % 2 === 0 ? 'md:col-span-6 md:order-2' : 'md:col-span-6 md:order-1'">
-            <div class="text-ink-faint text-sm tracking-[0.3em]">{{ String(idx + 1).padStart(2, '0') }}</div>
-            <h3 class="mt-4 text-4xl md:text-5xl font-bold tracking-tightest">{{ p.name }}</h3>
-            <p v-if="p.korean_name" class="text-accent-bronze mt-2">{{ p.korean_name }}</p>
-            <p v-if="p.short_desc" class="text-ink-dim mt-6 text-lg">{{ p.short_desc }}</p>
-            <p v-if="p.long_desc" class="text-ink-muted mt-4 leading-relaxed whitespace-pre-line">
-              {{ p.long_desc }}
-            </p>
 
-            <div v-if="p.use_tags && p.use_tags.length > 0" class="mt-8 flex flex-wrap gap-2">
-              <span v-for="tag in p.use_tags" :key="tag"
-                class="text-xs px-3 py-1.5 border border-ink/20 text-ink-dim">
-                {{ tag }}
-              </span>
-            </div>
+          <!-- 본문: 좌 사이드바 + 우 히트맵 -->
+          <div class="flex-1 flex items-center min-h-0">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 w-full">
+              <!-- 좌: 제품 리스트 (폰트 사이즈 고정 — 색·border만 변화) -->
+              <div class="md:col-span-3 hidden md:block">
+                <p class="mono-label text-ink-muted mb-3">Products · {{ items.length }}</p>
+                <ul>
+                  <li
+                    v-for="(p, i) in items" :key="p.id"
+                    :class="[
+                      'py-1 pl-3 text-sm cursor-default transition-colors duration-300 border-l-2',
+                      hoveredIdx === i
+                        ? 'border-accent-bronze bg-accent-bronze/5'
+                        : 'border-transparent',
+                      hoveredIdx !== null && hoveredIdx !== i ? 'opacity-40' : 'opacity-100',
+                    ]"
+                    @mouseenter="hoveredIdx = i"
+                    @mouseleave="hoveredIdx = null"
+                  >
+                    <div
+                      :class="[
+                        'italic tracking-[-0.01em] text-sm leading-tight transition-colors duration-300',
+                        hoveredIdx === i ? 'font-semibold text-accent-bronze' : 'font-medium text-ink',
+                      ]"
+                    >
+                      {{ p.name }}
+                    </div>
+                    <div
+                      v-if="p.korean_name"
+                      :class="[
+                        'text-[11px] leading-tight transition-colors duration-300',
+                        hoveredIdx === i ? 'text-ink-muted' : 'text-ink-faint',
+                      ]"
+                    >
+                      {{ p.korean_name }}
+                    </div>
+                  </li>
+                </ul>
+              </div>
 
-            <table v-if="p.spec_table && p.spec_table.length > 0" class="mt-8 w-full text-sm">
-              <tbody>
-                <tr v-for="row in p.spec_table" :key="row.label" class="border-b border-paper-line">
-                  <td class="py-3 pr-4 text-ink-muted w-1/3">{{ row.label }}</td>
-                  <td class="py-3 text-ink">{{ row.value }}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <!-- 특성 매트릭스 (개별 제품) -->
-            <div class="mt-8 grid grid-cols-4 gap-2">
-              <div
-                v-for="t in PRODUCT_TRAITS" :key="t.key"
-                :class="[
-                  'text-center py-2 text-xs border',
-                  p[t.key] ? 'bg-ink text-paper border-ink' : 'bg-transparent text-ink-faint border-paper-line',
-                ]"
-              >
-                {{ t.label }}
+              <!-- 우: 매트릭스 (행 높이·폰트 사이즈 고정 — 색·weight·underline만 변화) -->
+              <div class="md:col-span-9 overflow-x-auto no-scrollbar">
+                <table class="w-full border-collapse text-sm min-w-[640px]">
+                  <thead>
+                    <tr class="border-b border-paper-line">
+                      <th class="text-left pb-2 pr-4 text-ink-muted font-medium text-[13px]">Product</th>
+                      <!-- 헤더: 폰트 사이즈 고정 — 호버된 제품이 가진 특성은 bronze + underline -->
+                      <th
+                        v-for="t in PRODUCT_TRAITS" :key="t.key"
+                        class="text-center px-2 pb-2 tracking-tight whitespace-nowrap align-bottom"
+                      >
+                        <span
+                          :class="[
+                            'inline-block text-[13px] pb-0.5 border-b-2 transition-colors duration-300',
+                            hoveredIdx !== null && items[hoveredIdx] && (items[hoveredIdx] as any)[t.key]
+                              ? 'text-accent-bronze font-bold border-accent-bronze'
+                              : hoveredIdx !== null
+                                ? 'text-ink-faint font-medium border-transparent'
+                                : 'text-ink font-semibold border-transparent',
+                          ]"
+                        >
+                          {{ t.label }}
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(p, pi) in items" :key="p.id"
+                      :class="[
+                        'border-b border-paper-line/60 transition-colors duration-300',
+                        hoveredIdx === pi ? 'bg-accent-bronze/5' : '',
+                        hoveredIdx !== null && hoveredIdx !== pi ? 'opacity-40' : 'opacity-100',
+                      ]"
+                      @mouseenter="hoveredIdx = pi"
+                      @mouseleave="hoveredIdx = null"
+                    >
+                      <td class="py-1.5 pr-4 md:hidden">
+                        <span class="italic font-medium text-sm">{{ p.name }}</span>
+                      </td>
+                      <td class="py-1.5 pr-4 hidden md:table-cell">
+                        <!-- 폰트 사이즈 고정 (text-[13px]) — 색·weight만 변화 -->
+                        <span
+                          :class="[
+                            'italic text-[13px] transition-colors duration-300',
+                            hoveredIdx === pi ? 'font-semibold text-accent-bronze' : 'font-medium text-ink-muted',
+                          ]"
+                        >
+                          {{ p.name }}
+                        </span>
+                      </td>
+                      <!-- 셀: 사이즈 고정, 존재여부만 색으로 -->
+                      <td
+                        v-for="t in PRODUCT_TRAITS" :key="t.key"
+                        class="text-center px-2 py-1.5"
+                      >
+                        <div
+                          :class="[
+                            'mx-auto w-3.5 h-3.5 transition-colors duration-300',
+                            (p as any)[t.key]
+                              ? (hoveredIdx === pi ? 'bg-accent-bronze' : 'bg-accent-bronze/70')
+                              : 'bg-paper-line/40',
+                          ]"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </template>
 
-    <!-- 제품 데이터 없을 때 -->
-    <section v-else class="bg-paper-soft py-32 border-t border-paper-line">
-      <div class="container-x">
-        <p class="text-center text-ink-faint py-32 border border-dashed border-paper-line">
-          [제품이 아직 등록되지 않았습니다. 관리자 페이지에서 추가하세요.]
-        </p>
+      <!-- ───── 3. Card Grid (컴팩트 5×3) ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-paper border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-10">
+        <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
+          <div class="flex items-end justify-between mb-6 md:mb-8">
+            <div>
+              <p class="eyebrow text-ink-muted">Product Cards</p>
+              <h2 class="mt-3 italic font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">제품 카드</h2>
+            </div>
+            <div class="mono-label text-ink-faint hidden md:block">
+              CLICK TO VIEW DETAIL
+            </div>
+          </div>
+
+          <div class="flex-1 flex items-center">
+            <!-- 그리드: 모바일 2col, 태블릿 3col, 데스크톱 5col -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 w-full">
+              <button
+                v-for="(p, i) in items" :key="p.id"
+                type="button"
+                @click="openModal(i)"
+                class="group relative bg-paper-soft border border-paper-line text-left p-4 md:p-5 hover:bg-paper-warm hover:border-accent-bronze/50 hover:-translate-y-1 transition-all duration-500 ease-out-expo min-h-[180px] flex flex-col cursor-pointer overflow-hidden"
+              >
+                <!-- 좌측 bronze 스트라이프 (trait 4개 이상 = "signature") -->
+                <span
+                  v-if="activeTraitsCount(p) >= 4"
+                  class="absolute left-0 top-6 bottom-6 w-[2px] bg-accent-bronze/70 transition-all duration-500 ease-out-expo group-hover:top-0 group-hover:bottom-0 group-hover:bg-accent-bronze pointer-events-none"
+                />
+
+                <!-- 거대한 번호 배경 (우하단) -->
+                <div class="absolute right-2 -bottom-2 italic font-light text-[clamp(80px,12vw,130px)] text-accent-bronze/[0.07] group-hover:text-accent-bronze/[0.15] transition-colors duration-500 leading-none tracking-[-0.04em] pointer-events-none select-none">
+                  {{ String(i + 1).padStart(2, '0') }}
+                </div>
+
+                <!-- 상단: 카테고리 태그 + 번호 -->
+                <div class="relative flex items-baseline justify-between mb-3">
+                  <span class="mono-label" :class="getCategory(p.slug).colorClass">
+                    {{ getCategory(p.slug).label }}
+                  </span>
+                  <span class="mono-label text-ink-faint">{{ String(i + 1).padStart(2, '0') }}</span>
+                </div>
+
+                <!-- 제품명 -->
+                <div class="relative">
+                  <h3 class="italic font-medium text-base md:text-lg tracking-[-0.015em] text-ink group-hover:text-accent-bronze transition-colors line-clamp-2 leading-tight">
+                    {{ p.name }}
+                  </h3>
+                  <p v-if="p.korean_name" class="text-[11px] text-ink-muted mt-1 line-clamp-1">
+                    {{ p.korean_name }}
+                  </p>
+                </div>
+
+                <!-- 하단: 특성 도트 + VIEW 화살표 -->
+                <div class="relative mt-auto pt-3 border-t border-paper-line/60 flex items-center justify-between">
+                  <div class="flex items-center gap-1">
+                    <div
+                      v-for="t in PRODUCT_TRAITS" :key="t.key"
+                      :class="[
+                        'w-1.5 h-1.5 rounded-full transition-colors duration-300',
+                        (p as any)[t.key] ? 'bg-accent-bronze' : 'bg-paper-line',
+                      ]"
+                      :title="t.label"
+                    />
+                    <span class="mono-label text-ink-faint ml-2">{{ activeTraitsCount(p) }}/08</span>
+                  </div>
+                  <span class="mono-label text-accent-bronze opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
+                    VIEW →
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───── 4. Next + Footer ───── -->
+      <section class="min-h-[calc(100vh-76px)] bg-dark text-paper flex flex-col border-t border-paper/10">
+        <div class="flex-1 flex items-center px-6 md:px-10 lg:px-16 py-16">
+          <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+            <div class="md:col-span-7">
+              <p class="eyebrow text-paper/50">Next</p>
+              <h2 class="mt-6 italic font-light text-display-sm text-paper">
+                제품에 대한 문의가 있다면,<br>
+                <span class="text-accent-bronze-soft">편하게 연락주세요</span>.
+              </h2>
+            </div>
+            <div class="md:col-span-5 md:text-right">
+              <NuxtLink
+                to="/contact"
+                class="group inline-flex items-center gap-5 md:gap-6"
+              >
+                <span class="italic text-xl md:text-2xl text-paper group-hover:text-accent-bronze-soft transition-colors duration-500">
+                  문의하기
+                </span>
+                <span class="relative w-14 h-14 rounded-full border border-paper/30 group-hover:border-accent-bronze-soft group-hover:translate-x-2 group-hover:-rotate-45 flex items-center justify-center transition-all duration-500 ease-out-expo">
+                  <svg class="w-5 h-5 text-paper group-hover:text-accent-bronze-soft transition-colors duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+        <CommonSiteFooter />
+      </section>
+    </div>
+
+    <!-- ═══════════════ 제품 상세 모달 ═══════════════ -->
+    <Transition
+      enter-active-class="transition-all duration-500 ease-out-expo"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-all duration-400 ease-out-expo"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="openedIdx !== null && openedProduct"
+        class="fixed inset-0 z-[100] bg-dark/85 backdrop-blur-md flex items-center justify-center p-6 md:p-10 cursor-pointer"
+        @click="closeModal"
+      >
+        <Transition
+          appear
+          enter-active-class="transition-all duration-600 ease-out-expo"
+          enter-from-class="opacity-0 scale-95 translate-y-4"
+          enter-to-class="opacity-100 scale-100 translate-y-0"
+          leave-active-class="transition-all duration-400"
+          leave-from-class="opacity-100 scale-100"
+          leave-to-class="opacity-0 scale-95"
+        >
+          <div
+            class="relative max-w-6xl w-full bg-paper flex flex-col md:flex-row max-h-[90vh] overflow-hidden cursor-default"
+            @click.stop
+          >
+            <button
+              @click="closeModal"
+              class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center text-ink-muted hover:text-accent-bronze transition-colors text-2xl"
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+            <!-- 좌: 이미지 placeholder -->
+            <div class="md:w-2/5 bg-paper-soft flex items-center justify-center p-8 md:p-10 relative min-h-[260px] md:min-h-[400px]">
+              <span class="absolute top-4 left-4 mono-label text-accent-bronze">
+                Product {{ String(openedIdx + 1).padStart(2, '0') }}
+              </span>
+              <img
+                v-if="openedProduct.image_url"
+                :src="useImageUrl(openedProduct.image_url, { width: 800, format: 'webp' }) || ''"
+                :alt="openedProduct.name"
+                class="max-w-full max-h-[70vh] w-auto h-auto object-contain"
+              />
+              <div v-else class="text-center">
+                <div class="italic font-light text-[clamp(56px,8vw,96px)] text-accent-bronze/40 tracking-[-0.04em] leading-none">
+                  {{ openedProduct.name }}
+                </div>
+                <p class="mono-label text-ink-faint mt-4">Image Coming Soon</p>
+              </div>
+            </div>
+
+            <!-- 우: 상세 정보 -->
+            <div class="md:w-3/5 p-8 md:p-12 flex flex-col overflow-y-auto no-scrollbar">
+              <div class="mono-label text-accent-bronze">
+                {{ String(openedIdx + 1).padStart(2, '0') }} / {{ String(items.length).padStart(2, '0') }}
+              </div>
+
+              <h2 class="mt-5 italic font-medium text-3xl md:text-[40px] leading-tight tracking-[-0.02em]">
+                {{ openedProduct.name }}
+              </h2>
+              <p v-if="openedProduct.korean_name" class="text-accent-bronze text-base md:text-lg mt-2">
+                {{ openedProduct.korean_name }}
+              </p>
+
+              <p v-if="openedProduct.short_desc" class="mt-5 text-ink-dim text-base md:text-lg font-light">
+                {{ openedProduct.short_desc }}
+              </p>
+              <p v-if="openedProduct.long_desc" class="mt-4 text-ink-muted text-sm md:text-base leading-relaxed whitespace-pre-line font-light">
+                {{ openedProduct.long_desc }}
+              </p>
+
+              <!-- 태그 -->
+              <div v-if="openedProduct.use_tags && openedProduct.use_tags.length > 0" class="mt-6 flex flex-wrap gap-2">
+                <span
+                  v-for="tag in openedProduct.use_tags" :key="tag"
+                  class="text-xs px-3 py-1 border border-accent-bronze/40 text-ink-dim"
+                >
+                  {{ tag }}
+                </span>
+              </div>
+
+              <!-- 특성 매트릭스 -->
+              <div class="mt-6">
+                <p class="mono-label text-ink-muted mb-3">Characteristics</p>
+                <div class="grid grid-cols-4 gap-1.5">
+                  <div
+                    v-for="t in PRODUCT_TRAITS" :key="t.key"
+                    :class="[
+                      'text-center py-2 text-xs border transition-colors',
+                      (openedProduct as any)[t.key]
+                        ? 'bg-accent-bronze text-paper border-accent-bronze'
+                        : 'bg-transparent text-ink-faint border-paper-line',
+                    ]"
+                  >
+                    {{ t.label }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- 스펙 (있으면) -->
+              <table v-if="openedProduct.spec_table && openedProduct.spec_table.length > 0" class="mt-6 w-full text-sm">
+                <tbody>
+                  <tr v-for="row in openedProduct.spec_table" :key="row.label" class="border-b border-paper-line">
+                    <td class="py-2 pr-4 mono-label text-ink-muted w-1/3">{{ row.label }}</td>
+                    <td class="py-2 text-ink">{{ row.value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </Transition>
       </div>
-    </section>
+    </Transition>
   </div>
 </template>
