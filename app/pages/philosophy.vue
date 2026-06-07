@@ -67,9 +67,9 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
       <!-- 배경 이미지 + 오버레이 -->
       <div
         class="absolute inset-0 bg-cover bg-center"
-        :style="`background-image: url('${withBase('/images/intro/philosophy.jpg')}'); filter: grayscale(40%) brightness(0.92);`"
+        :style="`background-image: url('${withBase('/images/bg/sub-philosophy.jpg')}'); filter: grayscale(30%) brightness(1.03);`"
       />
-      <div class="absolute inset-0 bg-paper-soft/85" />
+      <div class="absolute inset-0 bg-paper-soft/70" />
 
       <div class="relative z-10 container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center py-16">
         <div class="md:col-span-6">

@@ -1,159 +1,56 @@
 // ===========================================================================
-// 공개 페이지에서 DB 데이터를 fetch하는 composable 모음
-// useAsyncData로 SSR/SSG에서 모두 동작 (정적 빌드 시 빌드 시점에 데이터 주입)
+// 공개 페이지 데이터 composable — 정적 데이터 기반 (Supabase 제거)
+// 콘텐츠 수정은 app/data/products.ts, app/data/site.ts 를 편집하고 재배포(빌드).
+// 반환 형태는 기존과 동일( { data } )하여 페이지 코드는 변경 불필요.
 // ===========================================================================
-
-import type {
-  CompanyInfo,
-  Hero,
-  HeroSlide,
-  SiteSettings,
-  Product,
-  HistoryItem,
-  Certification,
-  ProcessStep,
-  FactoryImage,
-  StrengthSection,
-} from '~/types/database.types'
+import { products as PRODUCTS } from '~/data/products'
+import {
+  companyInfo,
+  siteSettings,
+  certifications as CERTS,
+  historyItems as HISTORY,
+  processSteps as PROCESS,
+} from '~/data/site'
 
 // ----- 싱글톤 ----------------------------------------------------------------
 
-export const useHero = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('hero', async () => {
-    const { data, error } = await supabase
-      .from('hero')
-      .select('*')
-      .eq('id', 1)
-      .single()
-    if (error) throw error
-    return data as Hero
-  })
-}
+export const useCompanyInfo = () => ({ data: ref(companyInfo) })
+export const useSiteSettings = () => ({ data: ref(siteSettings) })
 
-export const useHeroSlides = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('hero_slides', async () => {
-    const { data, error } = await supabase
-      .from('hero_slides')
-      .select('*')
-      .eq('is_active', true)
-      .order('sort_order', { ascending: true })
-    if (error) throw error
-    return (data ?? []) as HeroSlide[]
-  })
-}
-
-export const useCompanyInfo = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('company_info', async () => {
-    const { data, error } = await supabase
-      .from('company_info')
-      .select('*')
-      .eq('id', 1)
-      .single()
-    if (error) throw error
-    return data as CompanyInfo
-  })
-}
-
-export const useSiteSettings = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('site_settings', async () => {
-    const { data, error } = await supabase
-      .from('site_settings')
-      .select('*')
-      .eq('id', 1)
-      .single()
-    if (error) throw error
-    return data as SiteSettings
-  })
-}
+// hero/hero_slides는 HomeHeroChapters에서 정적 처리 — 데이터 미사용
+export const useHero = () => ({ data: ref(null) })
+export const useHeroSlides = () => ({ data: ref([] as never[]) })
 
 // ----- 리스트 ----------------------------------------------------------------
 
 export const useProducts = (opts?: { onlyPublished?: boolean; onlyHighlight?: boolean }) => {
-  const supabase = useSupabaseClient()
-  const key = `products:${opts?.onlyPublished ?? true}:${opts?.onlyHighlight ?? false}`
-  return useAsyncData(key, async () => {
-    let q = supabase.from('products').select('*').order('sort_order', { ascending: true })
-    if (opts?.onlyPublished !== false) q = q.eq('is_published', true)
-    if (opts?.onlyHighlight) q = q.eq('is_highlight', true)
-    const { data, error } = await q
-    if (error) throw error
-    return (data ?? []) as Product[]
-  })
+  let list = PRODUCTS.slice()
+  if (opts?.onlyPublished !== false) list = list.filter(p => p.is_published)
+  if (opts?.onlyHighlight) list = list.filter(p => p.is_highlight)
+  list.sort((a, b) => a.sort_order - b.sort_order)
+  return { data: ref(list) }
 }
 
-export const useProduct = (slug: string) => {
-  const supabase = useSupabaseClient()
-  return useAsyncData(`product:${slug}`, async () => {
-    const { data, error } = await supabase
-      .from('products')
-      .select('*')
-      .eq('slug', slug)
-      .single()
-    if (error) throw error
-    return data as Product
-  })
-}
+export const useProduct = (slug: string) => ({
+  data: ref(PRODUCTS.find(p => p.slug === slug) ?? null),
+})
 
-export const useHistoryItems = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('history_items', async () => {
-    const { data, error } = await supabase
-      .from('history_items')
-      .select('*')
-      .order('sort_order', { ascending: true })
-    if (error) throw error
-    return (data ?? []) as HistoryItem[]
-  })
-}
+export const useHistoryItems = () => ({
+  data: ref([...HISTORY].sort((a, b) => a.sort_order - b.sort_order)),
+})
 
-export const useCertifications = (category?: 'certification' | 'patent') => {
-  const supabase = useSupabaseClient()
-  const key = `certifications:${category || 'all'}`
-  return useAsyncData(key, async () => {
-    let q = supabase.from('certifications').select('*').order('sort_order', { ascending: true })
-    if (category) q = q.eq('category', category)
-    const { data, error } = await q
-    if (error) throw error
-    return (data ?? []) as Certification[]
-  })
-}
+export const useCertifications = (category?: 'certification' | 'patent') => ({
+  data: ref(
+    (category ? CERTS.filter(c => c.category === category) : CERTS)
+      .slice()
+      .sort((a, b) => a.sort_order - b.sort_order),
+  ),
+})
 
-export const useProcessSteps = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('process_steps', async () => {
-    const { data, error } = await supabase
-      .from('process_steps')
-      .select('*')
-      .order('step_number', { ascending: true })
-    if (error) throw error
-    return (data ?? []) as ProcessStep[]
-  })
-}
+export const useProcessSteps = () => ({
+  data: ref([...PROCESS].sort((a, b) => a.step_number - b.step_number)),
+})
 
-export const useFactoryGallery = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('factory_gallery', async () => {
-    const { data, error } = await supabase
-      .from('factory_gallery')
-      .select('*')
-      .order('sort_order', { ascending: true })
-    if (error) throw error
-    return (data ?? []) as FactoryImage[]
-  })
-}
+export const useFactoryGallery = () => ({ data: ref([] as never[]) })
 
-export const useStrengthSections = () => {
-  const supabase = useSupabaseClient()
-  return useAsyncData('strength_sections', async () => {
-    const { data, error } = await supabase
-      .from('strength_sections')
-      .select('*')
-      .order('sort_order', { ascending: true })
-    if (error) throw error
-    return (data ?? []) as StrengthSection[]
-  })
-}
+export const useStrengthSections = () => ({ data: ref([] as never[]) })

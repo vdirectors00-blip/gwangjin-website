@@ -32,26 +32,33 @@ const activeTraits = (p: typeof items.value[0]) =>
   PRODUCT_TRAITS.filter(t => (p as any)[t.key])
 const activeTraitsCount = (p: typeof items.value[0]) => activeTraits(p).length
 
-// 소재 카테고리 (임시 — 클라이언트 최종 확인 필요)
+// 소재 카테고리 (제품리스트 12종 기준 — 클라이언트 최종 확인 필요)
 const categoryMap: Record<string, { label: string; colorClass: string }> = {
-  'ft':              { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
-  'ar':              { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
-  'pe':              { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
-  'low-denier':      { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
-  'outlast':         { label: 'SYNTHETIC', colorClass: 'text-accent-bronze' },
-  'tencel':          { label: 'NATURAL',   colorClass: 'text-accent-bronze' },
-  'wool':            { label: 'NATURAL',   colorClass: 'text-accent-bronze' },
-  'cotton':          { label: 'NATURAL',   colorClass: 'text-accent-bronze' },
-  'cashmere':        { label: 'NATURAL',   colorClass: 'text-accent-bronze' },
-  'mohair':          { label: 'NATURAL',   colorClass: 'text-accent-bronze' },
-  'alpaca':          { label: 'NATURAL',   colorClass: 'text-accent-bronze' },
-  'smartcel':        { label: 'NATURAL',   colorClass: 'text-accent-bronze' },
-  'needle-punching': { label: 'PROCESSED', colorClass: 'text-ink-muted' },
-  'felt':            { label: 'PROCESSED', colorClass: 'text-ink-muted' },
-  'flame-retardant': { label: 'PROCESSED', colorClass: 'text-ink-muted' },
+  // 천연
+  'cashmere':        { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
+  'mohair':          { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
+  'alpaca':          { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
+  'silk':            { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
+  // 친환경 (셀룰로오스·식물 유래)
+  'smartcel':        { label: 'ECO',        colorClass: 'text-accent-bronze' },
+  'seacell':         { label: 'ECO',        colorClass: 'text-accent-bronze' },
+  'polafil':         { label: 'ECO',        colorClass: 'text-accent-bronze' },
+  // 기능성
+  'flame-retardant': { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'micro-padding':   { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'eco-hot-fiber':   { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'graphene':        { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'fresh':           { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
 }
 const getCategory = (slug: string) =>
   categoryMap[slug] || { label: 'OTHER', colorClass: 'text-ink-muted' }
+
+// 제품 이미지 — DB 이미지가 있으면 그걸, 없으면 slug 기준 로컬 스톡 이미지로 폴백
+const assetUrl = useAssetUrl()
+const productImage = (p: typeof items.value[0]) =>
+  p.image_url
+    ? useImageUrl(p.image_url, { width: 800, format: 'webp' })
+    : assetUrl(`/images/products/${p.slug}.jpg`)
 </script>
 
 <template>
@@ -63,6 +70,11 @@ const getCategory = (slug: string) =>
 
       <!-- ───── 1. Hero ───── -->
       <section class="relative min-h-[calc(100vh-76px)] bg-white flex items-center px-6 md:px-10 lg:px-16 overflow-hidden">
+        <!-- 은은한 소재 사진 배경 -->
+        <div
+          class="absolute inset-0 bg-cover bg-center pointer-events-none opacity-[0.30]"
+          :style="`background-image:url('${assetUrl('/images/bg/sub-products.jpg')}'); filter: grayscale(40%) brightness(1.04);`"
+        />
         <!-- 그리드 배경 -->
         <div
           class="absolute inset-0 pointer-events-none opacity-50"
@@ -74,7 +86,7 @@ const getCategory = (slug: string) =>
             Products · 충전재 라인업
           </p>
           <h1 class="font-light text-[clamp(56px,8vw,140px)] leading-[0.95] tracking-[-0.035em] text-ink-dim">
-            <span class="block ink-fade" style="animation-delay: 180ms;">Fifteen</span>
+            <span class="block ink-fade" style="animation-delay: 180ms;">Twelve</span>
             <span class="block ink-fade" style="animation-delay: 480ms;">
               <span class="text-accent-bronze">Filling</span> Materials.
             </span>
@@ -244,10 +256,12 @@ const getCategory = (slug: string) =>
                   class="absolute left-0 top-6 bottom-6 w-[2px] bg-accent-bronze/70 transition-all duration-500 ease-out-expo group-hover:top-0 group-hover:bottom-0 group-hover:bg-accent-bronze pointer-events-none"
                 />
 
-                <!-- 거대한 번호 배경 (우하단) -->
-                <div class="absolute right-2 -bottom-2 font-light text-[clamp(80px,12vw,130px)] text-accent-bronze/[0.07] group-hover:text-accent-bronze/[0.15] transition-colors duration-500 leading-none tracking-[-0.04em] pointer-events-none select-none">
-                  {{ String(i + 1).padStart(2, '0') }}
-                </div>
+                <!-- 제품 이미지 배경 (은은하게) + 종이 오버레이 (가독성) -->
+                <div
+                  class="absolute inset-0 bg-cover bg-center opacity-[0.22] group-hover:opacity-45 transition-opacity duration-500 pointer-events-none"
+                  :style="`background-image:url('${productImage(p)}'); filter: grayscale(45%) contrast(1.02);`"
+                />
+                <div class="absolute inset-0 bg-paper-soft/80 group-hover:bg-paper-warm/70 transition-colors duration-500 pointer-events-none" />
 
                 <!-- 상단: 카테고리 태그 + 번호 -->
                 <div class="relative flex items-baseline justify-between mb-3">
@@ -357,23 +371,17 @@ const getCategory = (slug: string) =>
               ×
             </button>
 
-            <!-- 좌: 이미지 placeholder -->
-            <div class="md:w-2/5 bg-paper-soft flex items-center justify-center p-8 md:p-10 relative min-h-[260px] md:min-h-[400px]">
-              <span class="absolute top-4 left-4 mono-label text-accent-bronze">
+            <!-- 좌: 제품 이미지 (전체 커버) -->
+            <div class="md:w-2/5 bg-paper-soft relative min-h-[240px] md:min-h-[400px] overflow-hidden">
+              <img
+                :src="productImage(openedProduct) || ''"
+                :alt="openedProduct.name"
+                class="absolute inset-0 w-full h-full object-cover"
+                @error="(e) => { (e.target as HTMLImageElement).src = assetUrl('/images/bg/subpage.jpg') }"
+              />
+              <span class="absolute top-4 left-4 mono-label text-paper bg-dark/35 backdrop-blur-sm px-2.5 py-1">
                 Product {{ String(openedIdx + 1).padStart(2, '0') }}
               </span>
-              <img
-                v-if="openedProduct.image_url"
-                :src="useImageUrl(openedProduct.image_url, { width: 800, format: 'webp' }) || ''"
-                :alt="openedProduct.name"
-                class="max-w-full max-h-[70vh] w-auto h-auto object-contain"
-              />
-              <div v-else class="text-center">
-                <div class="font-light text-[clamp(56px,8vw,96px)] text-accent-bronze/40 tracking-[-0.04em] leading-none">
-                  {{ openedProduct.name }}
-                </div>
-                <p class="mono-label text-ink-faint mt-4">Image Coming Soon</p>
-              </div>
             </div>
 
             <!-- 우: 상세 정보 -->

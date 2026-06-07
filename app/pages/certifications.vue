@@ -141,6 +141,10 @@ const jpgStyle = computed(() => {
       <!-- ───── 1. Intro ───── -->
       <section class="relative min-h-[calc(100vh-156px)] bg-white flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
         <div
+          class="absolute inset-0 bg-cover bg-center pointer-events-none opacity-[0.30]"
+          :style="`background-image:url('${assetUrl('/images/bg/sub-certs.jpg')}'); filter: grayscale(55%) brightness(1.04);`"
+        />
+        <div
           class="absolute inset-0 pointer-events-none opacity-50"
           style="background-image: linear-gradient(to right, rgba(139,115,85,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(139,115,85,0.06) 1px, transparent 1px); background-size: 80px 80px;"
         />

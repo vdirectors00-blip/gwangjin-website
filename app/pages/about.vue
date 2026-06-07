@@ -16,8 +16,13 @@ const assetUrl = useAssetUrl()
     <!-- ================================================
       CEO 인사말 — AVANTdeco 스타일 2-column
     ================================================ -->
-    <section class="bg-white py-24 md:py-36">
-      <div class="container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-start">
+    <section class="relative bg-white py-24 md:py-36 overflow-hidden">
+      <!-- 은은한 텍스처 배경 -->
+      <div
+        class="absolute inset-0 bg-cover bg-center opacity-[0.30] pointer-events-none"
+        :style="`background-image:url('${assetUrl('/images/bg/sub-about.jpg')}'); filter: grayscale(58%) brightness(1.06); -webkit-mask-image: linear-gradient(to right, black 0%, black 30%, transparent 68%); mask-image: linear-gradient(to right, black 0%, black 30%, transparent 68%);`"
+      />
+      <div class="relative container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-start">
         <!-- 좌: 큰 한글 카피 -->
         <div class="md:col-span-5">
           <p class="mono-label text-accent-bronze mb-6">A Letter · 인사말</p>

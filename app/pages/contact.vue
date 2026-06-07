@@ -6,6 +6,7 @@ useHead({ title: 'Contact | 광진실업' })
 
 const { data: company } = await useCompanyInfo()
 const config = useRuntimeConfig()
+const assetUrl = useAssetUrl()
 
 const form = reactive({
   name: '', company: '', email: '', phone: '', message: '',
@@ -20,7 +21,7 @@ const submit = async () => {
   const { emailjsServiceId, emailjsTemplateId, emailjsPublicKey } = config.public
   if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey) {
     submitting.value = false
-    error.value = '문의 폼이 아직 설정되지 않았습니다. 직접 이메일로 연락 부탁드립니다: ' + (company.value?.email || 'info@gwangjin.co.kr')
+    error.value = '문의 폼이 아직 설정되지 않았습니다. 직접 이메일로 연락 부탁드립니다: ' + (company.value?.email || 'kjin137@naver.com')
     return
   }
   try {
@@ -29,7 +30,7 @@ const submit = async () => {
       {
         from_name: form.name, from_company: form.company || '(미입력)',
         from_email: form.email, from_phone: form.phone || '(미입력)',
-        message: form.message, to_email: company.value?.email || 'info@gwangjin.co.kr',
+        message: form.message, to_email: company.value?.email || 'kjin137@naver.com',
       },
       { publicKey: emailjsPublicKey }
     )
@@ -60,8 +61,13 @@ const resetForm = () => {
       <HomeSnapController container="contact-snap" :duration="600" :cooldown="700" />
 
       <!-- ───── 1. Inquiry ───── -->
-      <section class="min-h-[calc(100vh-76px)] bg-paper-soft flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-12">
-        <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
+      <section class="relative min-h-[calc(100vh-76px)] bg-paper-soft flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-12 overflow-hidden">
+        <!-- 은은한 소재 배경 -->
+        <div
+          class="absolute inset-0 bg-cover bg-center pointer-events-none opacity-[0.30]"
+          :style="`background-image:url('${assetUrl('/images/bg/sub-contact.jpg')}'); filter: grayscale(45%) brightness(1.02); -webkit-mask-image: linear-gradient(to bottom, black 0%, black 22%, transparent 55%); mask-image: linear-gradient(to bottom, black 0%, black 22%, transparent 55%);`"
+        />
+        <div class="relative max-w-container mx-auto w-full flex-1 flex flex-col">
           <!-- 헤더 -->
           <div class="flex items-end justify-between mb-8 md:mb-10">
             <div>

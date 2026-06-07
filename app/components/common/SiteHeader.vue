@@ -14,12 +14,19 @@ const onScroll = (e?: Event) => {
 }
 
 onMounted(() => {
+  // 레이아웃 전환(home→default 등)으로 헤더가 새로 마운트될 때
+  // 이전 헤더가 메뉴 열린 채 언마운트되며 남긴 overflow:hidden 잠금을 해제
+  document.documentElement.style.overflow = ''
   const snap = document.getElementById('snap')
   const target = snap || window
   target.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
 })
 onBeforeUnmount(() => {
+  // 헤더가 사라질 때 스크롤 잠금이 남지 않도록 반드시 해제
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.overflow = ''
+  }
   const snap = typeof document !== 'undefined' ? document.getElementById('snap') : null
   const target = snap || window
   target.removeEventListener('scroll', onScroll)
@@ -167,7 +174,7 @@ const drawer = [
           </div>
           <div class="md:text-right">
             <div class="text-ink font-medium mb-2">CONTACT</div>
-            <p>TEL · 032-582-4149<br>EMAIL · info@gwangjin.co.kr</p>
+            <p>TEL · 032-582-4149<br>EMAIL · kjin137@naver.com</p>
           </div>
         </div>
       </div>

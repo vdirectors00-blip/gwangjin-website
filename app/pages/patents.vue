@@ -64,6 +64,11 @@ onMounted(() => {
 
       <!-- ───── 1. Intro (bronze 변조) ───── -->
       <section class="relative min-h-[calc(100vh-156px)] bg-white flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
+        <!-- 은은한 사진 배경 -->
+        <div
+          class="absolute inset-0 bg-cover bg-center pointer-events-none opacity-[0.30]"
+          :style="`background-image:url('${assetUrl('/images/bg/sub-patents.jpg')}'); filter: grayscale(35%) brightness(1.04);`"
+        />
         <!-- 그리드 배경: bronze 톤 -->
         <div
           class="absolute inset-0 pointer-events-none opacity-50"

@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: '광진실업 COSY FEEL — 1994년부터 30년, ISO 9001/14001 인증 + 4건 특허 기반의 부직포·제면 충전재 전문 제조사. F/T, AR, Tencel, Wool 등 10가지 라인업.' },
+        { name: 'description', content: '광진실업 COSY FEEL — 1994년부터 30년, ISO 9001/14001 인증 + 4건 특허 기반의 부직포·제면 충전재 전문 제조사. 캐시미어·알파카·스마트셀·그래핀 등 12가지 충전재 라인업.' },
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
@@ -38,7 +38,6 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/supabase',
   ],
 
   css: ['~/assets/css/main.css'],
@@ -49,11 +48,6 @@ export default defineNuxtConfig({
       emailjsTemplateId: process.env.NUXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
       emailjsPublicKey: process.env.NUXT_PUBLIC_EMAILJS_PUBLIC_KEY || '',
     },
-  },
-
-  supabase: {
-    redirect: false,
-    types: '~/types/database.types.ts',
   },
 
   tailwindcss: {

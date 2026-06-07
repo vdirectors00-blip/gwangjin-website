@@ -1,0 +1,140 @@
+// ===========================================================================
+// 제품 12종 정적 데이터 (홈페이지자료/제품리스트.xlsx + 제품 라인업 PDF 기반)
+// ⚠️ 특성(traits)은 설명글 근거 추정값 — 클라이언트 확인 후 조정
+// 이미지: public/images/products/<slug>.jpg (image_url=null → 로컬 폴백)
+// 내용 수정 시 이 파일을 편집하고 재배포(빌드)하면 사이트에 반영됩니다.
+// ===========================================================================
+import type { Product } from '~/types/database.types'
+
+type P = Omit<Product, 'id' | 'created_at' | 'updated_at' | 'thumb_url'>
+
+const make = (p: P): Product => ({
+  ...p,
+  id: p.slug,
+  thumb_url: null,
+  created_at: '',
+  updated_at: '',
+})
+
+export const products: Product[] = [
+  make({
+    slug: 'cashmere', sort_order: 1,
+    name: 'Cashmere', korean_name: '캐시미어 · Cashmere Wool',
+    short_desc: '가볍고 부드러운 프리미엄 천연 섬유',
+    long_desc: '매우 가늘고 부드러운 천연 섬유로, 피부에 닿는 촉감이 뛰어납니다.\n\n가벼우면서도 보온성이 우수해 겨울철에도 따뜻하고 편안하게 착용할 수 있습니다. 한정된 생산량과 까다로운 채취 과정으로 인해 더욱 희소가치를 지닌 프리미엄 소재입니다.',
+    image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '의류', '고급 충전재'],
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'flame-retardant', sort_order: 2,
+    name: 'Flame-Retardant', korean_name: '난연 패딩',
+    short_desc: '화재 시 자체 소화되는 고기능성 안전 충전재',
+    long_desc: '특수 난연 섬유를 적용하여 화재 시 연소 확산을 효과적으로 지연시키고, 불꽃 제거 시 자체적으로 소화되는 안전성을 갖춘 고기능성 충전재입니다.\n\n동시에 우수한 내구성과 탁월한 보온성을 균형 있게 구현하여, 다양한 환경에서도 안정적이고 쾌적한 착용감을 제공합니다.',
+    image_url: null, spec_table: [], use_tags: ['방염', '공공시설', '기능성'],
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'smartcel', sort_order: 3,
+    name: 'Smartcel', korean_name: '스마트셀 · 아연 기능성 섬유',
+    short_desc: '유칼립투스 + 산화아연, 유아용에도 적합한 친환경 기능성',
+    long_desc: '유칼립투스에서 추출한 목재 펄프 기반의 리오셀(Lyocell) 섬유와 특수 고급 아연 성분이 결합된 스마트셀(Smartcel™) 기능성 소재로, 피부 보호 기능에 특화되어 있습니다.\n\n구김이 적고 면 대비 뛰어난 흡습성을 지니며, 신속한 건조 특성으로 하루 종일 쾌적한 착용감을 제공합니다. 또한 친환경적인 생산 공정을 통해 제조되며 생분해성을 갖춘 대표적인 지속가능 섬유입니다.\n\n의약품 등급의 산화아연(Zinc Oxide)을 적용하여 민감 피부에서도 자극과 알레르기 반응을 최소화하고, 자외선 차단 및 항산화 기능을 제공해 유아용 제품에도 적합한 높은 안전성을 갖추고 있습니다.',
+    image_url: null, spec_table: [], use_tags: ['친환경', '유아용', '민감성 피부', '기능성'],
+    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: true,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'seacell', sort_order: 4,
+    name: 'Seacell', korean_name: '씨셀 · 해조류 친환경 섬유',
+    short_desc: '해조류 미네랄을 담은 차세대 친환경 섬유',
+    long_desc: '유칼립투스에서 추출한 목재 펄프 기반의 리오셀(Lyocell) 섬유에 유기 해조류 성분을 결합하여 만든 친환경 섬유입니다.\n\n해조류에 함유된 다양한 미네랄과 항산화 성분을 그대로 담아 피부에 닿을 때 부드럽고 촉촉한 감촉을 제공합니다. 또한 뛰어난 통기성과 흡습성을 바탕으로 쾌적한 사용 환경을 유지하며, 해조류 유래 소재 특유의 편안함으로 민감한 피부에도 부담 없이 사용할 수 있습니다.\n\n씨셀은 환경과 피부를 동시에 고려한 프리미엄 기능성 소재로, 침구 및 다양한 라이프스타일 제품에 적합한 차세대 친환경 섬유입니다.',
+    image_url: null, spec_table: [], use_tags: ['친환경', '민감성 피부', '프리미엄 베딩'],
+    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: true,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'mohair', sort_order: 5,
+    name: 'Mohair', korean_name: '모헤어 · Mohair Padding',
+    short_desc: '광택과 부드러움을 겸비한 천연 충전재',
+    long_desc: '광순백색으로 광택이 돋보이는 소재로 고급스럽고 우아한 분위기를 연출합니다.\n\n캐시미어처럼 부드러운 촉감과 뛰어난 보온성을 갖추었으며, 우수한 통기성으로 겨울철에도 쾌적한 수면 환경을 제공합니다. 또한 정전기 발생이 적고 내구성이 우수해 오랜 기간 변형 없이 사용할 수 있습니다.',
+    image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '고급 충전재'],
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: true, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'alpaca', sort_order: 6,
+    name: 'Alpaca', korean_name: '알파카 · Alpaca Padding',
+    short_desc: '라놀린 미함유, 위생적인 프리미엄 천연',
+    long_desc: '알파카 섬유를 충전재로 사용한 프리미엄 침구로, 가볍지만 뛰어난 보온성과 우수한 통기성을 갖춘 것이 특징입니다.\n\n알파카 섬유는 공기층 형성이 뛰어나 체온을 효과적으로 유지하면서도 답답함이 적어 쾌적한 수면 환경을 제공합니다.\n\n또한 라놀린 함량이 거의 없어 보다 깔끔하고 산뜻한 촉감을 제공하며, 냄새와 유분감이 적어 위생적인 사용이 가능합니다. 이러한 특성으로 알파카 침구는 민감한 피부를 가진 사용자나 쾌적한 수면 환경을 선호하는 경우에 적합한 소재로 평가됩니다.',
+    image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '민감성 피부', '고급 충전재'],
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'polafil', sort_order: 7,
+    name: 'Polafil', korean_name: '폴라필 · PTT 친환경 화이버',
+    short_desc: '옥수수 유래 PTT, 부드럽고 탄력 있는 친환경 화이버',
+    long_desc: '폴라필은 기존 폴리에스터 및 나일론과 차별화된 분자구조를 가진 PTT(Poly Trimethylene Terephthalate, Dupont Sorona)를 원료로, 휴비스의 독자적인 특수 방사 기술을 통해 개발된 소재입니다.\n\n기존 섬유 대비 한층 부드러운 터치감, 높은 벌키성, 그리고 우수한 탄성 회복력을 갖추고 있어 포근하고 편안한 사용감을 제공합니다.\n\n또한 폴라필은 옥수수 등 식물에서 추출한 원료를 약 50% 함유한 친환경 화이버로, 기존 대비 중공 구조로 업그레이드되어 더욱 부드러운 감촉과 뛰어난 보온성을 구현했습니다.',
+    image_url: null, spec_table: [], use_tags: ['친환경', '다운대체', '패딩', '이불솜'],
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: true, trait_eco: true,
+    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'micro-padding', sort_order: 8,
+    name: 'Micro Padding', korean_name: '마이크로패딩 · 초극세 섬유',
+    short_desc: '진드기·알러지 케어, 구스다운을 대체하는 초극세 충전재',
+    long_desc: '머리카락의 1/100 이하 굵기의 초극세 섬유로 진드기 서식을 억제하고 알러지 케어에 도움을 주는 소재입니다.\n\n구스다운을 대체할 수 있을 만큼 포근한 감촉을 제공하며, 뛰어난 보온성과 풍부한 볼륨감을 갖추고 있습니다.\n\n또한 세탁 후에도 형태 변형이 거의 없고, 뭉침 없이 볼륨감을 유지해 관리가 용이하며, 부드러운 촉감과 포근한 사용감으로 편안하고 쾌적한 수면 환경을 제공합니다.',
+    image_url: null, spec_table: [], use_tags: ['다운대체', '저자극', '패딩', '이불솜'],
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: true, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: true, trait_breathable: false,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'silk', sort_order: 9,
+    name: 'Silk', korean_name: '실크 · 천연 단백질 섬유',
+    short_desc: '은은한 광택과 사계절 쾌적함을 지닌 천연 단백질 섬유',
+    long_desc: '실크 섬유는 누에고치에서 얻어지는 천연 단백질 섬유로, 부드러운 촉감과 은은한 광택이 특징인 고급 소재입니다.\n\n우수한 통기성과 흡습성을 갖추고 있어 쾌적한 착용감을 제공하며, 체온 조절 기능을 통해 사계절 내내 편안하게 사용할 수 있습니다.\n\n또한 피부 친화성이 높아 고급 의류 및 침구류 등 다양한 프리미엄 제품에 활용됩니다.',
+    image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '의류', '천연소재'],
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'eco-hot-fiber', sort_order: 10,
+    name: 'Eco Hot Fiber', korean_name: '에코핫 파이버 · 발열 기능성 섬유',
+    short_desc: '수분에 반응해 발열하는 천연 기반 친환경 소재',
+    long_desc: '에코핫 파이버(Eco Hot Fiber)는 천연물질을 활용한 발열 기능성 특수 섬유로, 수면 중 인체에서 발생하는 수분을 흡수하여 발열 및 보온 효과를 구현하는 친환경 소재입니다.\n\n천연 성분을 기반으로 제작되어 인체에 무해한 Eco-Friendly 섬유로 설계되었으며, 안전성과 쾌적성을 동시에 갖추고 있습니다.\n\n또한 우수한 항균 기능을 통해 섬유와 직물, 충전재 내 세균 서식을 억제하고 각종 냄새 발생을 감소시켜 보다 위생적인 사용 환경을 유지할 수 있도록 돕습니다.',
+    image_url: null, spec_table: [], use_tags: ['친환경', '발열', '기능성'],
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: true,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'graphene', sort_order: 11,
+    name: 'Graphene', korean_name: '그래핀 · Graphene',
+    short_desc: '전기·열 전도와 항균을 겸비한 차세대 첨단 섬유',
+    long_desc: '그래핀 섬유는 그래핀을 기반으로 한 차세대 첨단 기능성 섬유로, 뛰어난 강도와 우수한 전기·열 전도성을 동시에 갖춘 고성능 섬유입니다.\n\n기존 섬유 대비 매우 가볍고 유연하면서도 내구성이 뛰어나 장기간 사용에도 형태 안정성이 우수합니다. 또한 그래핀의 고유 특성으로 인해 보온성이 뛰어나 체온 유지에 효과적이며, 미세한 전기 전도 특성을 통해 정전기 발생을 효과적으로 억제합니다.\n\n더불어 우수한 항균성으로 세균 번식 억제에 도움을 주며, 뛰어난 통기성으로 쾌적한 사용 환경을 제공합니다.',
+    image_url: null, spec_table: [], use_tags: ['기능성', '항균', '차세대 소재'],
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+  make({
+    slug: 'fresh', sort_order: 12,
+    name: 'Fresh', korean_name: '프레쉬 · 항균·탈취 기능성 섬유',
+    short_desc: '세균 증식과 냄새를 억제하는 항균·탈취 섬유',
+    long_desc: '프레쉬 섬유는 항균 및 탈취 기능을 갖춘 기능성 섬유로, 섬유 표면의 세균 증식을 억제하고 생활 속 불쾌한 냄새를 효과적으로 감소시켜 항상 쾌적하고 신선한 상태를 유지하도록 설계된 소재입니다.\n\n또한 우수한 통기성과 흡습성을 갖추고 있어 장시간 사용하여도 쾌적한 상태를 유지하며, 편안한 사용감을 제공합니다.',
+    image_url: null, spec_table: [], use_tags: ['항균', '탈취', '기능성'],
+    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    is_highlight: false, is_published: true,
+  }),
+]

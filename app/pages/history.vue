@@ -3,6 +3,7 @@ definePageMeta({ layout: 'home' })
 useHead({ title: '연혁 | 광진실업' })
 
 const { data: history } = await useHistoryItems()
+const assetUrl = useAssetUrl()
 
 const groups = computed(() => {
   if (!history.value) return []
@@ -28,8 +29,13 @@ const groups = computed(() => {
       <HomeSnapController container="history-snap" :duration="600" :cooldown="700" />
 
       <!-- ───── Intro (풀스크린) ───── -->
-      <section class="min-h-[calc(100vh-156px)] bg-white flex items-center px-6 md:px-10 lg:px-16 py-16">
-        <div class="max-w-[1200px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
+      <section class="relative min-h-[calc(100vh-156px)] bg-white flex items-center px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
+        <!-- 은은한 텍스처 배경 -->
+        <div
+          class="absolute inset-0 bg-cover bg-center opacity-[0.24] pointer-events-none"
+          :style="`background-image:url('${assetUrl('/images/bg/sub-history.jpg')}'); filter: grayscale(50%) brightness(1.12);`"
+        />
+        <div class="relative max-w-[1200px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
           <div class="md:col-span-5">
             <p class="mono-label text-accent-bronze mb-6">Our Journey · 연혁</p>
             <h1 class="font-light text-[clamp(36px,4.5vw,64px)] leading-[1.2] tracking-[-0.025em] text-ink-dim">
@@ -45,13 +51,13 @@ const groups = computed(() => {
               다섯 개 생산라인, 네 건의 특허, 그리고 COSY FEEL 브랜드로
               다음 삼십 년을 준비합니다.
             </p>
-            <div class="mt-12 grid grid-cols-3 gap-0 border-t border-b border-paper-line">
+            <div class="mt-12 grid grid-cols-3 gap-0 border-t border-b border-ink/25">
               <div v-for="(s, i) in [
                 { k: 'Since', v: '1994' },
                 { k: 'Lines', v: '5' },
                 { k: 'Patents', v: '4' },
               ]" :key="s.k"
-                :class="['px-4 py-6', i > 0 ? 'border-l border-paper-line' : '']"
+                :class="['px-4 py-6', i > 0 ? 'border-l border-ink/25' : '']"
               >
                 <div class="mono-label text-ink-muted">{{ s.k }}</div>
                 <div class="text-[32px] font-medium tracking-[-0.02em] text-ink mt-1 leading-none">{{ s.v }}</div>

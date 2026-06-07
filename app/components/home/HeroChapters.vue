@@ -13,7 +13,7 @@ const chapters = [
     hueB: '#1A1814',
     lineOpacity: 0.30,
     focus: '72% 50%',
-    image: '/images/process/step-2-card.jpg',     // 카드기 — 기술의 핵심
+    image: '/images/hero/hero-1.jpg',     // 따뜻한 니트 소재(거리감) — 원료·시작
   },
   {
     chapter: '02 — CRAFT',
@@ -24,7 +24,7 @@ const chapters = [
     hueB: '#161916',
     lineOpacity: 0.24,
     focus: '25% 60%',
-    image: '/images/process/step-1-reserve.jpg',  // 원료 입고 — 시작점
+    image: '/images/hero/hero-2.jpg',  // 따뜻한 니트 throw(거리감) — 기술·소재
   },
   {
     chapter: '03 — PROMISE',
@@ -35,7 +35,7 @@ const chapters = [
     hueB: '#1A1510',
     lineOpacity: 0.36,
     focus: '60% 30%',
-    image: '/images/process/step-6-winding.jpg',  // 와인딩 — 완성·약속
+    image: '/images/hero/hero-3.jpg',  // 밝은 침실(거리감) — 완성·약속
   },
 ]
 
@@ -93,12 +93,12 @@ const fiberLines = (idx: number) => {
       <div
         v-if="s.image"
         class="absolute inset-0 bg-cover bg-center"
-        :style="`background-image: url('${withBase(s.image)}'); filter: grayscale(50%) brightness(0.55);`"
+        :style="`background-image: url('${withBase(s.image)}'); filter: grayscale(28%) brightness(0.95);`"
       />
       <!-- 1. 그라데이션 컬러 오버레이 -->
       <div
         class="absolute inset-0 mix-blend-multiply"
-        :style="`background: linear-gradient(135deg, ${s.hueA} 0%, ${s.hueB} 100%); opacity: 0.65;`"
+        :style="`background: linear-gradient(135deg, ${s.hueA} 0%, ${s.hueB} 100%); opacity: 0.32;`"
       />
       <!-- 2. 포커스 라이트 -->
       <div
@@ -130,7 +130,7 @@ const fiberLines = (idx: number) => {
       </svg>
       <div
         class="absolute inset-0"
-        style="background: linear-gradient(180deg, rgba(26,24,20,0.45) 0%, transparent 25%, transparent 55%, rgba(26,24,20,0.68) 100%);"
+        style="background: linear-gradient(180deg, rgba(26,24,20,0.16) 0%, transparent 28%, transparent 50%, rgba(26,24,20,0.58) 100%);"
       />
     </div>
 
