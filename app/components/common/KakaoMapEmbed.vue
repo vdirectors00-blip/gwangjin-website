@@ -12,6 +12,9 @@ const srcdoc = computed(() => `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 카카오 roughmapLoader가 roughmapLander.js를 http로 요청해 https 페이지에서 혼합콘텐츠 차단됨
+       → http 하위요청을 https로 자동 승격(라이브 https에서 지도 렌더에 필수) -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <style>
     html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
     .root_daum_roughmap, .root_daum_roughmap_landing { width: 100% !important; height: 100% !important; }
