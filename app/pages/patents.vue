@@ -23,35 +23,12 @@ const patentFileMap: Record<string, { pdf: string; img: string }> = {
   '제10-1169060호': { pdf: '/certificates/patent-10-1169060.pdf', img: '/certificates/images/patent-10-1169060.jpg' },
   '제10-0994645호': { pdf: '/certificates/patent-10-0994645.pdf', img: '/certificates/images/patent-10-0994645.jpg' },
 }
+const fileFor = (p: { cert_number: string | null }) =>
+  p.cert_number ? (patentFileMap[p.cert_number] || null) : null
 
-// 모달 열림/선택된 특허
-const openedIdx = ref<number | null>(null)
-const openedPatent = computed(() => {
-  if (openedIdx.value === null) return null
-  return sortedPatents.value[openedIdx.value]
-})
-const openedFile = computed(() => {
-  const p = openedPatent.value
-  return p && p.cert_number ? (patentFileMap[p.cert_number] || null) : null
-})
-
-const imgFailed = ref(false)
-const onImgFail = () => { imgFailed.value = true }
-
-const open = (i: number) => {
-  imgFailed.value = false
-  openedIdx.value = i
-}
-const close = () => { openedIdx.value = null }
-
-// ESC 키로 닫기
-onMounted(() => {
-  const onKey = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') close()
-  }
-  window.addEventListener('keydown', onKey)
-  onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
-})
+// 카드 이미지 로드 실패 추적 (id → 실패 여부)
+const thumbFailed = ref<Record<number, boolean>>({})
+const onThumbFail = (id: number) => { thumbFailed.value[id] = true }
 </script>
 
 <template>
@@ -126,65 +103,57 @@ onMounted(() => {
         </div>
       </section>
 
-      <!-- ───── 2. 특허 4건 2x2 그리드 ───── -->
-      <section class="min-h-[calc(100vh-156px)] bg-paper-soft border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-8 md:py-12">
+      <!-- ───── 2. 특허 4건 — 특허증 이미지 직접 노출 (가로 와이드 카드, 토글 없음) ───── -->
+      <section class="min-h-[calc(100vh-156px)] bg-paper-soft border-t border-paper-line flex flex-col px-6 md:px-10 lg:px-16 py-10 md:py-14">
         <div class="max-w-container mx-auto w-full flex-1 flex flex-col">
-          <div class="flex items-end justify-between mb-8 md:mb-10">
-            <div>
-              <p class="eyebrow text-ink-muted">Patent Files</p>
-              <h2 class="mt-3 font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">특허 기록</h2>
-            </div>
-            <div class="mono-label text-ink-faint hidden md:block">
-              CLICK CARD TO VIEW FULL
-            </div>
+          <div class="mb-8 md:mb-10">
+            <p class="eyebrow text-ink-muted">Patent Files</p>
+            <h2 class="mt-3 font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">특허 기록</h2>
           </div>
 
-          <!-- 2x2 그리드 -->
+          <!-- 가로 와이드 카드: 이미지(좌) + 정보(우), 2열 -->
           <div class="flex-1 flex items-center">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 w-full max-w-5xl mx-auto">
-              <button
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-7 md:gap-9 w-full max-w-7xl mx-auto">
+              <div
                 v-for="(p, i) in sortedPatents" :key="p.id"
-                type="button"
-                @click="open(i)"
-                class="group bg-white p-8 md:p-10 relative text-left cursor-pointer flex flex-col min-h-[220px] hover:-translate-y-1.5 hover:shadow-[0_24px_48px_-12px_rgba(139,115,85,0.25)] transition-all duration-500 ease-out-expo overflow-hidden"
+                class="bg-white flex flex-row overflow-hidden border border-paper-line"
               >
-                <!-- 모서리 마커 (bronze) -->
-                <span class="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
-                <span class="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent-bronze/60 pointer-events-none" />
-                <span class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none" />
-                <span class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent-bronze/60 pointer-events-none" />
-
-                <!-- 거대한 번호 (배경) -->
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 font-light text-[clamp(140px,18vw,240px)] text-accent-bronze/[0.06] group-hover:text-accent-bronze/[0.12] transition-colors duration-700 leading-none tracking-[-0.03em] pointer-events-none select-none">
-                  {{ String(i + 1).padStart(2, '0') }}
-                </div>
-
-                <!-- 헤더 -->
-                <div class="relative z-10 flex items-baseline justify-between">
-                  <div class="mono-label text-accent-bronze">
-                    Patent {{ String(i + 1).padStart(2, '0') }} / {{ String(sortedPatents.length).padStart(2, '0') }}
+                <!-- 특허증 이미지 직접 노출 (좌) -->
+                <div class="relative bg-paper-soft w-[32%] shrink-0 self-stretch min-h-[243px] overflow-hidden">
+                  <img
+                    v-if="fileFor(p) && !thumbFailed[p.id]"
+                    :src="assetUrl(fileFor(p)!.img)"
+                    :alt="`${p.name} 특허증`"
+                    class="absolute inset-0 w-full h-full object-contain p-3"
+                    loading="lazy"
+                    @error="onThumbFail(p.id)"
+                  />
+                  <div v-else class="absolute inset-0 flex items-center justify-center">
+                    <p class="mono-label text-ink-faint">특허증 준비 중</p>
                   </div>
-                  <div class="mono-label text-ink-faint">{{ p.issued_at }}</div>
+
+                  <!-- 모서리 마커 -->
+                  <span class="absolute top-2 left-2 w-3 h-3 border-t border-l border-accent-bronze/60 pointer-events-none" />
+                  <span class="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-accent-bronze/60 pointer-events-none" />
                 </div>
 
-                <!-- 메인 -->
-                <div class="relative z-10 mt-auto">
-                  <h3 class="font-medium text-xl md:text-2xl tracking-[-0.015em] leading-tight group-hover:text-accent-bronze transition-colors duration-500">
+                <!-- 정보 (우) -->
+                <div class="flex-1 px-6 py-5 md:px-9 md:py-7 flex flex-col">
+                  <div class="flex items-baseline justify-between">
+                    <span class="mono-label text-accent-bronze">Patent {{ String(i + 1).padStart(2, '0') }}</span>
+                    <span class="mono-label text-ink-faint">{{ p.issued_at }}</span>
+                  </div>
+                  <h3 class="mt-3 font-medium text-lg md:text-xl tracking-[-0.02em] leading-snug text-ink whitespace-nowrap">
                     {{ p.name }}
                   </h3>
-                  <p v-if="p.description" class="mt-3 text-ink-dim text-sm font-light leading-relaxed line-clamp-2">
+                  <p v-if="p.description" class="mt-3 text-ink-dim text-sm font-light leading-relaxed">
                     {{ p.description }}
                   </p>
+                  <div class="mt-auto pt-4 border-t border-paper-line">
+                    <span class="font-mono text-ink-muted text-xs">{{ p.cert_number }}</span>
+                  </div>
                 </div>
-
-                <!-- 하단 번호 + VIEW -->
-                <div class="relative z-10 mt-6 pt-3 border-t border-paper-line flex justify-between items-baseline text-xs">
-                  <span class="font-mono text-ink-muted">{{ p.cert_number }}</span>
-                  <span class="mono-label text-accent-bronze opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    VIEW →
-                  </span>
-                </div>
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -221,94 +190,5 @@ onMounted(() => {
         <CommonSiteFooter />
       </section>
     </div>
-
-    <!-- ═══════════════ 모달 오버레이 ═══════════════ -->
-    <Transition
-      enter-active-class="transition-all duration-500 ease-out-expo"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="transition-all duration-400 ease-out-expo"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-      <div
-        v-if="openedIdx !== null"
-        class="fixed inset-0 z-[100] bg-dark/85 backdrop-blur-md flex items-center justify-center p-6 md:p-10 cursor-pointer"
-        @click="close"
-      >
-        <!-- 모달 콘텐츠 -->
-        <Transition
-          appear
-          enter-active-class="transition-all duration-600 ease-out-expo"
-          enter-from-class="opacity-0 scale-95 translate-y-4"
-          enter-to-class="opacity-100 scale-100 translate-y-0"
-          leave-active-class="transition-all duration-400"
-          leave-from-class="opacity-100 scale-100"
-          leave-to-class="opacity-0 scale-95"
-        >
-          <div
-            v-if="openedPatent"
-            class="relative max-w-6xl w-full bg-white flex flex-col md:flex-row max-h-[90vh] overflow-hidden cursor-default"
-            @click.stop
-          >
-            <!-- 닫기 버튼 -->
-            <button
-              @click="close"
-              class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center text-ink-muted hover:text-accent-bronze transition-colors text-2xl"
-              aria-label="Close"
-            >
-              ×
-            </button>
-
-            <!-- 좌: JPG 이미지 (PDF 폴백 제거, JPG만 사용) -->
-            <div class="md:w-3/5 bg-paper-soft flex items-center justify-center p-8 md:p-10 relative min-h-[300px]">
-              <span class="absolute top-4 left-4 mono-label text-accent-bronze">
-                Patent {{ String((openedIdx ?? 0) + 1).padStart(2, '0') }}
-              </span>
-              <img
-                v-if="openedFile && !imgFailed"
-                :src="assetUrl(openedFile.img)"
-                :alt="openedPatent.name"
-                class="max-w-full max-h-[80vh] md:max-h-[78vh] w-auto h-auto object-contain"
-                @error="onImgFail"
-              />
-              <div v-else class="text-center">
-                <p class="mono-label text-ink-faint">특허 이미지 대기 중</p>
-                <p class="mono-label text-ink-faint mt-2 opacity-60">
-                  {{ openedFile ? openedFile.img.split('/').pop() : '' }}
-                </p>
-              </div>
-            </div>
-
-            <!-- 우: 특허 정보 -->
-            <div class="md:w-2/5 p-8 md:p-12 flex flex-col">
-              <div class="mono-label text-accent-bronze">
-                Registered · {{ openedPatent.issued_at }}
-              </div>
-
-              <h2 class="mt-6 font-medium text-2xl md:text-[32px] leading-tight tracking-[-0.015em]">
-                {{ openedPatent.name }}
-              </h2>
-
-              <p v-if="openedPatent.description" class="mt-5 text-ink-dim leading-relaxed font-light text-sm md:text-base">
-                {{ openedPatent.description }}
-              </p>
-
-              <div class="mt-auto pt-6 border-t border-paper-line">
-                <div class="flex items-baseline justify-between mb-2">
-                  <span class="mono-label text-ink-muted">등록번호</span>
-                  <span class="font-mono text-ink">{{ openedPatent.cert_number }}</span>
-                </div>
-                <div class="flex items-baseline justify-between">
-                  <span class="mono-label text-ink-muted">등록일</span>
-                  <span class="mono-label text-ink">{{ openedPatent.issued_at }}</span>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </Transition>
-      </div>
-    </Transition>
   </div>
 </template>

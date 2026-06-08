@@ -63,7 +63,7 @@ update public.company_info
    set company_name = '주식회사 광진실업',
        brand_name   = 'COSY FEEL',
        address      = '인천광역시 서구 가정로 58번길 3 (가좌동)',
-       tel          = '032-582-4149',
+       tel          = '032-582-4147',
        email        = 'info@gwangjin.co.kr',
        business_hours = '월-금 09:00-18:00',
        ceo_name     = '최광은',

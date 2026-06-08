@@ -7,6 +7,16 @@ useHead({ title: 'Products | 광진실업' })
 const { data: products } = await useProducts()
 const items = computed(() => products.value || [])
 
+// 특성 매트릭스: 좌·우 두 표로 분할 (절반씩) — 세로 길이 축소
+const matrixHalves = computed(() => {
+  const all = items.value
+  const mid = Math.ceil(all.length / 2)
+  return [
+    { rows: all.slice(0, mid), offset: 0 },
+    { rows: all.slice(mid),    offset: mid },
+  ]
+})
+
 // 매트릭스 호버
 const hoveredIdx = ref<number | null>(null)
 
@@ -32,23 +42,34 @@ const activeTraits = (p: typeof items.value[0]) =>
   PRODUCT_TRAITS.filter(t => (p as any)[t.key])
 const activeTraitsCount = (p: typeof items.value[0]) => activeTraits(p).length
 
-// 소재 카테고리 (제품리스트 12종 기준 — 클라이언트 최종 확인 필요)
+// 소재 카테고리 (22종 — 신 12종 + 구 라인업 10종)
 const categoryMap: Record<string, { label: string; colorClass: string }> = {
   // 천연
   'cashmere':        { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
   'mohair':          { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
   'alpaca':          { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
   'silk':            { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
+  'wool':            { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
+  'cotton':          { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
   // 친환경 (셀룰로오스·식물 유래)
   'smartcel':        { label: 'ECO',        colorClass: 'text-accent-bronze' },
   'seacell':         { label: 'ECO',        colorClass: 'text-accent-bronze' },
   'polafil':         { label: 'ECO',        colorClass: 'text-accent-bronze' },
+  'tencel':          { label: 'ECO',        colorClass: 'text-accent-bronze' },
   // 기능성
   'flame-retardant': { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
   'micro-padding':   { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
   'eco-hot-fiber':   { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
   'graphene':        { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
   'fresh':           { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'ft':              { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'ar':              { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'low-denier':      { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  'outlast':         { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
+  // 기본·산업용 (부직포·부자재)
+  'pe':              { label: 'BASE',       colorClass: 'text-ink-faint' },
+  'needle-punching': { label: 'BASE',       colorClass: 'text-ink-faint' },
+  'felt':            { label: 'BASE',       colorClass: 'text-ink-faint' },
 }
 const getCategory = (slug: string) =>
   categoryMap[slug] || { label: 'OTHER', colorClass: 'text-ink-muted' }
@@ -86,7 +107,7 @@ const productImage = (p: typeof items.value[0]) =>
             Products · 충전재 라인업
           </p>
           <h1 class="font-light text-[clamp(56px,8vw,140px)] leading-[0.95] tracking-[-0.035em] text-ink-dim">
-            <span class="block ink-fade" style="animation-delay: 180ms;">Twelve</span>
+            <span class="block ink-fade" style="animation-delay: 180ms;">Twenty-Two</span>
             <span class="block ink-fade" style="animation-delay: 480ms;">
               <span class="text-accent-bronze">Filling</span> Materials.
             </span>
@@ -114,114 +135,77 @@ const productImage = (p: typeof items.value[0]) =>
             </div>
           </div>
 
-          <!-- 본문: 좌 사이드바 + 우 히트맵 -->
+          <!-- 본문: 매트릭스 — 11종씩 좌·우 두 표 (넓은 화면 2열 / 좁으면 위아래로) -->
           <div class="flex-1 flex items-center min-h-0">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 w-full">
-              <!-- 좌: 제품 리스트 (폰트 사이즈 고정 — 색·border만 변화) -->
-              <div class="md:col-span-3 hidden md:block">
-                <p class="mono-label text-ink-muted mb-3">Products · {{ items.length }}</p>
-                <ul>
-                  <li
-                    v-for="(p, i) in items" :key="p.id"
-                    :class="[
-                      'py-1 pl-3 text-sm cursor-default transition-colors duration-300 border-l-2',
-                      hoveredIdx === i
-                        ? 'border-accent-bronze bg-accent-bronze/5'
-                        : 'border-transparent',
-                      hoveredIdx !== null && hoveredIdx !== i ? 'opacity-40' : 'opacity-100',
-                    ]"
-                    @mouseenter="hoveredIdx = i"
-                    @mouseleave="hoveredIdx = null"
-                  >
-                    <div
-                      :class="[
-                        'italic tracking-[-0.01em] text-sm leading-tight transition-colors duration-300',
-                        hoveredIdx === i ? 'font-semibold text-accent-bronze' : 'font-medium text-ink',
-                      ]"
-                    >
-                      {{ p.name }}
-                    </div>
-                    <div
-                      v-if="p.korean_name"
-                      :class="[
-                        'text-[11px] leading-tight transition-colors duration-300',
-                        hoveredIdx === i ? 'text-ink-muted' : 'text-ink-faint',
-                      ]"
-                    >
-                      {{ p.korean_name }}
-                    </div>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- 우: 매트릭스 (행 높이·폰트 사이즈 고정 — 색·weight·underline만 변화) -->
-              <div class="md:col-span-9 overflow-x-auto no-scrollbar">
-                <table class="w-full border-collapse text-sm min-w-[640px]">
-                  <thead>
-                    <tr class="border-b border-paper-line">
-                      <th class="text-left pb-2 pr-4 text-ink-muted font-medium text-[13px]">Product</th>
-                      <!-- 헤더: 폰트 사이즈 고정 — 호버된 제품이 가진 특성은 bronze + underline -->
-                      <th
-                        v-for="t in PRODUCT_TRAITS" :key="t.key"
-                        class="text-center px-2 pb-2 tracking-tight whitespace-nowrap align-bottom"
-                      >
-                        <span
-                          :class="[
-                            'inline-block text-[13px] pb-0.5 border-b-2 transition-colors duration-300',
-                            hoveredIdx !== null && items[hoveredIdx] && (items[hoveredIdx] as any)[t.key]
-                              ? 'text-accent-bronze font-bold border-accent-bronze'
-                              : hoveredIdx !== null
-                                ? 'text-ink-faint font-medium border-transparent'
-                                : 'text-ink font-semibold border-transparent',
-                          ]"
+            <div class="w-full">
+              <p class="mono-label text-ink-muted mb-3">Products · {{ items.length }}</p>
+              <div class="grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-6">
+                <div
+                  v-for="(half, hi) in matrixHalves" :key="hi"
+                  class="overflow-x-auto no-scrollbar"
+                >
+                  <table class="w-full border-collapse text-[13px] min-w-[440px]">
+                    <thead>
+                      <tr class="border-b border-paper-line">
+                        <th class="text-left pb-2 pr-3 text-ink-muted font-medium text-[12px]">Product</th>
+                        <!-- 헤더: 폰트 사이즈 고정 — 같은 표 안에서 호버된 제품의 특성만 bronze + underline -->
+                        <th
+                          v-for="t in PRODUCT_TRAITS" :key="t.key"
+                          class="text-center px-1.5 pb-2 tracking-tight whitespace-nowrap align-bottom"
                         >
-                          {{ t.label }}
-                        </span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(p, pi) in items" :key="p.id"
-                      :class="[
-                        'border-b border-paper-line/60 transition-colors duration-300',
-                        hoveredIdx === pi ? 'bg-accent-bronze/5' : '',
-                        hoveredIdx !== null && hoveredIdx !== pi ? 'opacity-40' : 'opacity-100',
-                      ]"
-                      @mouseenter="hoveredIdx = pi"
-                      @mouseleave="hoveredIdx = null"
-                    >
-                      <td class="py-1.5 pr-4 md:hidden">
-                        <span class="font-medium text-sm">{{ p.name }}</span>
-                      </td>
-                      <td class="py-1.5 pr-4 hidden md:table-cell">
-                        <!-- 폰트 사이즈 고정 (text-[13px]) — 색·weight만 변화 -->
-                        <span
-                          :class="[
-                            'italic text-[13px] transition-colors duration-300',
-                            hoveredIdx === pi ? 'font-semibold text-accent-bronze' : 'font-medium text-ink-muted',
-                          ]"
-                        >
-                          {{ p.name }}
-                        </span>
-                      </td>
-                      <!-- 셀: 사이즈 고정, 존재여부만 색으로 -->
-                      <td
-                        v-for="t in PRODUCT_TRAITS" :key="t.key"
-                        class="text-center px-2 py-1.5"
+                          <span
+                            :class="[
+                              'inline-block text-[12px] pb-0.5 border-b-2 transition-colors duration-300',
+                              hoveredIdx !== null && hoveredIdx >= half.offset && hoveredIdx < half.offset + half.rows.length && (items[hoveredIdx] as any)[t.key]
+                                ? 'text-accent-bronze font-bold border-accent-bronze'
+                                : hoveredIdx !== null
+                                  ? 'text-ink-faint font-medium border-transparent'
+                                  : 'text-ink font-semibold border-transparent',
+                            ]"
+                          >
+                            {{ t.label }}
+                          </span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(p, li) in half.rows" :key="p.id"
+                        :class="[
+                          'border-b border-paper-line/60 transition-colors duration-300',
+                          hoveredIdx === half.offset + li ? 'bg-accent-bronze/5' : '',
+                          hoveredIdx !== null && hoveredIdx !== half.offset + li ? 'opacity-40' : 'opacity-100',
+                        ]"
+                        @mouseenter="hoveredIdx = half.offset + li"
+                        @mouseleave="hoveredIdx = null"
                       >
-                        <div
-                          :class="[
-                            'mx-auto w-3.5 h-3.5 transition-colors duration-300',
-                            (p as any)[t.key]
-                              ? (hoveredIdx === pi ? 'bg-accent-bronze' : 'bg-accent-bronze/70')
-                              : 'bg-paper-line/40',
-                          ]"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                        <td class="py-2.5 pr-3">
+                          <span
+                            :class="[
+                              'italic text-[12px] transition-colors duration-300',
+                              hoveredIdx === half.offset + li ? 'font-semibold text-accent-bronze' : 'font-medium text-ink-muted',
+                            ]"
+                          >
+                            {{ p.name }}
+                          </span>
+                        </td>
+                        <td
+                          v-for="t in PRODUCT_TRAITS" :key="t.key"
+                          class="text-center px-1.5 py-2.5"
+                        >
+                          <div
+                            :class="[
+                              'mx-auto w-3 h-3 transition-colors duration-300',
+                              (p as any)[t.key]
+                                ? (hoveredIdx === half.offset + li ? 'bg-accent-bronze' : 'bg-accent-bronze/70')
+                                : 'bg-paper-line/40',
+                            ]"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -243,12 +227,12 @@ const productImage = (p: typeof items.value[0]) =>
 
           <div class="flex-1 flex items-center">
             <!-- 그리드: 모바일 2col, 태블릿 3col, 데스크톱 5col -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 w-full">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-2.5 md:gap-3 w-full">
               <button
                 v-for="(p, i) in items" :key="p.id"
                 type="button"
                 @click="openModal(i)"
-                class="group relative bg-paper-soft border border-paper-line text-left p-4 md:p-5 hover:bg-paper-warm hover:border-accent-bronze/50 hover:-translate-y-1 transition-all duration-500 ease-out-expo min-h-[180px] flex flex-col cursor-pointer overflow-hidden"
+                class="group relative bg-paper-soft border border-paper-line text-left p-3.5 md:p-4 hover:bg-paper-warm hover:border-accent-bronze/50 hover:-translate-y-1 transition-all duration-500 ease-out-expo min-h-[150px] flex flex-col cursor-pointer overflow-hidden"
               >
                 <!-- 좌측 bronze 스트라이프 (trait 4개 이상 = "signature") -->
                 <span

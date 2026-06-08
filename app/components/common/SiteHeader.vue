@@ -174,7 +174,7 @@ const drawer = [
           </div>
           <div class="md:text-right">
             <div class="text-ink font-medium mb-2">CONTACT</div>
-            <p>TEL · 032-582-4149<br>EMAIL · kjin137@naver.com</p>
+            <p>TEL · 032-582-4147<br>EMAIL · kjin137@naver.com</p>
           </div>
         </div>
       </div>

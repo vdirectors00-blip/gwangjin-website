@@ -16,11 +16,9 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: '광진실업 COSY FEEL — 1994년부터 30년, ISO 9001/14001 인증 + 4건 특허 기반의 부직포·제면 충전재 전문 제조사. 캐시미어·알파카·스마트셀·그래핀 등 12가지 충전재 라인업.' },
+        { name: 'description', content: '광진실업 COSY FEEL — 1994년부터 30년, ISO 9001·14001 인증과 4건의 특허를 기반으로 한 부직포·제면 충전재 전문 제조사. 캐시미어·알파카·스마트셀·그래핀 등 22가지 충전재 라인업.' },
       ],
-      link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-      ],
+      // favicon·og 등 head 링크/메타는 app/app.vue 에서 baseURL 처리하여 주입
     },
   },
 

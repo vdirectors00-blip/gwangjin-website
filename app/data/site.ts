@@ -16,7 +16,7 @@ export const companyInfo: CompanyInfo = {
   company_name: '주식회사 광진실업',
   brand_name: 'COSY FEEL',
   address: '인천광역시 서구 가정로 58번길 3 (가좌동)',
-  tel: '032-582-4149',
+  tel: '032-582-4147',
   email: 'kjin137@naver.com',
   business_hours: '월–금 08:30 - 17:30',
   ceo_name: '최광은',
@@ -41,7 +41,7 @@ export const companyInfo: CompanyInfo = {
   founded_year: 1994,
   production_lines: 5,
   patent_count: 4,
-  product_count: 12,
+  product_count: 22,
   updated_at: '',
 }
 

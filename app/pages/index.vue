@@ -11,7 +11,6 @@ const { data: patents } = await useCertifications('patent')
 const sections = [
   { key: 'hero',       label: 'HERITAGE',  dark: true  },
   { key: 'intro',      label: 'ABOUT',     dark: false },
-  { key: 'materials',  label: 'MATERIALS', dark: false },
   { key: 'technology', label: 'TRUST',     dark: true  },
   { key: 'contact',    label: 'CONTACT',   dark: true  },
 ]
@@ -30,27 +29,8 @@ const stats = computed(() => {
   ]
 })
 
-// Materials — 대표 제품을 내세우지 않고 "이런 제품을 만든다"는 예시 3종만 노출
+// 인트로 섹션 소재 이미지용
 const assetUrl = useAssetUrl()
-const productImage = (p: { slug: string; image_url: string | null }) =>
-  p.image_url || assetUrl(`/images/products/${p.slug}.jpg`)
-
-const showcase = computed(() => {
-  const all = allProducts.value || []
-  // 천연·친환경·기능성에서 한 종씩 — 없으면 앞에서부터 3개
-  const picks = ['cashmere', 'smartcel', 'graphene']
-  const chosen = picks
-    .map(s => all.find(p => p.slug === s))
-    .filter(Boolean) as typeof all
-  const list = chosen.length === 3 ? chosen : all.slice(0, 3)
-  return list.map(p => ({
-    name: p.korean_name?.split('·')[0].trim() || p.name,
-    en: p.name,
-    desc: p.short_desc || '',
-    slug: p.slug,
-    image: productImage(p),
-  }))
-})
 
 // cert_type "이노비즈(Inno-Biz)" → 모바일에서 한글 / (영문) 두 줄 분리
 const splitCertType = (str: string): [string, string?] => {
@@ -148,70 +128,7 @@ const splitCertName = (str: string): [string, string?] => {
       </section>
 
       <!-- ================================================
-        3. PRODUCTS — "이런 제품을 만든다" 예시 3종 + 더 알아보기
-      ================================================ -->
-      <section class="snap-section bg-paper-soft border-t border-paper-line px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center overflow-hidden">
-        <div class="max-w-[1300px] mx-auto w-full py-10 md:py-12">
-          <!-- 헤더 -->
-          <div class="grid grid-cols-1 md:grid-cols-[180px_1fr_260px] gap-4 md:gap-10 items-end mb-10 md:mb-12">
-            <div v-reveal>
-              <p class="eyebrow text-ink-muted">Products</p>
-            </div>
-            <h2 v-reveal="150" class="m-0 font-medium text-[clamp(26px,3.4vw,46px)] tracking-[-0.03em] leading-[1.1] text-ink">
-              우리는,<br>
-              <span class="text-accent-bronze">이런 제품을 만듭니다.</span>
-            </h2>
-            <div v-reveal="300" class="text-[13px] text-ink-dim leading-relaxed md:text-right">
-              천연부터 친환경·기능성까지<br>
-              <span class="text-ink-muted text-[11px] tracking-caps-xs">{{ productCount }} FILLING MATERIALS</span>
-            </div>
-          </div>
-
-          <!-- 예시 3종 카드 (이미지 + 이름 + 한 줄 설명) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-            <NuxtLink
-              v-for="(p, i) in showcase" :key="p.slug"
-              :to="`/products#${p.slug}`"
-              v-reveal="200 + i * 160"
-              class="group block text-inherit no-underline"
-            >
-              <div class="relative aspect-[5/4] overflow-hidden bg-paper-warm">
-                <div
-                  class="absolute inset-0 bg-cover bg-center transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.05]"
-                  :style="`background-image:url('${p.image}'); filter: grayscale(25%) contrast(1.02);`"
-                />
-                <span class="absolute top-3 left-3 mono-label text-paper bg-dark/35 backdrop-blur-sm px-2.5 py-1">
-                  {{ String(i + 1).padStart(2, '0') }}
-                </span>
-              </div>
-              <div class="mt-4">
-                <div class="font-medium text-[20px] md:text-[24px] tracking-[-0.02em] text-ink group-hover:text-accent-bronze transition-colors duration-300 leading-tight">
-                  {{ p.name }}
-                </div>
-                <div class="text-[11px] text-ink-faint mt-1">{{ p.en }}</div>
-                <p v-if="p.desc" class="mt-2 text-[13px] text-ink-dim leading-[1.6] line-clamp-2">{{ p.desc }}</p>
-              </div>
-            </NuxtLink>
-          </div>
-
-          <!-- 더 알아보기 -->
-          <div class="mt-9 pt-5 border-t border-paper-line flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-0">
-            <div class="mono-label text-ink-muted">
-              {{ productCount }} Materials &nbsp;·&nbsp; 충전재 라인업
-            </div>
-            <NuxtLink
-              to="/products"
-              class="group inline-flex items-center gap-3 text-sm text-ink font-medium pb-1 border-b border-ink hover:text-accent-bronze hover:border-accent-bronze transition-colors whitespace-nowrap self-start md:self-auto"
-            >
-              제품 더 알아보기
-              <span class="text-base group-hover:translate-x-1 transition-transform">→</span>
-            </NuxtLink>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================
-        4. TECHNOLOGY / TRUST — 흰 배경
+        3. TECHNOLOGY / TRUST — 흰 배경
       ================================================ -->
       <section class="snap-section bg-white text-ink px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
         <!-- 원형 스탬프 우상 -->
@@ -297,7 +214,7 @@ const splitCertName = (str: string): [string, string?] => {
       </section>
 
       <!-- ================================================
-        5. CONTACT — Cut-corner cards (paper-soft 회색으로 Footer와 구분)
+        4. CONTACT — Cut-corner cards (paper-soft 회색으로 Footer와 구분)
       ================================================ -->
       <section class="snap-section bg-paper-soft text-ink px-6 md:px-10 lg:px-16 py-20 md:py-0 flex items-center relative overflow-hidden">
         <div class="max-w-[1320px] mx-auto w-full relative z-10">
@@ -333,7 +250,7 @@ const splitCertName = (str: string): [string, string?] => {
             <div class="flex flex-col gap-3.5">
               <div
                 v-for="(c, i) in [
-                  { k: 'TEL',   v: company?.tel || '032-582-4149',             sub: '대표 전화' },
+                  { k: 'TEL',   v: company?.tel || '032-582-4147',             sub: '대표 전화' },
                   { k: 'EMAIL', v: company?.email || 'kjin137@naver.com',    sub: '이메일 문의' },
                   { k: 'VISIT', v: company?.address || '인천 서구 가정로 58번길 3', sub: '본사 · 공장 방문' },
                   { k: 'HOURS', v: company?.business_hours || '월 — 금 08:30 - 17:30', sub: '업무 시간' },
