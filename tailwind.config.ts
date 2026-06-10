@@ -65,8 +65,12 @@ export default <Partial<Config>>{
       fontFamily: {
         sans:    ['Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'system-ui', '-apple-system', 'sans-serif'],
         display: ['Pretendard Variable', 'Pretendard', 'system-ui', 'sans-serif'],
-        serif:   ['Noto Serif KR', 'Times New Roman', 'serif'],
-        mono:    ['JetBrains Mono', 'SF Mono', 'ui-monospace', 'monospace'],
+        // 2026-06-09 전체 Pretendard 통일 — serif/mono 도 Pretendard 스택으로.
+        // 되돌리려면 아래 두 줄을 원복(주석 처리된 원본 값) + app.vue 의 Noto Serif KR·JetBrains Mono CDN 링크는 그대로 유지 중.
+        //   serif: ['Noto Serif KR', 'Times New Roman', 'serif'],
+        //   mono:  ['JetBrains Mono', 'SF Mono', 'ui-monospace', 'monospace'],
+        serif:   ['Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'system-ui', '-apple-system', 'sans-serif'],
+        mono:    ['Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'system-ui', '-apple-system', 'sans-serif'],
       },
       fontSize: {
         'display-xl': ['clamp(64px, 10vw, 156px)', { lineHeight: '0.92', letterSpacing: '-0.035em' }],
