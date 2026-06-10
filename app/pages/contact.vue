@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import emailjs from '@emailjs/browser'
-
 definePageMeta({ layout: 'home' })
 useHead({ title: 'Contact | 광진실업' })
 
@@ -10,6 +8,7 @@ const assetUrl = useAssetUrl()
 
 const form = reactive({
   name: '', company: '', email: '', phone: '', message: '',
+  botcheck: '', // 허니팟 — 사람은 비워둠, 봇이 채우면 Web3Forms가 차단
 })
 const submitting = ref(false)
 const submitted = ref(false)
@@ -18,26 +17,38 @@ const error = ref<string | null>(null)
 const submit = async () => {
   error.value = null
   submitting.value = true
-  const { emailjsServiceId, emailjsTemplateId, emailjsPublicKey } = config.public
-  if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey) {
+  const accessKey = config.public.web3formsKey
+  if (!accessKey) {
     submitting.value = false
     error.value = '문의 폼이 아직 설정되지 않았습니다. 직접 이메일로 연락 부탁드립니다: ' + (company.value?.email || 'kjin137@naver.com')
     return
   }
   try {
-    await emailjs.send(
-      emailjsServiceId, emailjsTemplateId,
-      {
-        from_name: form.name, from_company: form.company || '(미입력)',
-        from_email: form.email, from_phone: form.phone || '(미입력)',
-        message: form.message, to_email: company.value?.email || 'kjin137@naver.com',
-      },
-      { publicKey: emailjsPublicKey }
-    )
-    submitted.value = true
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: `[광진실업 홈페이지 문의] ${form.name}`,
+        from_name: '광진실업 홈페이지',
+        name: form.name,
+        company: form.company || '(미입력)',
+        email: form.email, // Web3Forms reply-to 자동 설정 → 회신 시 문의자에게 감
+        phone: form.phone || '(미입력)',
+        message: form.message,
+        botcheck: form.botcheck,
+      }),
+    })
+    const result = await res.json()
+    if (result.success) {
+      submitted.value = true
+    } else {
+      error.value = '전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'
+      console.error('[Web3Forms]', result)
+    }
   } catch (e: any) {
     error.value = '전송 중 오류가 발생했습니다.'
-    console.error('[EmailJS]', e)
+    console.error('[Web3Forms]', e)
   } finally {
     submitting.value = false
   }
@@ -49,6 +60,7 @@ const resetForm = () => {
   form.email = ''
   form.phone = ''
   form.message = ''
+  form.botcheck = ''
   submitted.value = false
 }
 </script>
@@ -80,7 +92,7 @@ const resetForm = () => {
               </p>
             </div>
             <div class="mono-label text-ink-faint hidden md:block">
-              SECURE · EMAILJS
+              SECURE · SSL
             </div>
           </div>
 
@@ -120,6 +132,16 @@ const resetForm = () => {
             <!-- 우: 폼 -->
             <div class="md:col-span-8">
               <form v-if="!submitted" class="space-y-5" @submit.prevent="submit">
+                <!-- 허니팟 (봇 차단) — 화면·스크린리더에서 숨김 -->
+                <input
+                  v-model="form.botcheck"
+                  type="checkbox"
+                  tabindex="-1"
+                  autocomplete="off"
+                  aria-hidden="true"
+                  class="hidden"
+                  style="display:none"
+                >
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <label class="block group">
                     <span class="mono-label text-ink-muted block mb-2 group-focus-within:text-accent-bronze transition-colors">NAME *</span>
