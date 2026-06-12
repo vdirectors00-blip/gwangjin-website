@@ -34,8 +34,8 @@ const chapters = [
     hueA: '#4A3A28',
     hueB: '#1A1510',
     lineOpacity: 0.36,
-    focus: '60% 30%',
-    image: '/images/hero/hero-3.jpg',  // 밝은 침실(거리감) — 완성·약속
+    focus: '50% 42%',
+    image: '/images/hero/hero-3.jpg',  // 정돈된 침대(가로, 따뜻한 톤) — 완성·약속
   },
 ]
 

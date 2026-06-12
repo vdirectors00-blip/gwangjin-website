@@ -42,7 +42,7 @@ const activeTraits = (p: typeof items.value[0]) =>
   PRODUCT_TRAITS.filter(t => (p as any)[t.key])
 const activeTraitsCount = (p: typeof items.value[0]) => activeTraits(p).length
 
-// 소재 카테고리 (22종 — 신 12종 + 구 라인업 10종)
+// 소재 카테고리 (20종)
 const categoryMap: Record<string, { label: string; colorClass: string }> = {
   // 천연
   'cashmere':        { label: 'NATURAL',    colorClass: 'text-accent-bronze' },
@@ -65,10 +65,8 @@ const categoryMap: Record<string, { label: string; colorClass: string }> = {
   'ft':              { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
   'ar':              { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
   'low-denier':      { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
-  'outlast':         { label: 'FUNCTIONAL', colorClass: 'text-ink-muted' },
   // 기본·산업용 (부직포·부자재)
   'pe':              { label: 'BASE',       colorClass: 'text-ink-faint' },
-  'needle-punching': { label: 'BASE',       colorClass: 'text-ink-faint' },
   'felt':            { label: 'BASE',       colorClass: 'text-ink-faint' },
 }
 const getCategory = (slug: string) =>
@@ -107,7 +105,7 @@ const productImage = (p: typeof items.value[0]) =>
             Products · 충전재 라인업
           </p>
           <h1 class="font-light text-[clamp(56px,8vw,140px)] leading-[0.95] tracking-[-0.035em] text-ink-dim">
-            <span class="block ink-fade" style="animation-delay: 180ms;">Twenty-Two</span>
+            <span class="block ink-fade" style="animation-delay: 180ms;">Twenty</span>
             <span class="block ink-fade" style="animation-delay: 480ms;">
               <span class="text-accent-bronze">Filling</span> Materials.
             </span>
@@ -128,7 +126,7 @@ const productImage = (p: typeof items.value[0]) =>
           <div class="flex items-end justify-between mb-4 md:mb-6">
             <div>
               <p class="eyebrow text-ink-muted">Characteristic Matrix</p>
-              <h2 class="mt-2 font-medium text-[clamp(24px,3vw,40px)] tracking-[-0.03em]">특성 매트릭스</h2>
+              <h2 class="mt-2 font-medium text-[clamp(24px,3vw,40px)] tracking-[-0.03em]">특성 패딩</h2>
             </div>
             <div class="mono-label text-ink-faint hidden md:block">
               HOVER TO EXPLORE
@@ -207,6 +205,10 @@ const productImage = (p: typeof items.value[0]) =>
                   </table>
                 </div>
               </div>
+              <!-- 공통 안내 -->
+              <p class="mt-4 text-[12px] text-ink-faint leading-relaxed">
+                ※ 전 제품 항균 처리 · 니들펀칭(압축패딩) 가공 선택 가능
+              </p>
             </div>
           </div>
         </div>
@@ -219,6 +221,9 @@ const productImage = (p: typeof items.value[0]) =>
             <div>
               <p class="eyebrow text-ink-muted">Product Cards</p>
               <h2 class="mt-3 font-medium text-[clamp(28px,3.5vw,48px)] tracking-[-0.03em]">제품 카드</h2>
+              <p class="mt-2 text-[12px] text-ink-faint leading-relaxed">
+                ※ 전 제품 항균 처리 · 니들펀칭(압축패딩) 가공 선택 가능
+              </p>
             </div>
             <div class="mono-label text-ink-faint hidden md:block">
               CLICK TO VIEW DETAIL
@@ -276,7 +281,7 @@ const productImage = (p: typeof items.value[0]) =>
                       ]"
                       :title="t.label"
                     />
-                    <span class="mono-label text-ink-faint ml-2">{{ activeTraitsCount(p) }}/08</span>
+                    <span class="mono-label text-ink-faint ml-2">{{ activeTraitsCount(p) }}/{{ String(PRODUCT_TRAITS.length).padStart(2, '0') }}</span>
                   </div>
                   <span class="mono-label text-accent-bronze opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
                     VIEW →

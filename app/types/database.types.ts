@@ -108,6 +108,7 @@ export interface Database {
           trait_washable: boolean
           trait_resilient: boolean
           trait_breathable: boolean
+          trait_antibacterial: boolean
           is_highlight: boolean
           is_published: boolean
           created_at: string
@@ -247,6 +248,7 @@ export type ProductTraitKey =
   | 'trait_washable'
   | 'trait_resilient'
   | 'trait_breathable'
+  | 'trait_antibacterial'
 
 export const PRODUCT_TRAITS: Array<{ key: ProductTraitKey; label: string }> = [
   { key: 'trait_lightweight',    label: '경량' },
@@ -257,4 +259,5 @@ export const PRODUCT_TRAITS: Array<{ key: ProductTraitKey; label: string }> = [
   { key: 'trait_washable',       label: '세탁OK' },
   { key: 'trait_resilient',      label: '탄성복원' },
   { key: 'trait_breathable',     label: '흡습통기' },
+  { key: 'trait_antibacterial',  label: '항균' },   // 전 제품 공통 특성
 ]

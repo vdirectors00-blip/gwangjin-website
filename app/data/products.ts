@@ -1,14 +1,19 @@
 // ===========================================================================
-// 제품 12종 정적 데이터 (홈페이지자료/제품리스트.xlsx + 제품 라인업 PDF 기반)
-// ⚠️ 특성(traits)은 설명글 근거 추정값 — 클라이언트 확인 후 조정
+// 제품 20종 정적 데이터 (홈페이지자료/제품리스트.xlsx + 제품 라인업 PDF 기반)
+// ⚠️ 특성(traits)은 클라이언트 수정사항(홈페이지 제품 수정 사항.xlsx) 반영본
+// 항균은 전 제품 공통 → make 헬퍼 기본값(true). 난연성은 난연패딩 use_tags 뱃지로만 표기.
 // 이미지: public/images/products/<slug>.jpg (image_url=null → 로컬 폴백)
 // 내용 수정 시 이 파일을 편집하고 재배포(빌드)하면 사이트에 반영됩니다.
 // ===========================================================================
 import type { Product } from '~/types/database.types'
 
-type P = Omit<Product, 'id' | 'created_at' | 'updated_at' | 'thumb_url'>
+// 항균(trait_antibacterial)은 전 제품 공통 특성 → make 헬퍼에서 기본 true 주입.
+// 개별 제품에서 명시하면 그 값으로 덮어씁니다.
+type P = Omit<Product, 'id' | 'created_at' | 'updated_at' | 'thumb_url' | 'trait_antibacterial'>
+  & { trait_antibacterial?: boolean }
 
 const make = (p: P): Product => ({
+  trait_antibacterial: true,
   ...p,
   id: p.slug,
   thumb_url: null,
@@ -29,12 +34,12 @@ export const products: Product[] = [
   }),
   make({
     slug: 'flame-retardant', sort_order: 2,
-    name: 'Flame-Retardant', korean_name: '난연 패딩',
+    name: 'Flame Resistance', korean_name: '난연 패딩',
     short_desc: '화재 시 자체 소화되는 고기능성 안전 충전재',
     long_desc: '특수 난연 섬유를 적용하여 화재 시 연소 확산을 효과적으로 지연시키고, 불꽃 제거 시 자체적으로 소화되는 안전성을 갖춘 고기능성 충전재입니다.\n\n동시에 우수한 내구성과 탁월한 보온성을 균형 있게 구현하여, 다양한 환경에서도 안정적이고 쾌적한 착용감을 제공합니다.',
-    image_url: null, spec_table: [], use_tags: ['방염', '공공시설', '기능성'],
+    image_url: null, spec_table: [], use_tags: ['난연성', '방염', '공공시설', '기능성'],
     trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
+    trait_hypoallergenic: false, trait_washable: false, trait_resilient: false, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -43,7 +48,7 @@ export const products: Product[] = [
     short_desc: '유칼립투스 + 산화아연, 유아용에도 적합한 친환경 기능성',
     long_desc: '유칼립투스에서 추출한 목재 펄프 기반의 리오셀(Lyocell) 섬유와 특수 고급 아연 성분이 결합된 스마트셀(Smartcel™) 기능성 소재로, 피부 보호 기능에 특화되어 있습니다.\n\n구김이 적고 면 대비 뛰어난 흡습성을 지니며, 신속한 건조 특성으로 하루 종일 쾌적한 착용감을 제공합니다. 또한 친환경적인 생산 공정을 통해 제조되며 생분해성을 갖춘 대표적인 지속가능 섬유입니다.\n\n의약품 등급의 산화아연(Zinc Oxide)을 적용하여 민감 피부에서도 자극과 알레르기 반응을 최소화하고, 자외선 차단 및 항산화 기능을 제공해 유아용 제품에도 적합한 높은 안전성을 갖추고 있습니다.',
     image_url: null, spec_table: [], use_tags: ['친환경', '유아용', '민감성 피부', '기능성'],
-    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: true,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: true,
     trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
@@ -53,7 +58,7 @@ export const products: Product[] = [
     short_desc: '해조류 미네랄을 담은 차세대 친환경 섬유',
     long_desc: '유칼립투스에서 추출한 목재 펄프 기반의 리오셀(Lyocell) 섬유에 유기 해조류 성분을 결합하여 만든 친환경 섬유입니다.\n\n해조류에 함유된 다양한 미네랄과 항산화 성분을 그대로 담아 피부에 닿을 때 부드럽고 촉촉한 감촉을 제공합니다. 또한 뛰어난 통기성과 흡습성을 바탕으로 쾌적한 사용 환경을 유지하며, 해조류 유래 소재 특유의 편안함으로 민감한 피부에도 부담 없이 사용할 수 있습니다.\n\n씨셀은 환경과 피부를 동시에 고려한 프리미엄 기능성 소재로, 침구 및 다양한 라이프스타일 제품에 적합한 차세대 친환경 섬유입니다.',
     image_url: null, spec_table: [], use_tags: ['친환경', '민감성 피부', '프리미엄 베딩'],
-    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: true,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: true,
     trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
@@ -63,8 +68,8 @@ export const products: Product[] = [
     short_desc: '광택과 부드러움을 겸비한 천연 충전재',
     long_desc: '광순백색으로 광택이 돋보이는 소재로 고급스럽고 우아한 분위기를 연출합니다.\n\n캐시미어처럼 부드러운 촉감과 뛰어난 보온성을 갖추었으며, 우수한 통기성으로 겨울철에도 쾌적한 수면 환경을 제공합니다. 또한 정전기 발생이 적고 내구성이 우수해 오랜 기간 변형 없이 사용할 수 있습니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '고급 충전재'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: true, trait_breathable: true,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -74,7 +79,7 @@ export const products: Product[] = [
     long_desc: '알파카 섬유를 충전재로 사용한 프리미엄 침구로, 가볍지만 뛰어난 보온성과 우수한 통기성을 갖춘 것이 특징입니다.\n\n알파카 섬유는 공기층 형성이 뛰어나 체온을 효과적으로 유지하면서도 답답함이 적어 쾌적한 수면 환경을 제공합니다.\n\n또한 라놀린 함량이 거의 없어 보다 깔끔하고 산뜻한 촉감을 제공하며, 냄새와 유분감이 적어 위생적인 사용이 가능합니다. 이러한 특성으로 알파카 침구는 민감한 피부를 가진 사용자나 쾌적한 수면 환경을 선호하는 경우에 적합한 소재로 평가됩니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '민감성 피부', '고급 충전재'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -83,8 +88,8 @@ export const products: Product[] = [
     short_desc: '옥수수 유래 PTT, 부드럽고 탄력 있는 친환경 화이버',
     long_desc: '폴라필은 기존 폴리에스터 및 나일론과 차별화된 분자구조를 가진 PTT(Poly Trimethylene Terephthalate, Dupont Sorona)를 원료로, 휴비스의 독자적인 특수 방사 기술을 통해 개발된 소재입니다.\n\n기존 섬유 대비 한층 부드러운 터치감, 높은 벌키성, 그리고 우수한 탄성 회복력을 갖추고 있어 포근하고 편안한 사용감을 제공합니다.\n\n또한 폴라필은 옥수수 등 식물에서 추출한 원료를 약 50% 함유한 친환경 화이버로, 기존 대비 중공 구조로 업그레이드되어 더욱 부드러운 감촉과 뛰어난 보온성을 구현했습니다.',
     image_url: null, spec_table: [], use_tags: ['친환경', '다운대체', '패딩', '이불솜'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: true, trait_eco: true,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: true,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -93,8 +98,8 @@ export const products: Product[] = [
     short_desc: '진드기·알러지 케어, 구스다운을 대체하는 초극세 충전재',
     long_desc: '머리카락의 1/100 이하 굵기의 초극세 섬유로 진드기 서식을 억제하고 알러지 케어에 도움을 주는 소재입니다.\n\n구스다운을 대체할 수 있을 만큼 포근한 감촉을 제공하며, 뛰어난 보온성과 풍부한 볼륨감을 갖추고 있습니다.\n\n또한 세탁 후에도 형태 변형이 거의 없고, 뭉침 없이 볼륨감을 유지해 관리가 용이하며, 부드러운 촉감과 포근한 사용감으로 편안하고 쾌적한 수면 환경을 제공합니다.',
     image_url: null, spec_table: [], use_tags: ['다운대체', '저자극', '패딩', '이불솜'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: true, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: true, trait_resilient: true, trait_breathable: false,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: true, trait_eco: false,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -103,8 +108,8 @@ export const products: Product[] = [
     short_desc: '은은한 광택과 사계절 쾌적함을 지닌 천연 단백질 섬유',
     long_desc: '실크 섬유는 누에고치에서 얻어지는 천연 단백질 섬유로, 부드러운 촉감과 은은한 광택이 특징인 고급 소재입니다.\n\n우수한 통기성과 흡습성을 갖추고 있어 쾌적한 착용감을 제공하며, 체온 조절 기능을 통해 사계절 내내 편안하게 사용할 수 있습니다.\n\n또한 피부 친화성이 높아 고급 의류 및 침구류 등 다양한 프리미엄 제품에 활용됩니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '의류', '천연소재'],
-    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: true, trait_eco: true,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -113,8 +118,8 @@ export const products: Product[] = [
     short_desc: '수분에 반응해 발열하는 천연 기반 친환경 소재',
     long_desc: '에코핫 파이버(Eco Hot Fiber)는 천연물질을 활용한 발열 기능성 특수 섬유로, 수면 중 인체에서 발생하는 수분을 흡수하여 발열 및 보온 효과를 구현하는 친환경 소재입니다.\n\n천연 성분을 기반으로 제작되어 인체에 무해한 Eco-Friendly 섬유로 설계되었으며, 안전성과 쾌적성을 동시에 갖추고 있습니다.\n\n또한 우수한 항균 기능을 통해 섬유와 직물, 충전재 내 세균 서식을 억제하고 각종 냄새 발생을 감소시켜 보다 위생적인 사용 환경을 유지할 수 있도록 돕습니다.',
     image_url: null, spec_table: [], use_tags: ['친환경', '발열', '기능성'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: true,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -122,32 +127,31 @@ export const products: Product[] = [
     name: 'Graphene', korean_name: '그래핀 · Graphene',
     short_desc: '전기·열 전도와 항균을 겸비한 차세대 첨단 섬유',
     long_desc: '그래핀 섬유는 그래핀을 기반으로 한 차세대 첨단 기능성 섬유로, 뛰어난 강도와 우수한 전기·열 전도성을 동시에 갖춘 고성능 섬유입니다.\n\n기존 섬유 대비 매우 가볍고 유연하면서도 내구성이 뛰어나 장기간 사용에도 형태 안정성이 우수합니다. 또한 그래핀의 고유 특성으로 인해 보온성이 뛰어나 체온 유지에 효과적이며, 미세한 전기 전도 특성을 통해 정전기 발생을 효과적으로 억제합니다.\n\n더불어 우수한 항균성으로 세균 번식 억제에 도움을 주며, 뛰어난 통기성으로 쾌적한 사용 환경을 제공합니다.',
-    image_url: null, spec_table: [], use_tags: ['기능성', '항균', '차세대 소재'],
-    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: true,
+    image_url: null, spec_table: [], use_tags: ['차세대 소재', '항균·탈취', '정전기 방지', '자외선 차단', '열·전기 전도성', '원적외선 방사'],
+    trait_lightweight: true, trait_warmth: false, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
     slug: 'fresh', sort_order: 12,
-    name: 'Fresh', korean_name: '프레쉬 · 항균·탈취 기능성 섬유',
-    short_desc: '세균 증식과 냄새를 억제하는 항균·탈취 섬유',
-    long_desc: '프레쉬 섬유는 항균 및 탈취 기능을 갖춘 기능성 섬유로, 섬유 표면의 세균 증식을 억제하고 생활 속 불쾌한 냄새를 효과적으로 감소시켜 항상 쾌적하고 신선한 상태를 유지하도록 설계된 소재입니다.\n\n또한 우수한 통기성과 흡습성을 갖추고 있어 장시간 사용하여도 쾌적한 상태를 유지하며, 편안한 사용감을 제공합니다.',
-    image_url: null, spec_table: [], use_tags: ['항균', '탈취', '기능성'],
-    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    name: 'Fresh', korean_name: '프레쉬 · 다중공(7중공) 항균·탈취 섬유',
+    short_desc: '다중공(7중공) 구조의 항균·탈취 기능성 섬유',
+    long_desc: '프레쉬 섬유는 한 가닥의 단면에 7개의 중공(中空)이 형성된 다중공(7중공) 구조의 기능성 섬유입니다. 빨대처럼 여러 개의 구멍이 뚫린 단면 구조가 풍부한 공기층을 형성하여 가볍고 포근하면서도 우수한 보온성을 구현합니다.\n\n섬유 표면의 세균 증식을 억제하고 생활 속 불쾌한 냄새를 효과적으로 감소시키는 항균·탈취 기능을 갖추어 항상 쾌적하고 신선한 상태를 유지합니다.\n\n또한 다중공 구조 특유의 탄력과 복원력으로 오래 사용하여도 형태가 잘 유지되며, 세탁 후에도 간편하게 관리할 수 있습니다.',
+    image_url: null, spec_table: [], use_tags: ['다중공(7중공)', '항균', '탈취', '기능성'],
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: true, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
 
-  // ─── 기존 라인업 (제품.pdf / 구 시드 0004 기반) — 신 12종에 더해 함께 노출 ───
-  // ⚠️ 13~22번은 전용 제품 이미지 미보유 → 정식 사진 확보 전까지 폴백 노출
+  // ─── 기존 라인업 (제품.pdf / 구 시드 0004 기반) — 신 라인업에 더해 함께 노출 ───
   make({
     slug: 'ft', sort_order: 13,
-    name: 'F/T', korean_name: 'Feather Touch · 깃털감',
+    name: 'F/T (Feather Touch)', korean_name: 'Feather Touch · 깃털감',
     short_desc: '새의 깃털 느낌. 실리콘 처리한 Conjugate 섬유',
     long_desc: '중공형태를 유지하는 실리콘 처리 Conjugate 섬유입니다.\n\n휴비스 복합방사 기술에 의해 섬유의 단면을 채우지 않고 중공(中空)형태를 유지하며 생산되는 Conjugate Fiber에 최고 품질의 벌키성(Bulkiness)과 탄성(Resilience)을 구현했으며, 실리콘 특수가공으로 Soft Feeling을 추가로 부여했습니다.',
     image_url: null, spec_table: [], use_tags: ['이불솜', '패딩', '베개'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: true, trait_breathable: false,
     is_highlight: true, is_published: true,
   }),
   make({
@@ -157,7 +161,7 @@ export const products: Product[] = [
     long_desc: '섬유의 단면을 채우지 않고 중공(中空)형태를 유지하면서 이중 폴리머(Polymer)의 복합방사 기술에 의해 형성되는 3차원구조의 입체 Crimp가 우수한 벌키성(Bulkiness) 및 탄성(Resilience)을 발휘합니다.\n\n가볍고 보온성이 뛰어납니다.',
     image_url: null, spec_table: [], use_tags: ['이불솜', '패딩'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: true, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -166,18 +170,18 @@ export const products: Product[] = [
     short_desc: '부직포 공정 범용 폴리에스터 단섬유',
     long_desc: '일반적인 Solid 단면의 섬유로, 휴비스의 우수한 품질을 발현한 폴리에스터 단섬유 제품입니다.\n\n특히 적절한 Crimp를 부여함으로써 Carding성이 우수하며, 부직포 공정에 범용적으로 널리 사용됩니다.',
     image_url: null, spec_table: [], use_tags: ['부직포', '범용 충전재'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: false, trait_breathable: false,
+    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: true, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
     slug: 'low-denier', sort_order: 16,
-    name: '저데니아 / N·FT', korean_name: '초극세 + F/T 혼합',
+    name: '저데니어', korean_name: '초극세 + F/T 혼합',
     short_desc: '가벼운 섬도, F/T 터치감 결합 프리미엄',
-    long_desc: '가볍고 얇은 원사로 만들어지는 솜은 많은 공기층이 형성되며, 이에 따라 다른 제품보다 통기성·탄력성·복원력이 우수합니다.\n\n저데니아와 F/T 섬유를 혼합한 것을 당사에서는 N/FT라고 부르며, 저데니아성에 F/T의 터치감과 특성을 더한 프리미엄 제품입니다.',
+    long_desc: '가볍고 얇은 원사로 만들어지는 솜은 많은 공기층이 형성되며, 이에 따라 다른 제품보다 통기성·탄력성·복원력이 우수합니다.\n\n저데니어와 F/T 섬유를 혼합한 것을 당사에서는 N/FT라고 부르며, 저데니어성에 F/T의 터치감과 특성을 더한 프리미엄 제품입니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 이불솜', '경량 패딩'],
-    trait_lightweight: true, trait_warmth: true, trait_down_alt: true, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: true,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: true, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -186,8 +190,8 @@ export const products: Product[] = [
     short_desc: '유칼립투스 펄프 기반 100% 생분해 친환경',
     long_desc: '목재펄프에서 원료를 추출하여 만든 100% 생분해가능한 친환경 무공해섬유입니다.\n\n매끄러운 섬유표면과 뛰어난 흡습성으로 민감한 피부에도 안심하고 사용할 수 있으며, 텐셀이 소량이라도 혼방된 원단은 내구성이 향상되어 의류제품의 형태가 매우 안정합니다.\n\n친수성이며 우수한 쿨링효과와 함께 수분관리를 최적화하는 셀룰로즈 섬유입니다.',
     image_url: null, spec_table: [], use_tags: ['친환경 베딩', '의류', '민감성 피부'],
-    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: true,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: true,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: true,
     is_highlight: true, is_published: true,
   }),
   make({
@@ -202,42 +206,23 @@ export const products: Product[] = [
   }),
   make({
     slug: 'cotton', sort_order: 19,
-    name: '목화펀칭', korean_name: 'Cotton · 천연 면화',
+    name: '목화', korean_name: 'Cotton · 천연 면화',
     short_desc: '천연 면화, 온습도 자연 조절',
     long_desc: '면화(綿花)·목면(木綿)·목화(木花). 아욱과의 일년초로서 섬유 원료로 재배하는 농작물입니다.\n\n생산지는 미국·멕시코·파키스탄·인도·이집트 등으로, 산지에 따라 섬유의 길이와 굵기에 차이가 있습니다. 이집트 면이나 해도면(海島綿)이 그 대표격입니다.\n\n습할 때 강도가 붙어나므로 세탁에 강하고 보온성과 방서성에 뛰어나며, 또한 수분이 증발할 때 열을 빼앗으므로 여름 의료로서도 최적입니다.\n\n광진실업에서는 목화의 결경(구겨짐, 오그라듬)을 이용하여 만들 수 있는 침구류 제품에 들어가는 목화펀칭 제품을 제조합니다.',
     image_url: null, spec_table: [], use_tags: ['천연 베딩', '솜이불', '여름용'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: true,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: false, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
+  // ⚠️ 아웃라스트·니들펀칭은 제품 라인업에서 제외 (니들펀칭은 공정 설명이라 제품 카드 미노출)
   make({
-    slug: 'outlast', sort_order: 20,
-    name: 'Outlast', korean_name: '아웃라스트 · NASA PCM',
-    short_desc: 'NASA PCM 기술, 능동 온도 조절',
-    long_desc: '아웃라스트(Outlast®) 기술은 원래 NASA 우주인을 위해서 개발된 것으로, 쾌적한 온도를 유지하기 위해 열을 흡수·저장·방출하는 상변환 물질(PCM: Phase Change Material)을 사용합니다.\n\n음료 안에 들어있는 얼음과 비교할 수 있습니다. 음료를 더 오래 원하는 온도로 유지하기 위해 고체에서 액체로 바뀌면서 열을 흡수하고 음료를 시원하게 합니다.\n\n특징과 장점:\n• 수분을 관리하기 위한 열관리\n• 피부온도 조절과 발한 감소 작용\n• 습기에 반응하는 것이 아닌 사전에 열을 관리\n• 온도 변화가 최소화될 때 신진대사 에너지가 보존됨',
-    image_url: null, spec_table: [], use_tags: ['기능성 베딩', '아웃도어', '온도조절'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: true, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: false, trait_breathable: false,
-    is_highlight: false, is_published: true,
-  }),
-  make({
-    slug: 'needle-punching', sort_order: 21,
-    name: 'Needle Punching', korean_name: '니들펀칭 가공',
-    short_desc: '솔리드 단면 섬유 압축 가공',
-    long_desc: 'Solid 단면 섬유(일반 패딩)를 니들펀칭기로 앞뒤로 Punching하여 섬유를 압축시킨 상태의 제품입니다.',
-    image_url: null, spec_table: [], use_tags: ['부자재', '가공 부직포'],
-    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: false, trait_breathable: false,
-    is_highlight: false, is_published: true,
-  }),
-  make({
-    slug: 'felt', sort_order: 22,
+    slug: 'felt', sort_order: 20,
     name: 'Felt', korean_name: '견면 · 카페트 베이스',
     short_desc: '고데니어 견면, 침대 부자재·카페트용',
     long_desc: '섬도가 높은(15데니어, 20데니어) Solid 단면 섬유를 니들펀칭기로 앞뒤로 Punching하여 섬유를 압축시킨 상태로, 침대 부자재 및 카페트로 많이 활용되고 있습니다.',
     image_url: null, spec_table: [], use_tags: ['카페트', '침대 부자재'],
-    trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: false, trait_breathable: false,
+    trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: false,
+    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
 ]
