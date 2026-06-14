@@ -56,7 +56,7 @@ const splitCertName = (str: string): [string, string?] => {
     <!-- 스냅 컨테이너 -->
     <div id="snap" class="snap-container">
       <!-- ================================================
-        1. HERO — 3 chapters crossfade
+        1. HERO — 단일 정적 화면 (가정집 침실)
       ================================================ -->
       <section class="snap-section h-[88vh] md:h-screen">
         <HomeHeroChapters />
