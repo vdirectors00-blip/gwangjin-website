@@ -176,7 +176,7 @@ export const products: Product[] = [
   }),
   make({
     slug: 'low-denier', sort_order: 16,
-    name: '세데니어', korean_name: 'F/T 혼합',
+    name: '저데니어', korean_name: '세데니어 + F/T 혼합',
     short_desc: '가는 섬도, F/T 터치감 결합 프리미엄',
     long_desc: '가볍고 얇은 원사로 만들어지는 솜은 많은 공기층이 형성되며, 이에 따라 다른 제품보다 통기성·탄력성·복원력이 우수합니다.\n\n세데니어와 F/T 섬유를 혼합한 것을 당사에서는 N/FT라고 부르며, 세데니어성에 F/T의 터치감과 특성을 더한 프리미엄 제품입니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 이불솜', '경량 패딩'],
