@@ -126,7 +126,7 @@ const productImage = (p: typeof items.value[0]) =>
           <div class="flex items-end justify-between mb-4 md:mb-6">
             <div>
               <p class="eyebrow text-ink-muted">Characteristic Matrix</p>
-              <h2 class="mt-2 font-medium text-[clamp(24px,3vw,40px)] tracking-[-0.03em]">특성 패딩</h2>
+              <h2 class="mt-2 font-medium text-[clamp(24px,3vw,40px)] tracking-[-0.03em]">패딩 특성</h2>
             </div>
             <div class="mono-label text-ink-faint hidden md:block">
               HOVER TO EXPLORE

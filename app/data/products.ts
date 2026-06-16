@@ -29,7 +29,7 @@ export const products: Product[] = [
     long_desc: '매우 가늘고 부드러운 천연 섬유로, 피부에 닿는 촉감이 뛰어납니다.\n\n가벼우면서도 보온성이 우수해 겨울철에도 따뜻하고 편안하게 착용할 수 있습니다. 한정된 생산량과 까다로운 채취 과정으로 인해 더욱 희소가치를 지닌 프리미엄 소재입니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '의류', '고급 충전재'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -39,7 +39,7 @@ export const products: Product[] = [
     long_desc: '특수 난연 섬유를 적용하여 화재 시 연소 확산을 효과적으로 지연시키고, 불꽃 제거 시 자체적으로 소화되는 안전성을 갖춘 고기능성 충전재입니다.\n\n동시에 우수한 내구성과 탁월한 보온성을 균형 있게 구현하여, 다양한 환경에서도 안정적이고 쾌적한 착용감을 제공합니다.',
     image_url: null, spec_table: [], use_tags: ['난연성', '방염', '공공시설', '기능성'],
     trait_lightweight: false, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: false, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -59,7 +59,7 @@ export const products: Product[] = [
     long_desc: '유칼립투스에서 추출한 목재 펄프 기반의 리오셀(Lyocell) 섬유에 유기 해조류 성분을 결합하여 만든 친환경 섬유입니다.\n\n해조류에 함유된 다양한 미네랄과 항산화 성분을 그대로 담아 피부에 닿을 때 부드럽고 촉촉한 감촉을 제공합니다. 또한 뛰어난 통기성과 흡습성을 바탕으로 쾌적한 사용 환경을 유지하며, 해조류 유래 소재 특유의 편안함으로 민감한 피부에도 부담 없이 사용할 수 있습니다.\n\n씨셀은 환경과 피부를 동시에 고려한 프리미엄 기능성 소재로, 침구 및 다양한 라이프스타일 제품에 적합한 차세대 친환경 섬유입니다.',
     image_url: null, spec_table: [], use_tags: ['친환경', '민감성 피부', '프리미엄 베딩'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: true,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: true,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: true,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -69,7 +69,7 @@ export const products: Product[] = [
     long_desc: '광순백색으로 광택이 돋보이는 소재로 고급스럽고 우아한 분위기를 연출합니다.\n\n캐시미어처럼 부드러운 촉감과 뛰어난 보온성을 갖추었으며, 우수한 통기성으로 겨울철에도 쾌적한 수면 환경을 제공합니다. 또한 정전기 발생이 적고 내구성이 우수해 오랜 기간 변형 없이 사용할 수 있습니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '고급 충전재'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -79,7 +79,7 @@ export const products: Product[] = [
     long_desc: '알파카 섬유를 충전재로 사용한 프리미엄 침구로, 가볍지만 뛰어난 보온성과 우수한 통기성을 갖춘 것이 특징입니다.\n\n알파카 섬유는 공기층 형성이 뛰어나 체온을 효과적으로 유지하면서도 답답함이 적어 쾌적한 수면 환경을 제공합니다.\n\n또한 라놀린 함량이 거의 없어 보다 깔끔하고 산뜻한 촉감을 제공하며, 냄새와 유분감이 적어 위생적인 사용이 가능합니다. 이러한 특성으로 알파카 침구는 민감한 피부를 가진 사용자나 쾌적한 수면 환경을 선호하는 경우에 적합한 소재로 평가됩니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '민감성 피부', '고급 충전재'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -109,17 +109,17 @@ export const products: Product[] = [
     long_desc: '실크 섬유는 누에고치에서 얻어지는 천연 단백질 섬유로, 부드러운 촉감과 은은한 광택이 특징인 고급 소재입니다.\n\n우수한 통기성과 흡습성을 갖추고 있어 쾌적한 착용감을 제공하며, 체온 조절 기능을 통해 사계절 내내 편안하게 사용할 수 있습니다.\n\n또한 피부 친화성이 높아 고급 의류 및 침구류 등 다양한 프리미엄 제품에 활용됩니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 베딩', '의류', '천연소재'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: true, trait_eco: true,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
     slug: 'eco-hot-fiber', sort_order: 10,
-    name: 'Eco Hot Fiber', korean_name: '에코핫 파이버 · 발열 기능성 섬유',
+    name: '발열패딩', korean_name: '에코핫 파이버 · 발열 기능성 섬유',
     short_desc: '수분에 반응해 발열하는 천연 기반 친환경 소재',
     long_desc: '에코핫 파이버(Eco Hot Fiber)는 천연물질을 활용한 발열 기능성 특수 섬유로, 수면 중 인체에서 발생하는 수분을 흡수하여 발열 및 보온 효과를 구현하는 친환경 소재입니다.\n\n천연 성분을 기반으로 제작되어 인체에 무해한 Eco-Friendly 섬유로 설계되었으며, 안전성과 쾌적성을 동시에 갖추고 있습니다.\n\n또한 우수한 항균 기능을 통해 섬유와 직물, 충전재 내 세균 서식을 억제하고 각종 냄새 발생을 감소시켜 보다 위생적인 사용 환경을 유지할 수 있도록 돕습니다.',
     image_url: null, spec_table: [], use_tags: ['친환경', '발열', '기능성'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: true, trait_washable: false, trait_resilient: false, trait_breathable: false,
+    trait_hypoallergenic: true, trait_washable: true, trait_resilient: false, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
   make({
@@ -176,9 +176,9 @@ export const products: Product[] = [
   }),
   make({
     slug: 'low-denier', sort_order: 16,
-    name: '저데니어', korean_name: '초극세 + F/T 혼합',
-    short_desc: '가벼운 섬도, F/T 터치감 결합 프리미엄',
-    long_desc: '가볍고 얇은 원사로 만들어지는 솜은 많은 공기층이 형성되며, 이에 따라 다른 제품보다 통기성·탄력성·복원력이 우수합니다.\n\n저데니어와 F/T 섬유를 혼합한 것을 당사에서는 N/FT라고 부르며, 저데니어성에 F/T의 터치감과 특성을 더한 프리미엄 제품입니다.',
+    name: '세데니어', korean_name: 'F/T 혼합',
+    short_desc: '가는 섬도, F/T 터치감 결합 프리미엄',
+    long_desc: '가볍고 얇은 원사로 만들어지는 솜은 많은 공기층이 형성되며, 이에 따라 다른 제품보다 통기성·탄력성·복원력이 우수합니다.\n\n세데니어와 F/T 섬유를 혼합한 것을 당사에서는 N/FT라고 부르며, 세데니어성에 F/T의 터치감과 특성을 더한 프리미엄 제품입니다.',
     image_url: null, spec_table: [], use_tags: ['프리미엄 이불솜', '경량 패딩'],
     trait_lightweight: true, trait_warmth: true, trait_down_alt: false, trait_eco: false,
     trait_hypoallergenic: false, trait_washable: true, trait_resilient: true, trait_breathable: true,
@@ -222,7 +222,7 @@ export const products: Product[] = [
     long_desc: '섬도가 높은(15데니어, 20데니어) Solid 단면 섬유를 니들펀칭기로 앞뒤로 Punching하여 섬유를 압축시킨 상태로, 침대 부자재 및 카페트로 많이 활용되고 있습니다.',
     image_url: null, spec_table: [], use_tags: ['카페트', '침대 부자재'],
     trait_lightweight: false, trait_warmth: false, trait_down_alt: false, trait_eco: false,
-    trait_hypoallergenic: false, trait_washable: false, trait_resilient: true, trait_breathable: false,
+    trait_hypoallergenic: false, trait_washable: true, trait_resilient: true, trait_breathable: false,
     is_highlight: false, is_published: true,
   }),
 ]
