@@ -1,5 +1,9 @@
 <script setup lang="ts">
-useHead({ title: '광진실업 | COSY FEEL' })
+useSeo({
+  title: '광진실업 | COSY FEEL',
+  description: '주식회사 광진실업(COSY FEEL) — 1994년부터 부직포·제면 분야에서 이불솜과 침대 부자재를 생산하는 충전재 전문 제조사. ISO 9001·14001 인증, 특허 4건, 20가지 충전재 라인업.',
+  path: '/',
+})
 
 definePageMeta({ layout: 'home' })
 

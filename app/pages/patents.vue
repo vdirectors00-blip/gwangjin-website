@@ -1,6 +1,10 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'home' })
-useHead({ title: '특허 | 광진실업' })
+useSeo({
+  title: '특허 | 광진실업',
+  description: '광진실업 특허 — 부직포·제면 충전재 제조 기술에 관한 (주)광진실업의 등록 특허 4건을 소개합니다.',
+  path: '/patents',
+})
 
 const assetUrl = useAssetUrl()
 

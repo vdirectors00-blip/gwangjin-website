@@ -1,6 +1,10 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'home' })
-useHead({ title: '연혁 | 광진실업' })
+useSeo({
+  title: '연혁 | 광진실업',
+  description: '광진실업 연혁 — 1994년 설립부터 현재까지 부직포·제면 충전재 제조사로 걸어온 (주)광진실업의 발자취를 소개합니다.',
+  path: '/history',
+})
 
 const { data: history } = await useHistoryItems()
 const assetUrl = useAssetUrl()

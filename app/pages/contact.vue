@@ -1,6 +1,10 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'home' })
-useHead({ title: 'Contact | 광진실업' })
+useSeo({
+  title: 'Contact | 광진실업',
+  description: '광진실업 문의 — 이불솜·침대 부자재 충전재 상담 및 견적 문의. 인천광역시 서구 가좌동, 전화 032-582-4147.',
+  path: '/contact',
+})
 
 const { data: company } = await useCompanyInfo()
 const assetUrl = useAssetUrl()

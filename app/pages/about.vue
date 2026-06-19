@@ -1,5 +1,9 @@
 <script setup lang="ts">
-useHead({ title: 'CEO 인사말 | 광진실업' })
+useSeo({
+  title: 'CEO 인사말 | 광진실업',
+  description: 'COSY FEEL 광진실업 대표 인사말 — 부직포·제면 분야의 기술과 노하우로 우수한 이불솜·침대 부자재를 생산하는 (주)광진실업의 경영 철학을 소개합니다.',
+  path: '/about',
+})
 
 const { data: company } = await useCompanyInfo()
 const assetUrl = useAssetUrl()

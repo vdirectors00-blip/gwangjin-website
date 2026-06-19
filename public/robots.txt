@@ -1,2 +1,5 @@
-User-Agent: *
-Disallow:
+User-agent: *
+Allow: /
+
+# 도메인 연결 시 아래 주소를 정식 도메인으로 교체
+Sitemap: https://vdirectors00-blip.github.io/gwangjin-website/sitemap.xml

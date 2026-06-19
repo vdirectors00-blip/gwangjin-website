@@ -41,7 +41,7 @@ export const companyInfo: CompanyInfo = {
   founded_year: 1994,
   production_lines: 5,
   patent_count: 4,
-  product_count: 22,
+  product_count: 20,
   updated_at: '',
 }
 

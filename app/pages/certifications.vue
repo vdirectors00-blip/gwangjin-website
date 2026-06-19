@@ -1,6 +1,10 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'home' })
-useHead({ title: '품질·환경 인증 | 광진실업' })
+useSeo({
+  title: '품질·환경 인증 | 광진실업',
+  description: '광진실업 품질·환경 인증 — ISO 9001 품질경영, ISO 14001 환경경영, 이노비즈(Inno-Biz) 인증을 보유한 충전재 제조사 COSY FEEL.',
+  path: '/certifications',
+})
 
 const { data: certs } = await useCertifications('certification')
 

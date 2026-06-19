@@ -2,7 +2,11 @@
 import { PRODUCT_TRAITS } from '~/types/database.types'
 
 definePageMeta({ layout: 'home' })
-useHead({ title: 'Products | 광진실업' })
+useSeo({
+  title: 'Products | 광진실업',
+  description: '광진실업 제품 — 캐시미어·알파카·스마트셀·그래핀 등 20가지 이불솜·충전재 라인업. 전 제품 항균 처리, 용도별 기능성 충전재를 제공합니다.',
+  path: '/products',
+})
 
 const { data: products } = await useProducts()
 const items = computed(() => products.value || [])

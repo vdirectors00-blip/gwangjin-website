@@ -1,5 +1,9 @@
 <script setup lang="ts">
-useHead({ title: '생산 시설 | 광진실업' })
+useSeo({
+  title: '생산 시설 | 광진실업',
+  description: '광진실업 생산 시설 — 원료 입고부터 완제품까지, 생산 라인과 설비로 이불솜·충전재를 만드는 COSY FEEL의 생산 공정을 소개합니다.',
+  path: '/factory',
+})
 
 const { data: steps } = await useProcessSteps()
 const { data: gallery } = await useFactoryGallery()

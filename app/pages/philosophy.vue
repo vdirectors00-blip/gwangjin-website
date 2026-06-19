@@ -1,5 +1,9 @@
 <script setup lang="ts">
-useHead({ title: '경영 이념 | 광진실업' })
+useSeo({
+  title: '경영 이념 | 광진실업',
+  description: '광진실업 경영 이념 — 한 길만 삼십 년, 인증된 신뢰, 다음 세대를 위한 설비. COSY FEEL이 품질을 지키는 세 가지 약속을 소개합니다.',
+  path: '/philosophy',
+})
 
 const { data: company } = await useCompanyInfo()
 
