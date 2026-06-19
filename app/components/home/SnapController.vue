@@ -74,6 +74,9 @@ onMounted(() => {
   // 키보드
   const onKey = (e: KeyboardEvent) => {
     if (animating) return
+    // 입력칸(폼)에 포커스가 있으면 스페이스·방향키는 그대로 타이핑/커서이동에 쓰이게 둔다
+    const el = e.target as HTMLElement | null
+    if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return
     if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); animateTo(nextIdx(true)) }
     else if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); animateTo(nextIdx(false)) }
     else if (e.key === 'Home') { e.preventDefault(); animateTo(0) }
