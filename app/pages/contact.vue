@@ -3,12 +3,14 @@ definePageMeta({ layout: 'home' })
 useHead({ title: 'Contact | 광진실업' })
 
 const { data: company } = await useCompanyInfo()
-const config = useRuntimeConfig()
 const assetUrl = useAssetUrl()
+
+// FormSubmit 수신 메일 (클라이언트 네이버). 변경 시 여기만 고치면 됨.
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/kjin137@naver.com'
 
 const form = reactive({
   name: '', company: '', email: '', phone: '', message: '',
-  botcheck: '', // 허니팟 — 사람은 비워둠, 봇이 채우면 Web3Forms가 차단
+  _honey: '', // 허니팟 — 사람은 비워둠, 봇이 채우면 FormSubmit이 차단
 })
 const submitting = ref(false)
 const submitted = ref(false)
@@ -17,38 +19,32 @@ const error = ref<string | null>(null)
 const submit = async () => {
   error.value = null
   submitting.value = true
-  const accessKey = config.public.web3formsKey
-  if (!accessKey) {
-    submitting.value = false
-    error.value = '문의 폼이 아직 설정되지 않았습니다. 직접 이메일로 연락 부탁드립니다: ' + (company.value?.email || 'kjin137@naver.com')
-    return
-  }
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
+    const res = await fetch(FORM_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
-        access_key: accessKey,
-        subject: `[광진실업 홈페이지 문의] ${form.name}`,
-        from_name: '광진실업 홈페이지',
-        name: form.name,
-        company: form.company || '(미입력)',
-        email: form.email, // Web3Forms reply-to 자동 설정 → 회신 시 문의자에게 감
-        phone: form.phone || '(미입력)',
-        message: form.message,
-        botcheck: form.botcheck,
+        _subject: `[광진실업 홈페이지 문의] ${form.name}`,
+        _template: 'table',
+        _captcha: 'false', // FormSubmit 자체 캡차 화면 비활성 (허니팟으로 봇 차단)
+        이름: form.name,
+        회사: form.company || '(미입력)',
+        이메일: form.email, // 답장 시 회신 주소로 사용됨
+        연락처: form.phone || '(미입력)',
+        문의내용: form.message,
+        _honey: form._honey,
       }),
     })
     const result = await res.json()
-    if (result.success) {
+    if (res.ok && (result.success === true || result.success === 'true')) {
       submitted.value = true
     } else {
       error.value = '전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'
-      console.error('[Web3Forms]', result)
+      console.error('[FormSubmit]', result)
     }
   } catch (e: any) {
     error.value = '전송 중 오류가 발생했습니다.'
-    console.error('[Web3Forms]', e)
+    console.error('[FormSubmit]', e)
   } finally {
     submitting.value = false
   }
@@ -60,7 +56,7 @@ const resetForm = () => {
   form.email = ''
   form.phone = ''
   form.message = ''
-  form.botcheck = ''
+  form._honey = ''
   submitted.value = false
 }
 </script>
@@ -134,7 +130,7 @@ const resetForm = () => {
               <form v-if="!submitted" class="space-y-5" @submit.prevent="submit">
                 <!-- 허니팟 (봇 차단) — 화면·스크린리더에서 숨김 -->
                 <input
-                  v-model="form.botcheck"
+                  v-model="form._honey"
                   type="checkbox"
                   tabindex="-1"
                   autocomplete="off"

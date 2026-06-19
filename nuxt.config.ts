@@ -40,13 +40,6 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  runtimeConfig: {
-    public: {
-      // Web3Forms access key — 공개돼도 안전(정적 사이트용 설계). 빌드 시 env 주입.
-      web3formsKey: process.env.NUXT_PUBLIC_WEB3FORMS_KEY || '',
-    },
-  },
-
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
     configPath: 'tailwind.config.ts',
