@@ -50,6 +50,8 @@ useHead({
     },
   ],
   meta: [
+    // 네이버 서치어드바이저 사이트 소유확인
+    { name: 'naver-site-verification', content: '47981a8895e86adc0e7797000bbe14362142e99b' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: '광진실업 COSY FEEL' },
     { property: 'og:title', content: OG_TITLE },
