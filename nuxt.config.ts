@@ -4,7 +4,7 @@
 // 도메인 연결 시 여기 한 줄만 바꾸면 sitemap·canonical·og:url·JSON-LD 전부 따라감.
 // (CI에서 NUXT_PUBLIC_SITE_URL 환경변수로 덮어쓸 수도 있음)
 const SITE_URL = (process.env.NUXT_PUBLIC_SITE_URL
-  || 'https://vdirectors00-blip.github.io/gwangjin-website').replace(/\/+$/, '')
+  || 'https://www.cosyfeel.co.kr').replace(/\/+$/, '')
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
