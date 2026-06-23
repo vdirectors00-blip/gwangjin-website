@@ -36,7 +36,9 @@ jobs:
 
       - name: Generate static site
         env:
-          NUXT_APP_BASE_URL: ${{ steps.pages.outputs.base_path }}/
+          # custom domain(www.cosyfeel.co.kr) 루트 배포 → base는 항상 '/'.
+          # (configure-pages base_path는 도메인 등록 전 빌드에서 /gwangjin-website로 잡혀 깨지므로 고정)
+          NUXT_APP_BASE_URL: /
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: npm run generate
