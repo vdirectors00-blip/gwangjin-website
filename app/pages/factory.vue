@@ -37,11 +37,11 @@ const stepImage = (n: number) =>
       <div class="relative z-10 container-narrow grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center py-20 md:py-28">
         <div class="md:col-span-7">
           <p class="mono-label text-accent-bronze mb-5">Our Plant · 생산 시설</p>
-          <h1 class="font-light text-[clamp(34px,4.6vw,64px)] leading-[1.12] tracking-[-0.025em] text-ink-dim">
+          <h1 class="font-normal text-[clamp(34px,4.6vw,64px)] leading-[1.12] tracking-[-0.025em] text-ink-dim">
             다섯 개의 라인,<br>
             <span class="text-accent-bronze">{{ stepCount || 6 }}단계</span>의 공정.
           </h1>
-          <p class="mt-7 text-ink-dim text-base md:text-lg leading-[1.85] font-light max-w-xl">
+          <p class="mt-7 text-ink-dim text-base md:text-lg leading-[1.85] font-normal max-w-xl">
             자체 공장에서 입고 — 가공 — 출하 전 과정을 직접 운영합니다.
             점진적으로 확장해 온 생산라인과 정밀한 공정으로
             다양한 소재와 규격에 대응합니다.
@@ -93,7 +93,7 @@ const stepImage = (n: number) =>
             <div class="absolute inset-0 bg-paper-soft/55 group-hover:bg-paper-warm/45 transition-colors duration-500 pointer-events-none" />
 
             <!-- 거대한 번호 배경 (우하단) -->
-            <div class="absolute right-3 -bottom-3 font-light text-[clamp(80px,9vw,120px)] text-accent-bronze/[0.07] group-hover:text-accent-bronze/[0.14] transition-colors duration-500 leading-none tracking-[-0.04em] pointer-events-none select-none">
+            <div class="absolute right-3 -bottom-3 font-normal text-[clamp(80px,9vw,120px)] text-accent-bronze/[0.07] group-hover:text-accent-bronze/[0.14] transition-colors duration-500 leading-none tracking-[-0.04em] pointer-events-none select-none">
               {{ String(s.step_number).padStart(2, '0') }}
             </div>
 
@@ -109,7 +109,7 @@ const stepImage = (n: number) =>
             <div class="relative my-4 h-px w-12 bg-ink/20 group-hover:bg-accent-bronze/50 transition-colors duration-500" />
 
             <!-- 설명 -->
-            <p v-if="s.description" class="relative text-ink-dim text-sm md:text-[15px] leading-relaxed font-light">
+            <p v-if="s.description" class="relative text-ink-dim text-sm md:text-[15px] leading-relaxed font-normal">
               {{ s.description }}
             </p>
           </div>
@@ -147,7 +147,7 @@ const stepImage = (n: number) =>
               v-if="g.caption"
               class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark/65 to-transparent px-4 py-3"
             >
-              <p class="text-paper text-xs md:text-sm font-light">{{ g.caption }}</p>
+              <p class="text-paper text-xs md:text-sm font-normal">{{ g.caption }}</p>
             </div>
           </div>
         </div>

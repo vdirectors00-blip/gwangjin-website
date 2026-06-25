@@ -30,7 +30,7 @@ const assetUrl = useAssetUrl()
         <!-- 좌: 큰 한글 카피 -->
         <div class="md:col-span-5">
           <p class="mono-label text-accent-bronze mb-6">A Letter · 인사말</p>
-          <h1 class="font-light text-[clamp(32px,4.5vw,56px)] leading-[1.25] tracking-[-0.025em] text-ink-dim">
+          <h1 class="font-normal text-[clamp(32px,4.5vw,56px)] leading-[1.25] tracking-[-0.025em] text-ink-dim">
             편안한 휴식을 짓는<br>
             <span class="text-accent-bronze">삼십 년</span>의 한 길.
           </h1>
@@ -41,7 +41,7 @@ const assetUrl = useAssetUrl()
         <!-- 우: 인사말 본문 + 서명 -->
         <div class="md:col-span-7">
           <div
-            class="text-ink-dim text-base md:text-lg leading-[1.95] font-light whitespace-pre-line"
+            class="text-ink-dim text-base md:text-lg leading-[1.95] font-normal whitespace-pre-line"
           >{{ company?.ceo_message || '[인사말 본문은 관리자 페이지에서 입력 가능합니다.]' }}</div>
 
           <!-- 서명 — 이탤릭 세리프 -->
@@ -80,7 +80,7 @@ const assetUrl = useAssetUrl()
               BRAND IDENTITY
             </div>
             <p class="mt-3 text-lg text-ink font-medium">COSY FEEL</p>
-            <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-light">
+            <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-normal">
               편안한 휴식을 짓는 프리미엄 충전재 브랜드.<br>
               2015년 출시 이후, 품질로 증명합니다.
             </p>
@@ -93,14 +93,14 @@ const assetUrl = useAssetUrl()
               <img
                 :src="assetUrl('/logo/ci.svg')"
                 alt="광진실업"
-                class="h-44 md:h-60 w-auto"
+                class="h-36 md:h-48 w-auto"
               />
             </div>
             <div class="mt-8 mono-label text-accent-bronze">
               CORPORATE IDENTITY
             </div>
             <p class="mt-3 text-lg text-ink font-medium">주식회사 광진실업</p>
-            <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-light">
+            <p class="mt-2 text-ink-dim text-sm leading-relaxed max-w-xs font-normal">
               1994년 설립. 부직포·제면 한 길만 걸어온<br>
               충전재 전문 제조사.
             </p>

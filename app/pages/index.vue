@@ -76,11 +76,11 @@ const splitCertName = (str: string): [string, string?] => {
             <!-- 좌: 헤드라인 + 카피 + CTA -->
             <div class="md:col-span-6">
               <p class="eyebrow text-ink-muted">About · 소개</p>
-              <h2 v-reveal="120" class="mt-7 font-light text-[clamp(28px,3.6vw,48px)] leading-[1.18] tracking-[-0.03em] text-ink-dim">
+              <h2 v-reveal="120" class="mt-7 font-medium text-[clamp(26px,3.2vw,42px)] leading-[1.2] tracking-[-0.02em] text-ink-dim">
                 보이지 않는 곳에서,<br>
                 <span class="text-accent-bronze">하루의 온도</span>를 만듭니다.
               </h2>
-              <p class="mt-7 font-light text-[clamp(13px,1.05vw,16px)] leading-[1.85] tracking-[-0.01em] text-ink-dim max-w-md">
+              <p class="mt-7 font-normal text-[clamp(13px,1.05vw,16px)] leading-[1.85] tracking-[-0.01em] text-ink-dim max-w-md">
                 <span v-reveal="200" class="block">이불 속의 솜, 매트리스의 결, 겨울옷의 안쪽.</span>
                 <span v-reveal="340" class="block">드러나지 않아도 가장 가까이에서</span>
                 <span v-reveal="480" class="block">감촉과 온도를 결정하는 재료를 만듭니다.</span>
@@ -123,7 +123,7 @@ const splitCertName = (str: string): [string, string?] => {
                 <span class="text-[clamp(36px,4vw,56px)] font-medium tracking-[-0.02em] text-accent-bronze leading-none">
                   {{ s.num }}
                 </span>
-                <span class="ml-1 text-base text-ink-muted font-light">{{ s.unit }}</span>
+                <span class="ml-1 text-base text-ink-muted font-normal">{{ s.unit }}</span>
               </div>
               <p class="mt-3 text-xs text-ink-muted tracking-wider">{{ s.label }}</p>
             </div>
@@ -226,11 +226,11 @@ const splitCertName = (str: string): [string, string?] => {
             <!-- 좌측 카피 -->
             <div>
               <p v-reveal class="eyebrow text-ink-muted">Inquiries</p>
-              <h2 v-reveal="180" class="mt-10 font-light text-display-lg text-ink">
+              <h2 v-reveal="180" class="mt-10 font-medium text-display-lg text-ink">
                 편하게,<br>
                 <span class="text-accent-bronze">말씀</span>주세요.
               </h2>
-              <p v-reveal="360" class="mt-10 text-[15px] leading-[1.85] text-ink-dim font-light max-w-[460px]">
+              <p v-reveal="360" class="mt-10 text-[15px] leading-[1.85] text-ink-dim font-normal max-w-[460px]">
                 담당자가 직접 답변드립니다.
               </p>
 

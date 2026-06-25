@@ -122,7 +122,7 @@ const fiberLines = Array.from({ length: 42 }, (_, i) => {
       <!-- 대표 1 + 보조 2 (대표 위치 순환) -->
       <!-- 대표 헤드라인 (cur 챕터) -->
       <div :key="`feat-${cur}`" class="animate-fade-up">
-        <div class="font-mono text-[11px] md:text-[13px] tracking-[0.24em] lowercase text-paper/55 leading-none mb-5 md:mb-6">
+        <div class="text-[11px] md:text-[13px] tracking-[0.12em] text-paper/60 font-medium leading-none mb-5 md:mb-6">
           {{ featured.label }}
         </div>
         <h1 class="m-0 font-sans font-medium text-[clamp(34px,5.6vw,80px)] leading-[0.98] tracking-[-0.035em]">
@@ -141,7 +141,7 @@ const fiberLines = Array.from({ length: 42 }, (_, i) => {
           class="animate-fade-up"
           :style="`animation-delay:${(i + 1) * 100}ms`"
         >
-          <div class="font-mono text-[10px] md:text-[11px] tracking-[0.24em] lowercase text-paper/50 leading-none">
+          <div class="text-[10px] md:text-[11px] tracking-[0.12em] text-paper/55 font-medium leading-none">
             {{ it.label }}
           </div>
           <h2 class="mt-3 m-0 font-sans font-medium text-[clamp(18px,1.9vw,24px)] leading-[1.15] tracking-[-0.02em]">

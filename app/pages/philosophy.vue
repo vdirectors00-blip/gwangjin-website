@@ -78,7 +78,7 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
       <div class="relative z-10 container-narrow grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center py-16">
         <div class="md:col-span-6">
           <p class="mono-label text-accent-bronze mb-6">Our Principles · 경영 이념</p>
-          <h1 class="font-light text-[clamp(40px,5.5vw,80px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
+          <h1 class="font-medium text-[clamp(34px,4.4vw,64px)] leading-[1.18] tracking-[-0.02em] text-ink-dim">
             솜 한 가닥에,<br>
             <span class="text-accent-bronze">삼십 년</span>의 기술.
           </h1>
@@ -86,12 +86,12 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
         </div>
 
         <div class="md:col-span-6">
-          <p class="text-ink-dim text-lg md:text-xl leading-[1.95] font-light">
+          <p class="text-ink-dim text-lg md:text-xl leading-[1.95] font-normal">
             우리는 충전재를 단순한 '속 재료'로 생각하지 않습니다.
             매일 닿는 이불의 편안함, 매트리스의 안정감, 겨울옷의 따뜻함 —
             결국 사람의 휴식을 만드는 핵심 소재입니다.
           </p>
-          <p class="mt-6 text-ink-muted text-base leading-relaxed font-light">
+          <p class="mt-6 text-ink-muted text-base leading-relaxed font-normal">
             그 책임을 알기에 1994년부터 같은 자리에서 한 길만 걸어왔습니다.
           </p>
         </div>
@@ -134,8 +134,8 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
           >
             <div
               :class="[
-                'italic font-light tracking-[-0.03em] leading-none transition-all duration-1000 ease-out-expo',
-                activeIdx === i ? 'text-[clamp(80px,12vw,160px)]' : 'text-[clamp(56px,6vw,88px)]',
+                'font-medium tracking-[-0.02em] leading-none transition-all duration-1000 ease-out-expo',
+                activeIdx === i ? 'text-[clamp(56px,8vw,104px)]' : 'text-[clamp(44px,5vw,72px)]',
                 activeIdx === i ? 'text-accent-bronze'
                   : hoverIdx === i ? 'text-accent-bronze-soft' : 'text-ink-faint',
               ]"
@@ -151,7 +151,7 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
             >
               <h3
                 :class="[
-                  'italic font-medium tracking-[-0.02em] whitespace-nowrap transition-all duration-700 ease-out-expo',
+                  'font-medium tracking-[-0.02em] whitespace-nowrap transition-all duration-700 ease-out-expo',
                   activeIdx === i ? 'text-[40px] md:text-[48px]' : 'text-[24px] md:text-[28px]',
                   hoverIdx === i && activeIdx !== i ? 'text-accent-bronze' : 'text-ink',
                 ]"
@@ -170,7 +170,7 @@ onBeforeUnmount(() => { if (timer) clearInterval(timer) })
                 <div class="w-12 h-px bg-ink/20 mb-6" />
                 <h4 class="font-normal text-xl text-ink">{{ v.title }}</h4>
                 <!-- desc: 단일 문단 (\n으로 수동 줄바꿈 가능). activeIdxDelayed로 확장 후 표시되어 reflow 없음 -->
-                <p class="text-ink-dim leading-relaxed mt-4 font-light whitespace-pre-line">{{ v.desc }}</p>
+                <p class="text-ink-dim leading-relaxed mt-4 font-normal whitespace-pre-line">{{ v.desc }}</p>
                 <p class="mt-6 text-accent-bronze text-2xl font-medium tracking-[-0.02em]">{{ v.stat }}</p>
               </div>
             </div>

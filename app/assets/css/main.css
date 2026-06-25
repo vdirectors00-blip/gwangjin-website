@@ -16,10 +16,10 @@
     -ms-overflow-style: none;
   }
 
-  /* 모든 헤딩: tracking 좁고, 가벼운 웨이트 (Serif Subtle) */
+  /* 모든 헤딩: tracking 좁고, 무게감 있는 웨이트 */
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tightest;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   ::selection {
@@ -61,27 +61,23 @@
     @apply inline-flex items-center gap-2 rounded-full px-4 py-2 border text-xs uppercase tracking-caps-xs font-medium transition-all duration-500 ease-out-expo;
   }
 
-  /* ─── Eyebrow (가로 라인 + uppercase 캡션) ────────────────── */
+  /* ─── Eyebrow (소제목 캡션 — 평범한 라벨) ──────────────────── */
   .eyebrow {
-    @apply inline-flex items-center gap-3.5 text-[11px] uppercase font-medium;
-    letter-spacing: 0.32em;
-  }
-  .eyebrow::before {
-    content: "";
-    @apply w-7 h-px bg-current opacity-60;
+    @apply inline-flex items-center text-[13px] font-semibold;
+    letter-spacing: 0.01em;
   }
 
-  /* ─── Mono 라벨 (숫자·코드·날짜) ──────────────────────────── */
+  /* ─── 라벨 (숫자·코드·날짜) ────────────────────────────────── */
   .mono-label {
-    @apply font-mono text-[10px] uppercase opacity-60;
-    letter-spacing: 0.3em;
+    @apply text-[12px] font-medium opacity-70;
+    letter-spacing: 0.02em;
   }
 
-  /* ─── Display 이탤릭 (히어로·대형 타이틀 강조) ───────────── */
+  /* ─── Display 강조 (이탤릭 제거 — 굵기로만 강조) ───────────── */
   .display-italic {
     font-family: theme('fontFamily.sans');
-    font-style: italic;
-    font-weight: 400;
+    font-style: normal;
+    font-weight: 600;
   }
 
   /* ─── Cut-corner 카드 (Contact 스타일) ───────────────────── */

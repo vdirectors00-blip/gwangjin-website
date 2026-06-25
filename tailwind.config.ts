@@ -73,10 +73,10 @@ export default <Partial<Config>>{
         mono:    ['Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'system-ui', '-apple-system', 'sans-serif'],
       },
       fontSize: {
-        'display-xl': ['clamp(64px, 10vw, 156px)', { lineHeight: '0.92', letterSpacing: '-0.035em' }],
-        'display-lg': ['clamp(52px, 7.5vw, 116px)', { lineHeight: '0.94', letterSpacing: '-0.035em' }],
-        'display-md': ['clamp(40px, 5vw, 72px)',   { lineHeight: '1.0',  letterSpacing: '-0.03em'  }],
-        'display-sm': ['clamp(32px, 3.8vw, 56px)', { lineHeight: '1.32', letterSpacing: '-0.02em'  }],
+        'display-xl': ['clamp(44px, 6vw, 88px)',   { lineHeight: '1.04', letterSpacing: '-0.02em'  }],
+        'display-lg': ['clamp(38px, 5vw, 68px)',   { lineHeight: '1.08', letterSpacing: '-0.02em'  }],
+        'display-md': ['clamp(32px, 4vw, 50px)',   { lineHeight: '1.14', letterSpacing: '-0.015em' }],
+        'display-sm': ['clamp(28px, 3.2vw, 42px)', { lineHeight: '1.3',  letterSpacing: '-0.01em'  }],
       },
       letterSpacing: {
         tightest:   '-0.04em',

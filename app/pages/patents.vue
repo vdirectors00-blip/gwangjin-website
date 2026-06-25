@@ -62,7 +62,7 @@ const onThumbFail = (id: number) => { thumbFailed.value[id] = true }
               <p class="mono-label text-accent-bronze mb-6 ink-fade" style="animation-delay: 0ms;">
                 Patents · 특허
               </p>
-              <h1 class="font-light text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
+              <h1 class="font-normal text-[clamp(40px,5vw,72px)] leading-[1.15] tracking-[-0.025em] text-ink-dim">
                 <span class="block ink-fade" style="animation-delay: 120ms;">자체 기술의</span>
                 <span class="block ink-fade" style="animation-delay: 380ms;">
                   <span class="text-accent-bronze">증거</span>.
@@ -71,7 +71,7 @@ const onThumbFail = (id: number) => { thumbFailed.value[id] = true }
               <div class="mt-8 w-16 h-px bg-ink/30 ink-fade" style="animation-delay: 640ms;" />
             </div>
             <div class="md:col-span-6">
-              <p class="text-ink-dim text-base md:text-lg leading-[1.9] font-light whitespace-pre-line ink-fade" style="animation-delay: 520ms;">{{
+              <p class="text-ink-dim text-base md:text-lg leading-[1.9] font-normal whitespace-pre-line ink-fade" style="animation-delay: 520ms;">{{
                 `광진실업이 직접 개발한 제조 기술과 장비.
 산업의 표준을 만들어 가는 자체 R&D의 기록입니다.`
               }}</p>
@@ -83,7 +83,7 @@ const onThumbFail = (id: number) => { thumbFailed.value[id] = true }
             class="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-end"
           >
             <div class="md:col-span-4 ink-fade" style="animation-delay: 820ms;">
-              <div class="font-light text-[clamp(110px,12vw,180px)] text-accent-bronze/80 tracking-[-0.04em] leading-none">
+              <div class="font-normal text-[clamp(110px,12vw,180px)] text-accent-bronze/80 tracking-[-0.04em] leading-none">
                 {{ String(sortedPatents.length).padStart(2, '0') }}
               </div>
               <p class="mono-label text-ink-muted mt-3">Registered Patents</p>
@@ -150,7 +150,7 @@ const onThumbFail = (id: number) => { thumbFailed.value[id] = true }
                   <h3 class="mt-3 font-medium text-lg md:text-xl tracking-[-0.02em] leading-snug text-ink whitespace-nowrap">
                     {{ p.name }}
                   </h3>
-                  <p v-if="p.description" class="mt-3 text-ink-dim text-sm font-light leading-relaxed">
+                  <p v-if="p.description" class="mt-3 text-ink-dim text-sm font-normal leading-relaxed">
                     {{ p.description }}
                   </p>
                   <div class="mt-auto pt-4 border-t border-paper-line">
@@ -169,7 +169,7 @@ const onThumbFail = (id: number) => { thumbFailed.value[id] = true }
           <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <div class="md:col-span-7">
               <p class="eyebrow text-ink-muted">Also See</p>
-              <h2 class="mt-6 font-light text-display-sm text-ink">
+              <h2 class="mt-6 font-medium text-display-sm text-ink">
                 국제 표준으로 입증한<br>
                 <span class="text-accent-bronze">품질·환경 인증</span>.
               </h2>

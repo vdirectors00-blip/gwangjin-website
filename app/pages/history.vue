@@ -42,7 +42,7 @@ const groups = computed(() => {
         <div class="relative max-w-[1200px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-center">
           <div class="md:col-span-5">
             <p class="mono-label text-accent-bronze mb-6">Our Journey · 연혁</p>
-            <h1 class="font-light text-[clamp(36px,4.5vw,64px)] leading-[1.2] tracking-[-0.025em] text-ink-dim">
+            <h1 class="font-normal text-[clamp(36px,4.5vw,64px)] leading-[1.2] tracking-[-0.025em] text-ink-dim">
               <span class="whitespace-nowrap">1994년부터,</span><br>
               <span class="text-accent-bronze">삼십 년</span>의 여정.
             </h1>
@@ -50,7 +50,7 @@ const groups = computed(() => {
           </div>
 
           <div class="md:col-span-7">
-            <p class="text-ink-dim text-base md:text-lg leading-[1.95] font-light">
+            <p class="text-ink-dim text-base md:text-lg leading-[1.95] font-normal">
               광진실업으로 시작해 부직포·제면 한 길만을 걸어왔습니다.
               다섯 개 생산라인, 네 건의 특허, 그리고 COSY FEEL 브랜드로
               다음 삼십 년을 준비합니다.
@@ -91,7 +91,7 @@ const groups = computed(() => {
             >
               <div class="mono-label text-accent-bronze">{{ g.range }}</div>
               <h2
-                class="mt-4 font-light leading-none tracking-[-0.03em] text-ink whitespace-nowrap"
+                class="mt-4 font-normal leading-none tracking-[-0.03em] text-ink whitespace-nowrap"
                 style="font-size: clamp(44px, 5.5vw, 80px);"
               >
                 {{ g.label }}
@@ -126,7 +126,7 @@ const groups = computed(() => {
                     <h3 class="text-lg md:text-xl font-medium tracking-[-0.01em] leading-tight text-ink group-hover:text-accent-bronze transition-colors">
                       {{ h.title }}
                     </h3>
-                    <p v-if="h.description" class="text-ink-muted text-sm mt-1.5 font-light leading-relaxed">
+                    <p v-if="h.description" class="text-ink-muted text-sm mt-1.5 font-normal leading-relaxed">
                       {{ h.description }}
                     </p>
                   </div>

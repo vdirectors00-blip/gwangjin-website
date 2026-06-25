@@ -40,7 +40,7 @@ const isActive = (to: string) => route.path === to
         <!-- 섹션 이름 (왼쪽 고정, 클릭 시 섹션 첫 페이지로) -->
         <NuxtLink :to="sectionMeta.to" class="group flex items-baseline gap-3 md:py-6 shrink-0">
           <h2
-            class="font-light text-2xl md:text-3xl tracking-[-0.02em] transition-colors"
+            class="font-normal text-2xl md:text-3xl tracking-[-0.02em] transition-colors"
             :class="accent === 'eco' ? 'text-ink-muted group-hover:text-accent-bronze' : 'text-ink-muted group-hover:text-accent-bronze'"
           >
             {{ sectionMeta.label }}

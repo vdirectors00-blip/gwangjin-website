@@ -15,7 +15,7 @@ const assetUrl = useAssetUrl()
           alt="COSY FEEL"
           class="h-9 w-auto block"
         />
-        <div class="mt-5 font-light text-[15px] text-ink-dim leading-[1.5] tracking-[-0.01em]">
+        <div class="mt-5 font-normal text-[15px] text-ink-dim leading-[1.5] tracking-[-0.01em]">
           솜 한 가닥에,<br>삼십 년의 기술.
         </div>
         <div class="mt-5 mono-label text-ink-muted">

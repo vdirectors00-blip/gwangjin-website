@@ -108,7 +108,7 @@ const productImage = (p: typeof items.value[0]) =>
           <p class="mono-label text-accent-bronze mb-6 ink-fade" style="animation-delay: 0ms;">
             Products · 충전재 라인업
           </p>
-          <h1 class="font-light text-[clamp(56px,8vw,140px)] leading-[0.95] tracking-[-0.035em] text-ink-dim">
+          <h1 class="font-medium text-[clamp(40px,6vw,82px)] leading-[1.02] tracking-[-0.02em] text-ink-dim">
             <span class="block ink-fade" style="animation-delay: 180ms;">Twenty</span>
             <span class="block ink-fade" style="animation-delay: 480ms;">
               <span class="text-accent-bronze">Filling</span> Materials.
@@ -184,7 +184,7 @@ const productImage = (p: typeof items.value[0]) =>
                         <td class="py-2.5 pr-3">
                           <span
                             :class="[
-                              'italic text-[12px] transition-colors duration-300',
+                              'text-[12px] transition-colors duration-300',
                               hoveredIdx === half.offset + li ? 'font-semibold text-accent-bronze' : 'font-medium text-ink-muted',
                             ]"
                           >
@@ -303,7 +303,7 @@ const productImage = (p: typeof items.value[0]) =>
           <div class="max-w-container mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <div class="md:col-span-7">
               <p class="eyebrow text-ink-muted">Next</p>
-              <h2 class="mt-6 font-light text-display-sm text-ink">
+              <h2 class="mt-6 font-medium text-display-sm text-ink">
                 제품에 대한 문의가 있다면,<br>
                 <span class="text-accent-bronze">편하게 연락주세요</span>.
               </h2>
@@ -390,10 +390,10 @@ const productImage = (p: typeof items.value[0]) =>
                 {{ openedProduct.korean_name }}
               </p>
 
-              <p v-if="openedProduct.short_desc" class="mt-5 text-ink-dim text-base md:text-lg font-light">
+              <p v-if="openedProduct.short_desc" class="mt-5 text-ink-dim text-base md:text-lg font-normal">
                 {{ openedProduct.short_desc }}
               </p>
-              <p v-if="openedProduct.long_desc" class="mt-4 text-ink-muted text-sm md:text-base leading-relaxed whitespace-pre-line font-light">
+              <p v-if="openedProduct.long_desc" class="mt-4 text-ink-muted text-sm md:text-base leading-relaxed whitespace-pre-line font-normal">
                 {{ openedProduct.long_desc }}
               </p>
 
