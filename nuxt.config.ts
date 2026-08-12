@@ -19,11 +19,11 @@ export default defineNuxtConfig({
     buildAssetsDir: '/_nuxt/',
     head: {
       htmlAttrs: { lang: 'ko' },
-      title: '광진실업 | COSY FEEL — Premium Filling Materials',
+      title: '광진실업 | 인천 이불솜·충전재 제조 COSY FEEL',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: '광진실업 COSY FEEL — 1994년부터 30년, ISO 9001·14001 인증과 4건의 특허를 기반으로 한 부직포·제면 충전재 전문 제조사. 캐시미어·알파카·스마트셀·그래핀 등 20가지 충전재 라인업.' },
+        { name: 'description', content: '주식회사 광진실업(코지필·COSY FEEL) — 1994년부터 인천 서구에서 부직포·제면 이불솜과 침대 부자재를 생산하는 충전재 전문 제조사. ISO 9001·14001 인증, 특허 4건, 20가지 충전재 라인업.' },
       ],
       // favicon·og 등 head 링크/메타는 app/app.vue 에서 baseURL 처리하여 주입
     },

@@ -4,15 +4,18 @@ const config = useRuntimeConfig()
 const baseURL = config.app.baseURL
 // 정식 주소(canonical) — nuxt.config의 SITE_URL 한 곳에서 관리, 도메인 연결 시 자동 반영
 const SITE = String(config.public.siteUrl || '').replace(/\/+$/, '')
-const OG_TITLE = '광진실업 | COSY FEEL — Premium Filling Materials'
-const OG_DESC = '광진실업 COSY FEEL — 1994년부터 30년, ISO 9001·14001 인증과 4건의 특허를 기반으로 한 부직포·제면 충전재 전문 제조사. 캐시미어·알파카·스마트셀·그래핀 등 20가지 충전재 라인업.'
+const OG_TITLE = '광진실업 | 인천 이불솜·충전재 제조 COSY FEEL'
+const OG_DESC = '주식회사 광진실업(코지필·COSY FEEL) — 1994년부터 인천 서구에서 부직포·제면 이불솜과 침대 부자재를 생산하는 충전재 전문 제조사. ISO 9001·14001 인증, 특허 4건, 20가지 충전재 라인업.'
 
-// 회사 정보 구조화 데이터(JSON-LD) — 검색엔진이 업체명·연락처·주소를 인식
+// 회사 정보 구조화 데이터(JSON-LD) — 검색엔진이 업체명·연락처·주소를 인식.
+// LocalBusiness 를 함께 선언하는 이유: 동명(同名) 코스닥 상장사 '광진실업(부산·이형강)'과
+// 구분되도록 '인천 소재 제조업체'라는 지역 신호를 명시하기 위함.
 const orgJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness'],
   name: '주식회사 광진실업',
-  alternateName: 'COSY FEEL',
+  legalName: '주식회사 광진실업',
+  alternateName: ['광진실업', '(주)광진실업', 'COSY FEEL', '코지필', '인천 광진실업'],
   url: `${SITE}/`,
   logo: `${SITE}/apple-touch-icon.png`,
   image: `${SITE}/og-image.png`,
@@ -20,6 +23,9 @@ const orgJsonLd = {
   telephone: '+82-32-582-4147',
   email: 'kjin137@naver.com',
   foundingDate: '1994',
+  openingHours: 'Mo-Fr 08:30-17:30',
+  areaServed: 'KR',
+  knowsAbout: ['충전재', '이불솜', '부직포', '제면', '침대 부자재', '패딩솜'],
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'KR',
@@ -29,9 +35,21 @@ const orgJsonLd = {
   },
 }
 
+// 사이트 이름 구조화 데이터 — 검색결과에 표시되는 사이트명을 명시
+const siteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: '광진실업 COSY FEEL',
+  alternateName: ['광진실업', '코지필', 'COSY FEEL'],
+  url: `${SITE}/`,
+  inLanguage: 'ko-KR',
+  publisher: { '@id': `${SITE}/#organization` },
+}
+
 useHead({
   script: [
-    { type: 'application/ld+json', innerHTML: JSON.stringify(orgJsonLd) },
+    { type: 'application/ld+json', innerHTML: JSON.stringify({ ...orgJsonLd, '@id': `${SITE}/#organization` }) },
+    { type: 'application/ld+json', innerHTML: JSON.stringify(siteJsonLd) },
   ],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: `${baseURL}favicon.svg` },
