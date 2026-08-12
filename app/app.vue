@@ -23,6 +23,8 @@ const orgJsonLd = {
   telephone: '+82-32-582-4147',
   email: 'kjin137@naver.com',
   foundingDate: '1994',
+  // 사업자등록번호 — 동명(同名) 상장사와 구분되는 가장 공식적인 식별자
+  taxID: '137-86-16190',
   openingHours: 'Mo-Fr 08:30-17:30',
   areaServed: 'KR',
   knowsAbout: ['충전재', '이불솜', '부직포', '제면', '침대 부자재', '패딩솜'],

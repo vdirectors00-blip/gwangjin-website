@@ -53,7 +53,8 @@ const assetUrl = useAssetUrl()
       <!-- Address -->
       <div class="text-xs text-ink-dim leading-[2] md:text-right">
         <div class="mono-label text-ink-muted mb-3.5">ADDRESS</div>
-        {{ company?.address || '인천광역시 서구 가정로 58번길 3' }}
+        {{ company?.address || '인천광역시 서구 가정로 58번길 3' }}<br>
+        <span class="text-ink-muted">사업자등록번호 137-86-16190</span>
       </div>
     </div>
 
